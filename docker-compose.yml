@@ -1,0 +1,17 @@
+version: '3.3'
+
+networks:
+  webapp:
+
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - '${DB_PORT}:5432'
+    volumes:
+      - ${DB_VOLUME}:/var/lib/postgresql/data

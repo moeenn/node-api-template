@@ -1,24 +1,36 @@
-export default class Repository<T> {
-  private items: Array<T>
+export default abstract class Repository<T> {
+  private table: string
+  private conn: Function
 
-  constructor() {
-    this.items = []
+  constructor(conn: Function, table_name: string) {
+    this.conn = conn
+    this.table = table_name
   }
 
   All(): Array<T> {
-    return this.items
+    const all = this.conn`
+      SELECT * FROM ${this.table};
+    `
+
+    return [...all].map((entry: unknown): T => {
+      return new T(entry)
+    })
   }
 
-  Find(callback: (i: T) => Array<T>): Array<T> {
-    return this.items.filter(callback)
+  Find(id: string): T {
+    const result = this.conn`
+      SELECT * FROM ${this.table}
+      WHERE id = ${id}
+      LIMIT 1;
+    `
+
+    return new T(result)
   }
 
-  Save(item: T): T {
-    this.items.push(item)
-    return item
-  }
-
-  Remove(callback: (i: T) => boolean): void {
-    this.items = this.items.filter(item => !callback(item))
+  Remove(id: string): void {
+    this.conn`
+      DELETE FROM ${this.table}
+      WHERE id = ${id};
+    `    
   }
 } 

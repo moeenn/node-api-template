@@ -4,7 +4,7 @@ import Environment from "@src/Application/Types/Environment"
 
 function init(): Environment {
   if (env.NODE_ENV !== "production") {
-    config({ path: ".env" })
+    config({ path: ".env.docker" })
   }
   return new Environment(env)
 }
