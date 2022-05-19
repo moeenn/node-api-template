@@ -1,0 +1,28 @@
+{
+  "success": [
+    {
+      "name": "Sample",
+      "email": "sample@site.com",
+      "password": "password"
+    },
+    {
+      "id": "30000asc1301",
+      "name": "Example",
+      "email": "sample@site.com",
+      "password": "passwordzzz"
+    }
+  ],
+  "fail": [
+    {
+      "name": "Sample",
+      "email": "sample",
+      "password": "password"
+    },
+    {
+      "id": "30000asc1301",
+      "name": "Example",
+      "email": "sample@site.com",
+      "password": "pas"
+    }
+  ]
+}
