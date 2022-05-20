@@ -1,12 +1,23 @@
 import "module-alias-jest/register"
-import User from "./User"
-import scenarios from "./User.test.json"
+import { User } from "./User"
 
 describe("validations on user entity creation", () => {
-  const { success, fail } = scenarios
-
   it("successfull user creations", () => {
-    for (const scenario of success) {
+    const scenarios = [
+      {
+        name: "Sample",
+        email: "sample@site.com",
+        password: "password",
+      },
+      {
+        id: "30000asc1301",
+        name: "Example",
+        email: "sample@site.com",
+        password: "passwordzzz",
+      },
+    ]
+
+    for (const scenario of scenarios) {
       const user = new User(scenario)
       expect(user.name).toBe(scenario.name)
       expect(user.password).toBe(scenario.password)
@@ -14,7 +25,21 @@ describe("validations on user entity creation", () => {
   })
 
   it("fail user creations", () => {
-    for (const scenario of fail) {
+    const scenarios = [
+      {
+        name: "Sample",
+        email: "sample",
+        password: "password",
+      },
+      {
+        id: "30000asc1301",
+        name: "Example",
+        email: "sample@site.com",
+        password: "pas",
+      },
+    ]
+
+    for (const scenario of scenarios) {
       expect(() => new User(scenario)).toThrow()
     }
   })
