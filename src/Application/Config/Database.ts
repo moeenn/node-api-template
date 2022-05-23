@@ -1,5 +1,7 @@
 import postgres from "postgres"
-import { Env } from "."
+import Env from "./Env"
+
+export type Row = postgres.Row
 
 interface IDatabaseConfig {
   host: string,

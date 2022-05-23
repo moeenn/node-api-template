@@ -9,16 +9,22 @@ interface IUser {
   password: string,
 }
 
-interface User extends IUser {}
 class User implements IUser {
+  id?: string
+  name: string
+  email: string
+  password: string
+
   constructor(user: IUser) {
     const data = this.validate(user)
     if (!data.success) {
       throw new ValidationError(data.error.issues)
     }
 
-    Object.assign(this, user, {})
     this.id = user.id ?? uuid()
+    this.name = user.name
+    this.email = user.email
+    this.password = user.password
   }
 
   private validate(user: IUser): SafeParseReturnType<IUser, IUser> {

@@ -1,8 +1,8 @@
 import koa, { DefaultState, DefaultContext } from "koa"
 import koaBody from "koa-body"
 import logger from "koa-logger"
-import router from "@src/Infra/Routes"
-import { HandleError } from "@src/Infra/Middleware/HandleError"
+import router from "@src/Infra/HTTP/Routes"
+import { HandleError } from "@src/Infra/HTTP/Middleware/HandleError"
 
 type Server = koa<DefaultState, DefaultContext>
 

@@ -1,5 +1,5 @@
 import "module-alias-jest/register"
-import { User } from "./User"
+import { User } from "."
 
 describe("validations on user entity creation", () => {
   it("successfull user creations", () => {

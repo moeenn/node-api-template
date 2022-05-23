@@ -1,1 +1,0 @@
-export { default as Env } from "@src/Application/Config/Env"

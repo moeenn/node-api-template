@@ -7,7 +7,7 @@ export default abstract class Repository<T> {
     this.table = table_name
   }
 
-  All(): Array<T> {
+  All(): T[] {
     const all = this.conn`
       SELECT * FROM ${this.table};
     `

@@ -1,10 +1,10 @@
 import { EventEmitter } from "events" 
 
 export default class EventBus extends EventEmitter {
-  private sent_events: Array<string>
-  private incoming_events: Array<string>
+  private sent_events: string[]
+  private incoming_events: string[]
 
-  constructor(sent_event: Array<string>, incoming_events: Array<string>) {
+  constructor(sent_event: string[], incoming_events: string[]) {
     super()
     this.sent_events = sent_event
     this.incoming_events = incoming_events
