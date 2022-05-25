@@ -1,6 +1,7 @@
 import { ValidationError } from "@src/Application/Types/Errors"
 import { v4 as uuid } from "uuid"
 import { z, SafeParseReturnType } from "zod"
+import Password from "@src/Application/Utilities/Password"
 
 interface IUser {
   id?: string,
@@ -36,6 +37,15 @@ class User implements IUser {
     })
    
     return schema.safeParse(user)
+  }
+
+  /**
+   *  alternative constructor
+   * 
+  */
+  public static NewUser(data: IUser): User {
+    data.password = Password.Hash(data.password)
+    return new User(data)
   }
 }
 

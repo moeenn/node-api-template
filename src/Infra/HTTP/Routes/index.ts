@@ -5,6 +5,7 @@ function init(): Router {
   const router = new Router()
 
   router.get("/", UsersController.List)
+  router.get("/:id", UsersController.Find)
 	router.post("/", UsersController.Create)
 	router.delete("/:id", UsersController.Delete)
 

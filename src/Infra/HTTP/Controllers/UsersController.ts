@@ -7,10 +7,23 @@ async function List(ctx: DefaultContext): Promise<void> {
   ctx.body = await UsersRepository.List() ?? []
 }
 
+async function Find(ctx: DefaultContext): Promise<void> {
+  const { id } = ctx.params
+  const result = await UsersRepository.Find(id)
+
+  if (!result) {
+    ctx.status = http.NOT_FOUND
+    ctx.body = { message: http["404_MESSAGE"] }
+    return 
+  }
+
+  ctx.body = result
+}
+
 async function Create(ctx: DefaultContext): Promise<void> {
   const { body } = ctx.request
 
-  const user = new User(body)
+  const user = User.NewUser(body)
   await UsersRepository.Create(user)
 
   ctx.status = http.CREATED
@@ -27,6 +40,7 @@ async function Delete(ctx: DefaultContext): Promise<void> {
 
 export default {
   List,
+  Find,
   Create,
   Delete,
 }
