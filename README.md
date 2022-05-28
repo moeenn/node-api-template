@@ -13,3 +13,11 @@ $ npm run dev
 $ npm run build
 $ npm run start
 ```
+
+## TODO
+- [ ] Setup db tests
+- [ ] Test: Migrations system
+- [ ] Implement JWT Authorization mechanism
+- [ ] Refactor: AuthController - Entity Services Layer?
+- [ ] Test: AuthController Methods
+- [ ] Test: Errors thrown inside ontrollers should not kill the server
