@@ -1,5 +1,5 @@
 import "module-alias-jest/register"
-import Password from "./Password"
+import Password from "."
 
 describe("password hashing and validation functions", () => {
   const passwords = [

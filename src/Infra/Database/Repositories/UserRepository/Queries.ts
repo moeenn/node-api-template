@@ -30,9 +30,17 @@ async function Delete(id: string): Promise<void> {
   `
 }
 
+async function FindByEmail(email: string): Promise<Row[]> {
+  return SQL`
+    SELECT * FROM users
+    WHERE email = ${email}
+  `  
+}
+
 export default {
   List,
   Find,
   Create,
   Delete,
+  FindByEmail,
 }

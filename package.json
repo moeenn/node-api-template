@@ -8,7 +8,8 @@
     "build": "node_modules/.bin/tsc",
     "start": "node build/index.js",
     "lint": "node_modules/.bin/eslint . --ext .ts",
-    "test": "node_modules/.bin/jest"
+    "test": "node_modules/.bin/jest",
+    "migrate": "node_modules/.bin/tsc && node build/Bin/migrate.js"
   },
   "_moduleAliases": {
     "@src": "build"

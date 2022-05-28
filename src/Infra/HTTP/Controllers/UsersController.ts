@@ -1,5 +1,4 @@
 import { DefaultContext } from "koa"
-import { User } from "@src/Domain/Entities/User"
 import UsersRepository from "@src/Infra/Database/Repositories/UserRepository"
 import http from "http-status"
 
@@ -20,16 +19,6 @@ async function Find(ctx: DefaultContext): Promise<void> {
   ctx.body = result
 }
 
-async function Create(ctx: DefaultContext): Promise<void> {
-  const { body } = ctx.request
-
-  const user = User.NewUser(body)
-  await UsersRepository.Create(user)
-
-  ctx.status = http.CREATED
-  ctx.body = user
-}
-
 async function Delete(ctx: DefaultContext): Promise<void> {
   const { id } = ctx.request.params
   await UsersRepository.Delete(id)
@@ -41,6 +30,5 @@ async function Delete(ctx: DefaultContext): Promise<void> {
 export default {
   List,
   Find,
-  Create,
   Delete,
 }

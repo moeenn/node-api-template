@@ -1,2 +1,4 @@
+.git
 build
 node_modules
+database_storage

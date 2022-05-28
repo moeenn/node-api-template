@@ -1,13 +1,12 @@
 import Router from "@koa/router"
-import UsersController from "@src/Infra/HTTP/Controllers/UsersController"
+import AuthController from "@src/Infra/HTTP/Controllers/AuthController"
 
 function init(): Router {
   const router = new Router()
 
-  router.get("/", UsersController.List)
-  router.get("/:id", UsersController.Find)
-	router.post("/", UsersController.Create)
-	router.delete("/:id", UsersController.Delete)
+	router.post("/register", AuthController.Register)
+  router.post("/login", AuthController.Login)
+  router.post("/logout", AuthController.Logout)
 
   return router
 }
