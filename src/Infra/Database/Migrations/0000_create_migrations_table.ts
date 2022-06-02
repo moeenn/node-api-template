@@ -1,4 +1,4 @@
-import SQL from "@src/Application/Config/Database"
+import SQL from "@src/Infra/Database/Init"
 
 async function migration(): Promise<void> {
   await SQL`

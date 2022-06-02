@@ -1,6 +1,6 @@
 import { config } from "dotenv"
 import { env } from "process"
-import Env from "@src/Application/Types/Env"
+import Env from "@src/Infra/Env"
 
 function init(): Env {
   if (env.NODE_ENV !== "production") {

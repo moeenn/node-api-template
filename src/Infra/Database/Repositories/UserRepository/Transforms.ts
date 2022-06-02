@@ -1,5 +1,5 @@
 import { User, IUser } from "@src/Domain/Entities/User"
-import { Row } from "@src/Application/Config/Database"
+import { Row } from "@src/Infra/Database/Init"
 
 /**
  *  convert a single row into a User entity
@@ -21,6 +21,6 @@ function Multiple(results: Row[]): User[] {
 }
 
 export default {
- Single,
- Multiple,
+  Single,
+  Multiple,
 }

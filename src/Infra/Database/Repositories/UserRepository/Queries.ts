@@ -1,4 +1,4 @@
-import SQL, { Row } from "@src/Application/Config/Database"
+import SQL, { Row } from "@src/Infra/Database/Init"
 import { User } from "@src/Domain/Entities/User"
 
 async function List(): Promise<Row[]> {

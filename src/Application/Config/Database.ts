@@ -1,7 +1,4 @@
-import postgres from "postgres"
 import Env from "./Env"
-
-export type Row = postgres.Row
 
 interface IDatabaseConfig {
   host: string,
@@ -11,7 +8,7 @@ interface IDatabaseConfig {
   password: string,
 }
 
-function GetDatabaseConfig(): IDatabaseConfig {
+function init(): IDatabaseConfig {
   return {
     host: Env.Read("DB_HOST"),
     port: parseInt(Env.Read("DB_PORT")),
@@ -21,13 +18,4 @@ function GetDatabaseConfig(): IDatabaseConfig {
   }
 }
 
-/**
- *  initialize and return instance of database connection
- * 
-*/
-function init(): postgres.Sql<Record<string, unknown>> {
-  const config = GetDatabaseConfig()
-  return postgres(config)
-}
-
-export default init() 
+export default init()

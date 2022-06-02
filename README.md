@@ -17,7 +17,6 @@ $ npm run start
 ## TODO
 - [ ] Setup db tests
 - [ ] Test: Migrations system
-- [ ] Implement JWT Authorization mechanism
-- [ ] Refactor: AuthController - Entity Services Layer?
+- [ ] Refactor: AuthController - Domain Services Layer?
 - [ ] Test: AuthController Methods
 - [ ] Test: Errors thrown inside ontrollers should not kill the server

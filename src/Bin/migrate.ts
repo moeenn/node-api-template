@@ -1,5 +1,5 @@
 import "module-alias/register"
-import SQL from "@src/Application/Config/Database"
+import SQL from "@src/Infra/Database/Init"
 import fs from "fs/promises"
 
 const log = console.log
