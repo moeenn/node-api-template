@@ -20,3 +20,5 @@ $ npm run start
 - [ ] Refactor: AuthController - Domain Services Layer?
 - [ ] Test: AuthController Methods
 - [ ] Test: Errors thrown inside ontrollers should not kill the server
+- [ ] Create Database Seeding Mechanism
+- [ ] Create Admin Seeder
