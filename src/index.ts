@@ -3,7 +3,7 @@ import Server from "@src/Infra/HTTP/Server"
 import Application from "@src/Application"
 import Env from "@src/Application/Config/Env"
 
-async function main(): Promise<void> {
+function main(): void {
 	Application.Bootstrap()
 
 	const port = Env.Read("SERVER_PORT")
