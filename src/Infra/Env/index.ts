@@ -1,5 +1,5 @@
 import { EnvSchema, IEnv } from "./Schema"
-import { RuntimeError } from "@src/Application/Types/Errors"
+import { RuntimeError } from "@src/Application/Classes/Errors"
 
 export default class Env {
   private variables: IEnv

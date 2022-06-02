@@ -5,7 +5,7 @@ import { Row } from "@src/Infra/Database/Init"
  *  convert a single row into a User entity
  * 
 */
-function Single(results: Row[]): User | undefined {
+function Single(results: Row[]): Option<User> {
   const [row] = results
   if (!row) return
 

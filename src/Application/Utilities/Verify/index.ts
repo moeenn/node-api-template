@@ -5,7 +5,7 @@ import { ZodObject, ZodIssue } from "zod"
  * 
 */
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-function Verify(data: any, schema: ZodObject<any>): ZodIssue[] | undefined {
+function Verify(data: any, schema: ZodObject<any>): Option<ZodIssue[]> {
   const result = schema.safeParse(data)
   if (!result.success) {
     return result.error.issues

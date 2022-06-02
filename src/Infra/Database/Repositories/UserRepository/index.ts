@@ -15,7 +15,7 @@ async function List(): Promise<User[]> {
  *  find a user by ID
  * 
 */
-async function Find(id: string): Promise<User | undefined> {
+async function Find(id: string): Promise<Option<User>> {
   const rows = await Queries.Find(id)
   return Transforms.Single(rows)
 }
@@ -24,7 +24,7 @@ async function Find(id: string): Promise<User | undefined> {
  *  find a user by email
  * 
 */
-async function FindByEmail(email: string): Promise<User | undefined> {
+async function FindByEmail(email: string): Promise<Option<User>> {
   const rows = await Queries.FindByEmail(email)
   return Transforms.Single(rows)
 }

@@ -15,6 +15,7 @@
     "esModuleInterop": true,
     "removeComments": true,
     "sourceMap": false,
+    "typeRoots": ["./node_modules/@types", "./src/Application/Types/"],
     "baseUrl": ".",
     "outDir": "build",
     "paths": {

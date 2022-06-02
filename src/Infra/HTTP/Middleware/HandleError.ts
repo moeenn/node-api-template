@@ -1,4 +1,4 @@
-import { ServerError } from "@src/Application/Types/Errors"
+import { ServerError } from "@src/Application/Classes/Errors"
 import { DefaultContext, DefaultState } from "koa"
 
 export async function HandleError(ctx: DefaultContext, next: DefaultState): Promise<void> {

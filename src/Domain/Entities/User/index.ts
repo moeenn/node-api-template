@@ -1,4 +1,4 @@
-import { ValidationError } from "@src/Application/Types/Errors"
+import { ValidationError } from "@src/Application/Classes/Errors"
 import { v4 as uuid } from "uuid"
 import { z, SafeParseReturnType } from "zod"
 import Password from "@src/Application/Utilities/Password"

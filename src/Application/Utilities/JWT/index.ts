@@ -13,7 +13,7 @@ function Create<T extends Record<string, unknown>>(payload: T, signingKey: strin
  *  verify if a provided JWT is valid or not
  *  
 */
-function Verify<T extends Record<string, unknown>>(token: string, signingKey: string): T | undefined {
+function Verify<T extends Record<string, unknown>>(token: string, signingKey: string): Option<T> {
 	try {
 		return jwt.verify(token, signingKey) as T
 	} catch (_) {
