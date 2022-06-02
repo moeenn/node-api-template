@@ -43,8 +43,8 @@ class User implements IUser {
    *  alternative constructor
    * 
   */
-  public static NewUser(data: IUser): User {
-    data.password = Password.Hash(data.password)
+  public static async NewUser(data: IUser): Promise<User> {
+    data.password = await Password.Hash(data.password)
     return new User(data)
   }
 }

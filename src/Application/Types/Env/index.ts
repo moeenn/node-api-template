@@ -1,11 +1,11 @@
-import { EnvironmentSchema, IEnvironment } from "./Schema"
+import { EnvSchema, IEnv } from "./Schema"
 import { RuntimeError } from "@src/Application/Types/Errors"
 
-export default class Environment {
-  private variables: IEnvironment
+export default class Env {
+  private variables: IEnv
 
   constructor(variables: NodeJS.ProcessEnv) {
-    const result = EnvironmentSchema.safeParse(variables)
+    const result = EnvSchema.safeParse(variables)
     if (!result.success) {
       throw new RuntimeError(
         "Required environment variables not set", 

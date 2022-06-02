@@ -13,11 +13,11 @@ import Verify from "@src/Application/Utilities/Verify"
 async function Register(ctx: DefaultContext): Promise<void> {
   const { body } = ctx.request
 
-  const user = User.NewUser(body)
+  const user = await User.NewUser(body)
   await UsersRepository.Create(user)
 
   ctx.status = http.CREATED
-  ctx.body = { id: user.id, name: user.name, email: user.email } 
+  ctx.body = { id: user.id, name: user.name, email: user.email }
 }
 
 /**
@@ -49,8 +49,11 @@ async function Login(ctx: DefaultContext): Promise<void> {
     return
   }
 
-  // TODO: implement JWT
-  ctx.body = { message: "User logged-in successfully" }
+  // TODO: generate auth token
+  ctx.body = {
+    message: "User logged-in successfully",
+    user,
+  }
 }
 
 /**

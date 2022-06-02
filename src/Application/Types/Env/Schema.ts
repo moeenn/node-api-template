@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const EnvironmentSchema = z.object({
+export const EnvSchema = z.object({
   SERVER_HOST: z.string().min(1),
   SERVER_PORT: z.string().min(1),
 
@@ -11,4 +11,4 @@ export const EnvironmentSchema = z.object({
   DB_PASSWORD: z.string().min(1),
 }).catchall(z.string())
 
-export type IEnvironment = z.infer<typeof EnvironmentSchema>
+export type IEnv = z.infer<typeof EnvSchema>

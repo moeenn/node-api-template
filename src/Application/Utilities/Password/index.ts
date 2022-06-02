@@ -1,34 +1,23 @@
-import crypto from "crypto"
+import bcrypt from "bcrypt"
 
 /**
  *  hash & salt a cleartext password string
  * 
 */
-function Hash(password: string): string {
-  const salt: string = crypto.randomBytes(16).toString("hex")
-  const hash: string = crypto
-    .pbkdf2Sync(password, salt, 1000, 64, "sha512")
-    .toString("hex")
+async function Hash(password: string): Promise<string> {
+  const salt: string = await bcrypt.genSalt(10)
+  const hash: string = await bcrypt.hash(password, salt)
 
-  return `${salt}__${hash}`
+  return hash
 }
 
 /**
  *  verify whether hash / salt combo matches with the cleartext password string
  * 
 */
-function Verify(hashed: string, cleartext: string): boolean {
-  const pieces = hashed.split("__")
-  if (pieces.length !== 2) {
-    return false
-  }
-
-  const [salt, hash] = pieces
-  const computedHash = crypto
-    .pbkdf2Sync(cleartext, salt, 1000, 64, `sha512`)
-    .toString(`hex`)
-    
-  return computedHash === hash
+async function Verify(hashed: string, cleartext: string): Promise<boolean> {
+  const isValid = await bcrypt.compare(cleartext, hashed)
+  return isValid
 }
 
 export default {
