@@ -9,6 +9,7 @@ export const EnvSchema = z.object({
   DB_DATABASE: z.string().min(1),
   DB_USERNAME: z.string().min(1),
   DB_PASSWORD: z.string().min(1),
+  
 }).catchall(z.string())
 
-export type IEnv = z.infer<typeof EnvSchema>
+export type IEnv = z.infer<typeof EnvSchema> 

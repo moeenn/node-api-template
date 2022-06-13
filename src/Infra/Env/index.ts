@@ -1,22 +1,35 @@
-import { EnvSchema, IEnv } from "./Schema"
-import { RuntimeError } from "@src/Application/Classes/Errors"
+import { config } from "dotenv"
+import { env } from "process"
+import { EnvSchema, IEnv } from "./index.schema"
+import { Service } from "typedi"
+import Exception from "@src/Application/Classes/Exception"
 
+@Service()
 export default class Env {
   private variables: IEnv
+  private nodeProdMode = "production"
 
-  constructor(variables: NodeJS.ProcessEnv) {
+  constructor() {
+    if (env.NODE_ENV !== this.nodeProdMode) {
+      config({ path: "src/.env.docker" })
+    }
+
+    this.variables = this.validateEnvVariable(env)
+  }
+
+  private validateEnvVariable(variables: NodeJS.ProcessEnv): IEnv {
     const result = EnvSchema.safeParse(variables)
     if (!result.success) {
-      throw new RuntimeError(
-        "Required environment variables not set", 
-        result.error.issues
+      throw new Exception(
+        "Required environment variables not set",
+        result.error.issues,
       )
     }
 
-    this.variables = result.data
+    return result.data
   }
 
-  Read(key: string): string {
+  read(key: string): string {
     if (!(key in this.variables)) {
       throw new Error(`Invalid environment variable: ${key}`)
     }

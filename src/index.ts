@@ -1,15 +1,18 @@
 import "module-alias/register"
+import "reflect-metadata"
+
+import { Container } from "typedi"
+import Env from "@src/Infra/Env"
 import Server from "@src/Infra/HTTP/Server"
-import Application from "@src/Application"
-import Env from "@src/Application/Config/Env"
 
 function main(): void {
-	Application.Bootstrap()
+	const server = Container.get(Server)
+	const env = Container.get(Env)
+	const port = env.read("SERVER_PORT")
 
-	const port = Env.Read("SERVER_PORT")
-	const server = Server.Create()
-
-	Server.Run(server, port)
+	server.start(
+		parseInt(port)
+	)
 }
 
 main()

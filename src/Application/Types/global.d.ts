@@ -1,6 +1,5 @@
 export {}
 
 declare global {
-  type Option<T> = T | undefined 
+  type Option<T> = T | undefined
 }
-
