@@ -12,4 +12,4 @@ export const EnvSchema = z.object({
   
 }).catchall(z.string())
 
-export type IEnv = z.infer<typeof EnvSchema> 
+export type IEnvSchema = z.infer<typeof EnvSchema> 

@@ -1,12 +1,16 @@
 import { config } from "dotenv"
 import { env } from "process"
-import { EnvSchema, IEnv } from "./index.schema"
+import { EnvSchema, IEnvSchema } from "./index.schema"
 import { Service } from "typedi"
 import Exception from "@src/Application/Classes/Exception"
 
+export interface IEnv {
+  read(key: string): string
+}
+
 @Service()
-export default class Env {
-  private variables: IEnv
+export default class Env implements IEnv {
+  private variables: IEnvSchema
   private nodeProdMode = "production"
 
   constructor() {
@@ -17,7 +21,7 @@ export default class Env {
     this.variables = this.validateEnvVariable(env)
   }
 
-  private validateEnvVariable(variables: NodeJS.ProcessEnv): IEnv {
+  private validateEnvVariable(variables: NodeJS.ProcessEnv): IEnvSchema {
     const result = EnvSchema.safeParse(variables)
     if (!result.success) {
       throw new Exception(
