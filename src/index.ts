@@ -2,8 +2,8 @@ import "module-alias/register"
 import "reflect-metadata"
 
 import { Container } from "typedi"
-import Env from "@src/Infra/Env"
-import Server from "@src/Infra/HTTP/Server"
+import Env from "@/Infra/Env"
+import Server from "@/Infra/HTTP/Server"
 
 function main(): void {
 	const server = Container.get(Server)

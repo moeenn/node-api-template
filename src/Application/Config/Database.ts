@@ -1,5 +1,5 @@
 import { Service } from "typedi"
-import { IEnv } from "@src/Infra/Env"
+import { IEnv } from "@/Infra/Env"
 
 @Service()
 export default class DatabaseConfig {

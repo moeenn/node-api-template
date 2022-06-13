@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-		"strict": true,
+	"strict": true,
     "strictFunctionTypes": true,
     "incremental": true,
     "module": "commonjs",
@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "outDir": "build",
     "paths": {
-      "@src/*": ["src/*"]
+      "@/*": ["src/*"]
     }
   }
 }

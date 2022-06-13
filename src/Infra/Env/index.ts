@@ -2,7 +2,7 @@ import { config } from "dotenv"
 import { env } from "process"
 import { EnvSchema, IEnvSchema } from "./index.schema"
 import { Service } from "typedi"
-import Exception from "@src/Application/Classes/Exception"
+import Exception from "@/Application/Classes/Exception"
 
 export interface IEnv {
   read(key: string): string

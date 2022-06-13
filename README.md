@@ -22,3 +22,4 @@ $ npm run start
 - [ ] Test: Errors thrown inside ontrollers should not kill the server
 - [ ] Create Database Seeding Mechanism
 - [ ] Create Admin Seeder
+- [ ] Entity Factories
