@@ -1,7 +1,8 @@
+import { Service } from "typedi"
 import { config } from "dotenv"
 import { env } from "process"
 import { EnvSchema, IEnvSchema } from "./index.schema"
-import { Service } from "typedi"
+import NodeEnv from "./NodeEnv"
 import Exception from "@/Application/Classes/Exception"
 
 export interface IEnv {
@@ -11,10 +12,9 @@ export interface IEnv {
 @Service()
 export default class Env implements IEnv {
   private variables: IEnvSchema
-  private nodeProdMode = "production"
 
-  constructor() {
-    if (env.NODE_ENV !== this.nodeProdMode) {
+  constructor(nodeEnv: NodeEnv) {
+    if (!nodeEnv.production) {
       config({ path: "src/.env.docker" })
     }
 
