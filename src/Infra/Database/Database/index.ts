@@ -5,8 +5,12 @@ import DatabaseConfig from "@/Application/Config/Database"
 export type SQL = postgres.Sql<Obj>
 export type Row = postgres.Row
 
+export interface IDatabase {
+  sql: SQL
+}
+
 @Service()
-export default class Database {
+export default class Database implements IDatabase {
   public sql: SQL
 
   constructor(config: DatabaseConfig) {

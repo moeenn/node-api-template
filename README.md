@@ -16,10 +16,8 @@ $ npm run start
 
 ## TODO
 - [ ] Setup db tests
+- [ ] Setup db seeding mechanism
 - [ ] Test: Migrations system
-- [ ] Refactor: AuthController - Domain Services Layer?
-- [ ] Test: AuthController Methods
-- [ ] Test: Errors thrown inside ontrollers should not kill the server
 - [ ] Create Database Seeding Mechanism
 - [ ] Create Admin Seeder
 - [ ] Entity Factories

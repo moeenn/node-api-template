@@ -2,21 +2,27 @@ import "reflect-metadata"
 import "module-alias/register"
 
 import { Service, Container } from "typedi"
+import Filesystem from "@/Infra/Filesystem"
 import Database from "@/Infra/Database/Database"
-import fs from "fs/promises"
 
 @Service()
-class MigrateService {
+export default class MigrateService {
   private migrationPath: string
   private db: Database
+  private fs: Filesystem
 
-  constructor(db: Database) {
+  constructor(fs: Filesystem, db: Database) {
+    this.fs = fs
     this.db = db
     this.migrationPath = "src/Infra/Database/Migrations/"
   }
 
+  /**
+   *  migrations are SQL files that are created to make changes to the database
+   *  this function returns a complete list of migrations (applied & unapplied)
+  */
   public async listMigrations(): Promise<string[]> {
-    const migrations = await fs.readdir(this.migrationPath)
+    const migrations = await this.fs.listDirectory(this.migrationPath)
     return [...migrations]
   }
 
@@ -65,8 +71,13 @@ class MigrateService {
     `
   }
 
+  /**
+   *  run all outstanding migrations
+   * 
+  */
   public async migrate(): Promise<void> {
     const migrations = await this.listMigrations()
+    const { log, error } = console
 
     for (const migration of migrations) {
       const isApplied = await this.isMigrationApplied(migration)
@@ -78,14 +89,14 @@ class MigrateService {
       try {
         await this.db.sql.file(path)
         await this.markMigrationAsExecuted(migration)
-        console.log("[Done] ", migration)
+        log("[Done] ", migration)
       } catch (err) {
-        console.error(`Failed to run migrations:: ${migration}`, err)
+        error(`Failed to run migrations:: ${migration}`, err)
         process.exit(1)
       }
     }
 
-    console.log("Migration complete!")
+    log("Migration complete!")
     process.exit(0)
   }
 }
