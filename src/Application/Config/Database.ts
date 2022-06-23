@@ -1,5 +1,5 @@
 import { Service } from "typedi"
-import { IEnv } from "@/Infra/Env"
+import Env from "@/Infra/Env"
 
 @Service()
 export default class DatabaseConfig {
@@ -9,7 +9,7 @@ export default class DatabaseConfig {
   public username: string
   public password: string
 
-  constructor(env: IEnv) {
+  constructor(env: Env) {
     this.host = env.read("DB_HOST")
     this.port = parseInt(env.read("DB_PORT"))
     this.database = env.read("DB_DATABASE")
