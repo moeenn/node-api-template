@@ -1,25 +1,23 @@
 {
-  "exclude": ["node_modules", "**/node_modules/*", "build"],
   "compilerOptions": {
-    "strict": true,
+		"strict": true,
+    "strictFunctionTypes": false,
     "incremental": true,
-    "strictFunctionTypes": true,
     "module": "commonjs",
     "target": "es2018",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": false,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "removeComments": true,
     "sourceMap": false,
-    "typeRoots": ["./node_modules/@types", "./src/Application/Types/"],
     "baseUrl": ".",
     "outDir": "build",
     "paths": {
-      "@src/*": ["src/*"]
+      "@/*": ["src/*"]
     }
   }
 }

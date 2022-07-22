@@ -1,5 +1,0 @@
-.git/
-.dockerignore
-node_modules/
-build/
-database_storage/
