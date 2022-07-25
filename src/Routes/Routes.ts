@@ -18,6 +18,7 @@ function init(): Router {
 
   /* admin routes */
   routes.get("/users", ValidateToken, HasRole(["admin"]), UserController.All)
+  routes.post("/users/toggle-approved", ValidateToken, HasRole(["admin"]), UserController.ToggleApprovedStatus)
 
   return routes
 }

@@ -48,6 +48,10 @@ async function Login(ctx: Context) {
     return ctx.throw(401)
   }
 
+  if (!user.approved) {
+    return ctx.throw(401, "user account has been disabled")
+  }
+
   const verified = await password.verify(user.password, body.password)
   if (!verified) {
     return ctx.throw(401)
