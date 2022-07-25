@@ -1,5 +1,4 @@
 import { Context, Next, Middleware } from "@/Core/Server"
-import { report } from "@/Core/Helpers"
 import { IUserRole } from "@/Models"
  
 function HasRole(roles: IUserRole[]): Middleware {
