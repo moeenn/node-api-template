@@ -43,20 +43,18 @@ async function ResetPassword(ctx: Context) {
 
   const reset = await PasswordReset.findOne({ token: body.token }).populate("user")
   if (!reset) {
-    const error = new Error("invalid reset token")
-    return report(ctx, error, {}, 400)
+    return ctx.throw(400, "invalid reset token")
   }
 
   if (!reset.user) {
-    const error = new Error("user not found")
-    return report(ctx, error, {}, 404)
+    return ctx.throw(404, "user not found")
   }
 
-  await reset.user.update({ 
+  await reset.user.updateOne({ 
     password: await password.hash(body.password),
   })
 
-  await PasswordReset.find({ user_id: reset.user._id }).deleteMany().exec()
+  await PasswordReset.find({ user: reset.user }).deleteMany().exec()
   ctx.body = { message: "password updated successfully" }
 }
 

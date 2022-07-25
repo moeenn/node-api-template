@@ -8,7 +8,7 @@ function HasRole(roles: IUserRole[]): Middleware {
 
     const isAuthorized = roles.includes(user.user_role)
     if (!isAuthorized) {
-      return report(ctx, {}, {}, 401)
+      return ctx.throw(401)
     }
 
     await next()

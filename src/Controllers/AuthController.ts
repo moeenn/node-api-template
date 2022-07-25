@@ -45,20 +45,25 @@ async function Login(ctx: Context) {
 
   const user = await User.findOne({ email: body.email }).select("+password")
   if (!user) {
-    return report(ctx, {}, {}, 401)
+    return ctx.throw(401)
   }
 
   const verified = await password.verify(user.password, body.password)
   if (!verified) {
-    return report(ctx, {}, {}, 401)
+    return ctx.throw(401)
   }
 
   const token = random.string(authConfig.tokens.bytes)
   const authToken = new AuthToken({ user, token })
   await authToken.save()
 
-  // TODO: remove password field from response
-  ctx.body = { ...user.toObject(), token }
+  ctx.body = {
+    id: user._id,
+    email: user.email,
+    user_role: user.user_role,
+    approved: user.approved,
+    token,
+  }
 }
 
 /** 
@@ -71,8 +76,7 @@ async function Logout(ctx: Context) {
 
   const authToken = await AuthToken.findOne({ user, token })
   if (!authToken) {
-    const error = new Error("invalid auth token")
-    return report(ctx, error, {}, 401)
+    return ctx.throw(401, "invalid auth token")
   }
 
   await authToken.delete()

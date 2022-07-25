@@ -1,8 +1,14 @@
 import { Context } from "@/Core/Server"
 
 /**
- *  report an error to the client
+ *  generally, when we want to report an error to the client, we use the following
+ *  >> ctx.throw(status, error_message, error_details)
  * 
+ *  the roblem with ctx.thow is that error details are nor forwarded to the client
+ *  they are only logged to server console.
+ * 
+ *  the following function is useful when we want to forward error with details
+ *  to the client  
 */
 function report(ctx: Context, error: unknown, details = {}, status = 400) {
   ctx.status = status
