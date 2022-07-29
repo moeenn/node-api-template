@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, PopulatedDoc } from "mongoose"
 import { IUser } from "@/Models"
 
-interface IAuthToken {
+interface IAuthToken extends Document {
   user: PopulatedDoc<IUser & Document>,
   token: string,
 }

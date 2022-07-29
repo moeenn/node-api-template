@@ -1,10 +1,10 @@
-import mongoose, { Schema } from "mongoose"
+import mongoose, { Schema, Document } from "mongoose"
 
-type IUserRole = "admin" | "client"
+type IRole = "admin" | "client"
 
-interface IUser {
+interface IUser extends Document {
   email: string,
-  user_role: IUserRole,
+  role: IRole,
   password: string,
   approved: boolean,
 }
@@ -17,7 +17,7 @@ const schema = new Schema(
       unique: true,
       index: true,
     },
-    user_role: {
+    role: {
       type: String,
       enum: ["admin", "client"],
       required: true,
@@ -35,4 +35,4 @@ const schema = new Schema(
 )
 
 const User = mongoose.model<IUser>("users", schema)
-export { User, IUser, IUserRole } 
+export { User, IUser, IRole } 

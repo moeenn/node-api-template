@@ -8,7 +8,7 @@ function env(key: string): string {
     throw new Error(`env variable not set: ${key}`)
   }
 
-  return value
+  return value.trim()
 }
 
 export default env

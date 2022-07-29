@@ -18,7 +18,7 @@ async function Register(ctx: Context) {
   const user = new User({
     email: body.email,
     password: await password.hash(body.password),
-    user_role: authConfig.default_role,
+    role: authConfig.default_role,
   })
 
   try {
@@ -27,9 +27,9 @@ async function Register(ctx: Context) {
     return report(ctx, err, {}, 400)
   }
   
-  const { _id, email, user_role, approved } = user.toObject()
+  const { _id, email, role, approved } = user.toObject()
   ctx.status = 201
-  ctx.body = { _id, email, user_role, approved }
+  ctx.body = { _id, email, role, approved }
 }
 
 /**
@@ -64,7 +64,7 @@ async function Login(ctx: Context) {
   ctx.body = {
     id: user._id,
     email: user.email,
-    user_role: user.user_role,
+    role: user.role,
     approved: user.approved,
     token,
   }

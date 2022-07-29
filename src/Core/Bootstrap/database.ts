@@ -2,10 +2,6 @@ import mongoose from "mongoose"
 import { env } from "@/Core/Helpers"
 
 function getConnectionURI(): string {
-  if (env("NODE_ENV") === "test") {
-    return env("MONGO_TEST_URI")
-  }
-
   const c = {
     host: env("MONGO_HOST"),
     port: env("MONGO_PORT"),

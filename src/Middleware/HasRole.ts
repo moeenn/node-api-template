@@ -1,11 +1,11 @@
 import { Context, Next, Middleware } from "@/Core/Server"
-import { IUserRole } from "@/Models"
+import { IRole } from "@/Models"
  
-function HasRole(roles: IUserRole[]): Middleware {
+function HasRole(roles: IRole[]): Middleware {
   return async (ctx: Context, next: Next) => {
     const user = ctx.state["user"]
 
-    const isAuthorized = roles.includes(user.user_role)
+    const isAuthorized = roles.includes(user.role)
     if (!isAuthorized) {
       return ctx.throw(401)
     }

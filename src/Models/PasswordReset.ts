@@ -1,7 +1,7 @@
 import mongoose, { Schema, PopulatedDoc, Document } from "mongoose"
 import { IUser } from "@/Models"
 
-interface IPasswordReset {
+interface IPasswordReset extends Document {
   user: PopulatedDoc<IUser & Document>,
   token: string,
 }

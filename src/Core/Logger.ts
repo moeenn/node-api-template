@@ -17,5 +17,5 @@ export function log(message: string) {
 export default async function Logger(ctx: DefaultContext, next: Next) {
   await next()
   const { method, url, status, ip } = ctx
-  log(`${ip}:: ${method}: ${url} - ${status}`)
+  log(`${ip}: ${method} ${url} (${status})`)
 }
