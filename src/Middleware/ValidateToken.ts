@@ -17,7 +17,7 @@ async function ValidateToken(ctx: Context, next: Next) {
     return ctx.throw(401)    
   }
 
-  ctx.state["user"] = authToken.user.toObject()
+  ctx.state["user"] = authToken.user
   await next()
 }
 
