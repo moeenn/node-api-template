@@ -1,7 +1,6 @@
 import { Context } from "@/Core/Server"
 import { User } from "@/Models"
-import { report } from "@/Core/Helpers"
-import schema from "./UserController.schema"
+import { report, Validator } from "@/Core/Helpers"
 
 async function All(ctx: Context) {
   ctx.body = await User.find()
@@ -9,9 +8,13 @@ async function All(ctx: Context) {
 
 async function ToggleApprovedStatus(ctx: Context) {
   const { body } = ctx.request
-  const { error } = schema.toggleApprovedStatus.validate(body)
-  if (error) {
-    return report(ctx, {}, error, 422)
+  const v = new Validator(body, {
+    user_id: "objectid|required",
+    status: "boolean|required",
+  })
+
+  if (v.fails()) {
+    return report(ctx, {}, v.errors, 422)
   }
 
   const user = await User.findOne({ _id: body.user_id })

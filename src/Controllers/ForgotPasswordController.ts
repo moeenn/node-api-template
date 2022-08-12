@@ -1,6 +1,5 @@
 import { Context } from "@/Core/Server"
-import { report, random, password } from "@/Core/Helpers"
-import schema from "./ForgotPasswordController.schema"
+import { report, Random, Password, Validator } from "@/Core/Helpers"
 import { User, PasswordReset } from "@/Models"
 import authConfig from "@/Core/Config/auth.json"
 
@@ -10,9 +9,12 @@ import authConfig from "@/Core/Config/auth.json"
 */
 async function RequestReset(ctx: Context) {
   const { body } = ctx.request
-  const { error } = schema.requestReset.validate(body)
-  if (error) {
-    return report(ctx, {}, error, 422)
+  const v = new Validator(body, {
+    email: "email|required",
+  })
+
+  if (v.fails()) {
+    return report(ctx, {}, v.errors, 422)
   }
 
   const user = await User.findOne({ email: body.email })
@@ -21,7 +23,7 @@ async function RequestReset(ctx: Context) {
     return
   }
 
-  const token = random.string(authConfig.tokens.bytes)
+  const token = Random.string(authConfig.tokens.bytes)
   const reset = new PasswordReset({ user, token })
   await reset.save()
 
@@ -36,9 +38,14 @@ async function RequestReset(ctx: Context) {
 */
 async function ResetPassword(ctx: Context) {
   const { body } = ctx.request
-  const { error } = schema.resetPassword.validate(body)
-  if (error) {
-    return report(ctx, {}, error, 422)
+  const v = new Validator(body, {
+    token: "string|required",
+    password: `string|min:${authConfig.passwords.min_length}|required`,
+    confirm_password: "same:password|required",
+  })
+
+  if (v.fails()) {
+    return report(ctx, {}, v.errors, 422)
   }
 
   const reset = await PasswordReset.findOne({ token: body.token }).populate("user")
@@ -51,7 +58,7 @@ async function ResetPassword(ctx: Context) {
   }
 
   await reset.user.updateOne({ 
-    password: await password.hash(body.password),
+    password: await Password.hash(body.password),
   })
 
   await PasswordReset.find({ user: reset.user }).deleteMany().exec()

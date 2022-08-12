@@ -1,7 +1,6 @@
 import { Context } from "@/Core/Server"
-import { report, password, random } from "@/Core/Helpers"
+import { report, Password, Random, Validator } from "@/Core/Helpers"
 import { User, AuthToken } from "@/Models"
-import schema from "./AuthController.schema"
 import authConfig from "@/Core/Config/auth.json"
 
 /**
@@ -10,14 +9,19 @@ import authConfig from "@/Core/Config/auth.json"
 */
 async function Register(ctx: Context) {
   const { body } = ctx.request
-  const { error } = schema.register.validate(body)
-  if (error) {
-    return report(ctx, {}, error, 422)
+  const v = new Validator(body, {
+    email: "string|required",
+    password: `string|min:${authConfig.passwords.min_length}|required`,
+    confirm_password: "same:password|required",
+  })
+
+  if (v.fails()) {
+    return report(ctx, {}, v.errors, 422)
   }
 
   const user = new User({
     email: body.email,
-    password: await password.hash(body.password),
+    password: await Password.hash(body.password),
     role: authConfig.default_role,
   })
 
@@ -38,9 +42,13 @@ async function Register(ctx: Context) {
 */
 async function Login(ctx: Context) {
   const { body } = ctx.request
-  const { error } = schema.login.validate(body)
-  if (error) {
-    return report(ctx, {}, error, 422)
+  const v = new Validator(body, {
+    email: "string|required",
+    password: `string|min:${authConfig.passwords.min_length}|required`,
+  })
+
+  if (v.fails()) {
+    return report(ctx, {}, v.errors, 422)
   }
 
   const user = await User.findOne({ email: body.email }).select("+password")
@@ -52,12 +60,12 @@ async function Login(ctx: Context) {
     return ctx.throw(401, "user account has been disabled")
   }
 
-  const verified = await password.verify(user.password, body.password)
+  const verified = await Password.verify(user.password, body.password)
   if (!verified) {
     return ctx.throw(401)
   }
 
-  const token = random.string(authConfig.tokens.bytes)
+  const token = Random.string(authConfig.tokens.bytes)
   const authToken = new AuthToken({ user, token })
   await authToken.save()
 

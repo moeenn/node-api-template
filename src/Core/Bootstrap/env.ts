@@ -1,6 +1,5 @@
 import { config } from "dotenv"
 import envconfig from "@/Core/Config/env.json"
-import joi from "joi"
 
 /**
  *  users are able to configure all the required environment variables in the 
@@ -8,11 +7,15 @@ import joi from "joi"
  *  environment
 */
 function validateRequired(required: string[]) {
-  const schema = joi.string().min(1).required()
+  const isEmpty = (value: string | undefined) => (
+    value === null || 
+    value === undefined ||
+    value === "" 
+  )
 
   for (const value of required) {
-    const { error } = schema.validate(process.env[value])
-    if (error) throw new Error(`missing env variable: ${value}`) 
+    const isMissing = isEmpty(process.env[value])
+    if (isMissing) throw new Error(`missing env variable: ${value}`) 
   }
 }
 
