@@ -1,15 +1,7 @@
 import mongoose from "mongoose"
-import { env } from "@/Core/Helpers"
+import { DatabaseConfig as c } from "@/Core/Config"
 
 function getConnectionURI(): string {
-  const c = {
-    host: env("MONGO_HOST"),
-    port: env("MONGO_PORT"),
-    db: env("MONGO_DATABASE"),
-    username: env("MONGO_USERNAME"),
-    password: env("MONGO_PASSWORD"),
-  }
-
   return `mongodb://${c.username}:${c.password}@${c.host}:${c.port}/${c.db}`
 }
 

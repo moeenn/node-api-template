@@ -1,6 +1,10 @@
 import { Context, Next } from "@/Core/Server"
 import { AuthToken } from "@/Models/AuthToken" 
 
+/**
+ *  ensure the user is logged-in i.e. the auth token is valid
+ * 
+*/
 async function ValidateToken(ctx: Context, next: Next) {
   const { token } = ctx.request
 

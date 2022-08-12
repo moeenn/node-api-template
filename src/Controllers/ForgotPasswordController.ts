@@ -1,7 +1,7 @@
 import { Context } from "@/Core/Server"
 import { report, Random, Password, Validator } from "@/Core/Helpers"
 import { User, PasswordReset } from "@/Models"
-import authConfig from "@/Core/Config/auth.json"
+import { AuthConfig } from "@/Core/Config"
 
 /**
  *  if a user forgets their password, we can allow them to request a password
@@ -23,7 +23,7 @@ async function RequestReset(ctx: Context) {
     return
   }
 
-  const token = Random.string(authConfig.tokens.bytes)
+  const token = Random.string(AuthConfig.tokens.bytes)
   const reset = new PasswordReset({ user, token })
   await reset.save()
 
@@ -40,7 +40,7 @@ async function ResetPassword(ctx: Context) {
   const { body } = ctx.request
   const v = new Validator(body, {
     token: "string|required",
-    password: `string|min:${authConfig.passwords.min_length}|required`,
+    password: `string|min:${AuthConfig.passwords.min_length}|required`,
     confirm_password: "same:password|required",
   })
 

@@ -1,7 +1,7 @@
 import { Context } from "@/Core/Server"
 import { report, Password, Random, Validator } from "@/Core/Helpers"
 import { User, AuthToken } from "@/Models"
-import authConfig from "@/Core/Config/auth.json"
+import { AuthConfig } from "@/Core/Config"
 
 /**
  *  register a new user
@@ -11,7 +11,7 @@ async function Register(ctx: Context) {
   const { body } = ctx.request
   const v = new Validator(body, {
     email: "string|required",
-    password: `string|min:${authConfig.passwords.min_length}|required`,
+    password: `string|min:${AuthConfig.passwords.min_length}|required`,
     confirm_password: "same:password|required",
   })
 
@@ -22,7 +22,7 @@ async function Register(ctx: Context) {
   const user = new User({
     email: body.email,
     password: await Password.hash(body.password),
-    role: authConfig.default_role,
+    role: AuthConfig.default_role,
   })
 
   try {
@@ -44,7 +44,7 @@ async function Login(ctx: Context) {
   const { body } = ctx.request
   const v = new Validator(body, {
     email: "string|required",
-    password: `string|min:${authConfig.passwords.min_length}|required`,
+    password: `string|min:${AuthConfig.passwords.min_length}|required`,
   })
 
   if (v.fails()) {
@@ -65,7 +65,7 @@ async function Login(ctx: Context) {
     return ctx.throw(401)
   }
 
-  const token = Random.string(authConfig.tokens.bytes)
+  const token = Random.string(AuthConfig.tokens.bytes)
   const authToken = new AuthToken({ user, token })
   await authToken.save()
 

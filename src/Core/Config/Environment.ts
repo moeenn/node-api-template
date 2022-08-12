@@ -1,7 +1,7 @@
-{
-  "file": ".env",
-  "load_in_production": false,
-  "required": [
+export default {
+  file: ".env",
+  load_in_production: false,
+  required: [
     "SERVER_HOST",
     "SERVER_PORT",
     "MONGO_HOST",
@@ -9,5 +9,5 @@
     "MONGO_DATABASE",
     "MONGO_USERNAME",
     "MONGO_PASSWORD"
-  ]
+  ],
 }
