@@ -1,7 +1,7 @@
 import "module-alias/register"
-import "@/Core/Bootstrap"
-import Server from "@/Core/Server"
-import { ServerConfig } from "@/Core/Config"
+import "@/Application/Bootstrap"
+import Server from "@/Infra/HTTP/Server"
+import { ServerConfig } from "@/Application/Config"
 
 export function main() {
 	const server = Server.create()
