@@ -1,5 +1,5 @@
 import Validator from "@/Application/Helpers/Validator"
-import Exception from "@/Application/Errors/Exception"
+import { Exception } from "@/Application/Classes"
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 function validate(data: any, rules: Validator.Rules) {

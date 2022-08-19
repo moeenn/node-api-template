@@ -2,5 +2,4 @@
 .build
 .husky
 node_modules
-.env
 .env.live

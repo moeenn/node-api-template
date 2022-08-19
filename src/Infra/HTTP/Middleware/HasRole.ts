@@ -1,6 +1,6 @@
 import { Context, Next, Middleware } from "@/Infra/HTTP/Server"
 import { IUserRole } from "@/Domain/Models"
-import Exception from "@/Application/Errors/Exception" 
+import { Exception } from "@/Application/Classes"
 
 function HasRole(roles: IUserRole[]): Middleware {
   return async (ctx: Context, next: Next) => {

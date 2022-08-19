@@ -1,7 +1,9 @@
 import { User, IUser, AuthToken, IAuthToken, PasswordReset } from "@/Domain/Models"
+import { UserService } from "@/Domain/ModelServices"
 import { Password, Random } from "@/Application/Helpers"
 import { AuthConfig } from "@/Application/Config"
 import { ILoginData, ILoginResult, IResetPasswordData } from "./index.types"
+import { Exception } from "@/Application/Classes"
 
 /**
  *  check if an auth bearer token is valid or not
@@ -14,7 +16,7 @@ async function validateAuthToken(token: string): Promise<IAuthToken> {
     .populate("user")
 
   if (!authToken || !authToken.user) {
-    throw new Error("invalid auth bearer token")
+    throw new Exception("invalid auth bearer token", 401)
   }
 
   return authToken
@@ -27,14 +29,12 @@ async function validateAuthToken(token: string): Promise<IAuthToken> {
 async function login(data: ILoginData): Promise<ILoginResult> {
   const user = await User.findOne({ email: data.email }).select("+password")
   if (!user) {
-    // TODO: replace with Exception
-    throw new Error(`user with email address ${data.email} not found`)
+    throw new Exception("user not found", 404, { email: data.email })
   }
 
   const verified = await Password.verify(user.password, data.password)
   if (!verified) {
-    // TODO: replace with Exception
-    throw new Error("invalid password provided")
+    throw new Exception("invalid email / password", 401)
   }
 
   const token = Random.string(AuthConfig.tokens.length)
@@ -51,8 +51,7 @@ async function login(data: ILoginData): Promise<ILoginResult> {
 async function logout(user: IUser, token: string) {
   const authToken = await AuthToken.findOne({ user, token })
   if (!authToken) {
-    // TODO: replace with Exception
-    throw new Error("invalid auth token")
+    throw new Exception("invalid auth token", 401)
   }
 
   await authToken.delete()
@@ -63,14 +62,11 @@ async function logout(user: IUser, token: string) {
  * 
 */
 async function requestPasswordReset(email: string) {
-  const user = await User.findOne({ email })
-  if (!user) {
-    // TODO: replace with Exception
-    throw new Error(`no user found against provided email address: ${email}`)
-  }
+  const user = await UserService.getUserByEmail(email)
 
   const token = Random.string(AuthConfig.tokens.length)
   const reset = new PasswordReset({ user, token })
+
   await reset.save()
 }
 
@@ -84,8 +80,7 @@ async function resetPassword(data: IResetPasswordData) {
     .populate("user")
 
   if (!reset || !reset.user) {
-    // TODO: replace with Exception
-    throw new Error("invalid reset token")
+    throw new Exception("invalid reset token", 400, { token: data.token })
   }
 
   reset.user.password = await Password.hash(data.password)

@@ -1,4 +1,3 @@
-export { default as report } from "./report"
 export { default as env } from "./env"
 export { default as validate } from "./validate"
 export { default as Password } from "./Password"

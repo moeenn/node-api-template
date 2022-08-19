@@ -1,9 +1,10 @@
 import { Context } from "@/Infra/HTTP/Server"
-import { User } from "@/Domain/Models"
 import { validate } from "@/Application/Helpers"
+import { UserService } from "@/Domain/ModelServices"
+import { Exception } from "@/Application/Classes"
 
 async function All(ctx: Context) {
-  ctx.body = await User.find()
+  ctx.body = await UserService.getAllUsers()
 }
 
 async function ToggleApprovedStatus(ctx: Context) {
@@ -12,18 +13,15 @@ async function ToggleApprovedStatus(ctx: Context) {
     status: "boolean|required",
   })
 
-  // TODO: fix me
-  const user = await User.findOne({ _id: body.user_id })
-  if (!user) {
-    return ctx.throw(401, "invalid user_id")
-  }
-
+  const user = await UserService.getUserByID(body.user_id)
   const admin = ctx.state["user"] 
   if (admin._id.toString() === user._id.toString()) {
-    return ctx.throw(400, "admin cannot disapprove their own account")
+    throw new Exception("admin cannot disapprove their own account", 400, {
+      user_id: user._id.toString(),
+    })
   }
 
-  await user.updateOne({ approved: body.status })
+  await UserService.toggleUserActiveStatus(user, body.status)
   ctx.body = { message: "user approved status updated successfully" }
 }
 
