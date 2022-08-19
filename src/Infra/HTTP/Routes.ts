@@ -10,7 +10,7 @@ function init(): Router {
   const routes = new Router({ prefix: "/api" })
 
   /* auth routes */
-  routes.post("/register", AuthController.Register)
+  routes.post("/register", UserController.Register)
   routes.post("/login", AuthController.Login)
   routes.get("/logout", ValidateToken, AuthController.Logout)
   routes.post("/forgot-password", ForgotPasswordController.RequestReset)

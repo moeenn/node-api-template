@@ -1,5 +1,5 @@
 import { config } from "dotenv"
-import { EnvironmentConfig } from "@/Application/Config"
+import EnvironmentConfig from "@/Application/Config/Environment"
 
 /**
  *  users are able to configure all the required environment variables in the 
