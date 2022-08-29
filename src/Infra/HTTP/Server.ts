@@ -1,7 +1,7 @@
 import koa, { DefaultState, DefaultContext } from "koa"
 import koaBody from "koa-body"
 import cors from "@koa/cors"
-import Logger, { log } from "@/Application/Logger"
+import Logger, { log } from "@/Infra/Logger"
 import { bearerToken } from "koa-bearer-token"
 import { HandleErrors } from "@/Infra/HTTP/Middleware"
 import router from "@/Infra/HTTP/Routes"
@@ -19,7 +19,7 @@ function create(): Server {
     .use(Logger)
     .use(HandleErrors)
     .use(cors())
-    .use(koaBody())
+    .use(koaBody({ multipart: true }))
     .use(bearerToken())
     .use(router.routes())
     .use(router.allowedMethods())

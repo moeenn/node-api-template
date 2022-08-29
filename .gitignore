@@ -1,4 +1,6 @@
+mongodb-data/
 node_modules/
 build/
 *.old
+.env.local
 .env.live

@@ -1,5 +1,5 @@
-# node-template
-A Typescript sandbox with following tools already setup
+# lab-on-web: Node Backend
+A Typescript environment with following tools already setup
 - Typescript compiler i.e. ```tsc```
 - Absolute imports with `module-alias`
 - ```eslint``` for static analysis and linting

@@ -1,6 +1,6 @@
-import { env } from "@/Application/Helpers"
+import { env } from "@/Application/Helpers" 
 
-export default {
+export const DatabaseConfig = {
   host: env("MONGO_HOST"),
   port: env("MONGO_PORT"),
   db: env("MONGO_DATABASE"),

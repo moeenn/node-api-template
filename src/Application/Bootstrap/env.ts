@@ -1,9 +1,9 @@
 import { config } from "dotenv"
-import EnvironmentConfig from "@/Application/Config/Environment"
+import { EnvironmentConfig } from "@/Application/Config/EnvironmentConfig"
 
 /**
  *  users are able to configure all the required environment variables in the 
- *  Config/Environment.ts file. Here we check if all of them are prevent in the 
+ *  config/env.json file. Here we check if all of them are prevent in the 
  *  environment
 */
 function validateRequired(required: string[]) {

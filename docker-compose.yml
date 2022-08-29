@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  mongo:
+    container_name: "node-template-mongo-dev"
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: "${node-template}"
+    volumes:
+      - ./mongo/init/:/docker-entrypoint-initdb.d
+      - ${./mongodb-data}:/data/db
+    ports:
+      - "27017:27017"      
+    networks:
+      - app-network
+
+networks:
+  app-network:

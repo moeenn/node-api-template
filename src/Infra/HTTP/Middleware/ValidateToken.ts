@@ -7,13 +7,7 @@ import { AuthService } from "@/Domain/ModelServices"
 */
 async function ValidateToken(ctx: Context, next: Next) {
   const { token } = ctx.request
-
-  let authToken
-  try {
-    authToken = await AuthService.validateAuthToken(token)
-  } catch (err) {
-    return ctx.throw(401)
-  }
+  const authToken = await AuthService.validateAuthToken(token)
 
   ctx.state["user"] = authToken.user
   await next()

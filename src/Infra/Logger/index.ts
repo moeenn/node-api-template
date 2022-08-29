@@ -26,4 +26,3 @@ export default async function Logger(ctx: DefaultContext, next: Next) {
   const { method, url, status } = ctx
   log(`${method}: ${url} - ${status}`)
 }
-

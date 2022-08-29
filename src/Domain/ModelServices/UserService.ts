@@ -1,5 +1,5 @@
-import { User, IUser, IUserRole } from "@/Domain/Models"
 import { Password } from "@/Application/Helpers"
+import { User, IUser, IUserRole } from "@/Domain/Models"
 import { Exception } from "@/Application/Classes"
 
 /**
@@ -7,7 +7,9 @@ import { Exception } from "@/Application/Classes"
  * 
 */
 async function getAllUsers(): Promise<IUser[]> {
-  return await User.find()
+  return await User
+    .find()
+    .populate("profile.avatar")
 }
 
 /**
@@ -15,15 +17,23 @@ async function getAllUsers(): Promise<IUser[]> {
  * 
 */
 async function getAllUsersByRole(role: IUserRole): Promise<IUser[]> {
-  return await User.find({ user_role: role })
+  return await User
+    .find({ user_role: role })
+    .populate("profile.avatar")
 }
 
 /**
- *  get a single user using user id
+ *  get a specific user by id and user role
  * 
 */
-async function getUserByID(id: string): Promise<IUser> {
-  const user = await User.findOne({ _id: id })
+async function getUserByIDAndRole(id: string, role: IUserRole): Promise<IUser> {
+  const user = await User
+    .findOne({ 
+      _id: id,
+      user_role: role,
+    })
+    .populate("profile.avatar")
+
   if (!user) {
     throw new Exception("user not found", 404, { user_id: id })
   }
@@ -32,27 +42,13 @@ async function getUserByID(id: string): Promise<IUser> {
 }
 
 /**
- *  get a single user by email address
- * 
+ *  get complete information about a user including are relevant relations
+ *  
 */
-async function getUserByEmail(email: string): Promise<IUser> {
-  const user = await User.findOne({ email })
-  if (!user) {
-    throw new Exception("user not found", 404, { email })
-  }
-
-  return user
-}
-
-/**
- *  get a specific user by id and user role
- * 
-*/
-async function getUserByIDAndRole(id: string, role: IUserRole): Promise<IUser> {
-  const user = await User.findOne({
-    _id: id,
-    user_role: role,
-  })
+async function getUserByID(id: string) {
+  const user = await User
+    .findOne({ _id: id })
+    .populate("profile.avatar")
 
   if (!user) {
     throw new Exception("user not found", 404, { user_id: id })
@@ -75,19 +71,18 @@ async function createUser(data: IUser): Promise<IUser> {
 }
 
 /**
- *  approve / disable user
+ *  toggle active status of the provided user
  * 
 */
-async function toggleUserActiveStatus(user: IUser, status: boolean) {
+async function toggleUserApprovedStatus(user: IUser, status: boolean) {
   await user.updateOne({ approved: status })
 }
 
 export default {
   getAllUsers,
   getAllUsersByRole,
-  getUserByID,
-  getUserByEmail,
   getUserByIDAndRole,
+  getUserByID,
   createUser,
-  toggleUserActiveStatus,
+  toggleUserApprovedStatus,
 }

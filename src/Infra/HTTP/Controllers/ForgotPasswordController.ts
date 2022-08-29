@@ -1,8 +1,9 @@
 import { Context } from "@/Infra/HTTP/Server"
-import { AuthConfig } from "@/Application/Config"
 import { validate } from "@/Application/Helpers"
-import { log } from "@/Application/Logger"
 import { AuthService } from "@/Domain/ModelServices"
+import { log } from "@/Infra/Logger"
+import { AuthConfig } from "@/Application/Config"
+import EmailService, { ForgotPasswordEmail } from "@/Infra/Email"
 
 /**
  *  if a user forgets their password, we can allow them to request a password
@@ -14,16 +15,19 @@ async function RequestReset(ctx: Context) {
   })
 
   try {
-    await AuthService.requestPasswordReset(body.email)
+    const resetToken = await AuthService.requestPasswordReset(body.email)
+    await EmailService.sendEmail(body.email, new ForgotPasswordEmail(resetToken))
   } catch (err) {
     if (err instanceof Error) {
       log(err.message)
     }
   }
 
-  // TODO: send email to the user
-  ctx.body = { message: "password reset request will be processed" }
+  ctx.body = { 
+    message: "password reset request will be processed" 
+  }
 }
+
 
 /**
  *  when a user receives the password reset token, they must use it to 
@@ -37,7 +41,9 @@ async function ResetPassword(ctx: Context) {
   })
 
   await AuthService.resetPassword(body)
-  ctx.body = { message: "password updated successfully" }
+  ctx.body = {
+    message: "password updated successfully"
+  }
 }
 
 export default {

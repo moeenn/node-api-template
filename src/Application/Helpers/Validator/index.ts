@@ -5,4 +5,4 @@ Validator.register("objectid", (value) => {
   return pattern.test(`${value}`)
 }, ":attribute is not in a valid mongodb object id")
 
-export default Validator
+export default Validator 

@@ -1,5 +1,6 @@
+mongodb-data
 .git
 .build
 .husky
 node_modules
-.env.live
+.env.*

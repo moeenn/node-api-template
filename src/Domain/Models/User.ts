@@ -1,12 +1,14 @@
 import mongoose, { Schema, Document } from "mongoose"
+import { IProfile, ProfileSchema } from "./Profile"
 
-type IUserRole = "admin" | "client"
+type IUserRole = "admin" | "user"
 
 interface IUser extends Document {
   email: string,
-  role: IUserRole,
+  user_role: IUserRole,
   password: string,
   approved: boolean,
+  profile: IProfile,
 }
 
 const schema = new Schema(
@@ -17,9 +19,9 @@ const schema = new Schema(
       unique: true,
       index: true,
     },
-    role: {
+    user_role: {
       type: String,
-      enum: ["admin", "client"],
+      enum: ["admin", "user"],
       required: true,
     },
     password: {
@@ -30,7 +32,8 @@ const schema = new Schema(
     approved: {
       type: Boolean,
       default: true,
-    }
+    },
+    profile: ProfileSchema,
   }
 )
 
