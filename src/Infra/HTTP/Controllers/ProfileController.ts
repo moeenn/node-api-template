@@ -51,7 +51,7 @@ async function EditProfile(ctx: Context) {
    *  TODO: test and implement
   */
   // if (oldAvatar) {
-  //   if (oldAvatar !== avatar) {
+  //   if (oldAvatar._id.toString() !== avatar._id.toString()) {
   //     await UploadService.removeUploadedFile(oldAvatar._id)
   //   }
   // }

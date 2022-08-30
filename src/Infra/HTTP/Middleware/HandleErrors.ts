@@ -11,7 +11,7 @@ async function HandleErrors(ctx: DefaultContext, next: DefaultState) {
   } catch (err) {
     ctx.type = "json"
 
-    /* for some season, err instanceof Exception returns false */
+    /* for some season, "err instanceof Exception" always returns false */
     if ((err as Error).constructor.name === "Exception") {
       const { status, message, details } = err as Exception
       ctx.status = status

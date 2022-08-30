@@ -11,7 +11,9 @@ function HasRole(...roles: IUserRole[]): Middleware {
 
     const isAuthorized = roles.includes(user.user_role)
     if (!isAuthorized) {
-      throw new Exception("unauthorized", 401)
+      throw new Exception("unauthorized", 401, {
+        message: `only users with role ${roles.join(", ")} can access this resource`,
+      })
     }
 
     await next()

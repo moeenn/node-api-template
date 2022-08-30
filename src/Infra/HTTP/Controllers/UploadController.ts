@@ -22,8 +22,9 @@ async function GetUpload(ctx: Context) {
 */
 async function NewUpload(ctx: Context) {
   if (!(ctx.request.files && ctx.request.files.file)) {
-    console.log("file", ctx.request.files)
-    throw new Exception("upload file missing", 422)
+    throw new Exception("upload file missing", 422, {
+      message: "please make sure the key of the uploaded file is 'file'",
+    })
   }
 
   const upload = await UploadService.createNewUpload(ctx.request.files.file)
