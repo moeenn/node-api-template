@@ -7,8 +7,8 @@ services:
     environment:
       MONGO_INITDB_DATABASE: "node-template"
     volumes:
-      - ./mongo/init/:/docker-entrypoint-initdb.d
-      - ./mongodb-data:/data/db
+      - ./mongodb/init/:/docker-entrypoint-initdb.d
+      - ./mongodb/docker-volume:/data/db
     ports:
       - "27017:27017"      
     networks:

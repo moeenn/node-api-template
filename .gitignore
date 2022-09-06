@@ -1,4 +1,4 @@
-mongodb-data/
+docker-volume/
 node_modules/
 build/
 *.old

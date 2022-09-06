@@ -1,9 +1,9 @@
 import { Context } from "@/Infra/HTTP/Server"
 import { validate } from "@/Application/Helpers"
 import { AuthService } from "@/Domain/ModelServices"
-import { log } from "@/Infra/Logger"
 import { AuthConfig } from "@/Application/Config"
-import EmailService, { ForgotPasswordEmail } from "@/Infra/Email"
+import LoggerInstance from "@/Infra/Logger"
+import EventBus from "@/Infra/EventBus"
 
 /**
  *  if a user forgets their password, we can allow them to request a password
@@ -14,20 +14,26 @@ async function RequestReset(ctx: Context) {
     email: "email|required",
   })
 
+  let resetToken: string | undefined = undefined
   try {
-    const resetToken = await AuthService.requestPasswordReset(body.email)
-    await EmailService.sendEmail(body.email, new ForgotPasswordEmail(resetToken))
+    resetToken = await AuthService.requestPasswordReset(body.email)
   } catch (err) {
     if (err instanceof Error) {
-      log(err.message)
+      LoggerInstance.log(err.message)
     }
   }
 
-  ctx.body = { 
-    message: "password reset request will be processed" 
+  if (resetToken) {
+    EventBus.send("password-reset-request", {
+      email: body.email,
+      resetToken,
+    })
+  }
+
+  ctx.body = {
+    message: "password reset request will be processed"
   }
 }
-
 
 /**
  *  when a user receives the password reset token, they must use it to 
