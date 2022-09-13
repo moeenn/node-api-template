@@ -3,6 +3,7 @@ import { validate } from "@/Application/Helpers"
 import { UserService, UploadService } from "@/Domain/ModelServices"
 import { Exception } from "@/Application/Classes"
 import { AuthConfig } from "@/Application/Config"
+import { z } from "zod"
 
 /**
  *  list down all users registered with the system
@@ -17,9 +18,14 @@ async function All(ctx: Context) {
  * 
 */
 async function GetUser(ctx: Context) {
-  const params = validate(ctx.params, {
-    id: "objectid|string",
-  })
+  const params = validate(
+    ctx.params,
+    z.object(
+      {
+        id: z.string(),   // TODO: valid objectid
+      }
+    )
+  )
 
   const user = await UserService.getUserByID(params.id)
   ctx.body = user
@@ -32,10 +38,15 @@ async function GetUser(ctx: Context) {
  *  resources
 */
 async function ToggleApprovedStatus(ctx: Context) {
-  const body = validate(ctx.request.body, {
-    user_id: "objectid|required",
-    status: "boolean|required",
-  })
+  const body = validate(
+    ctx.request.body,
+    z.object(
+      {
+        user_id: z.string(),
+        status: z.boolean(),
+      }
+    )
+  )
 
   const user = await UserService.getUserByID(body.user_id)
   const admin = ctx.state["user"]
@@ -57,21 +68,35 @@ async function ToggleApprovedStatus(ctx: Context) {
  * 
 */
 async function RegisterUser(ctx: Context) {
-  const body = validate(ctx.request.body, {
-    email: "email|string",
-    password: `string|min:${AuthConfig.passwords.min_length}|required`,
-    confirm_password: "same:password|required",
-    profile: {
-      name: "string|required",
-      avatar_id: "objectid",
-    }
-  })
+  const body = validate(
+    ctx.request.body,
+    z.object(
+      {
+        email: z.string().email(),
+        password: z.string().min(AuthConfig.passwords.min_length),
+        confirm_password: z.string(), // TODO: must match password
+        profile: z.object(
+          {
+            name: z.string(),
+            avatar_id: z.string().optional(), // TODO: valid objectid
+          }
+        )
+      }
+    )
+  )
 
-  body.profile.avatar = (body.avatar_id)
-    ? await UploadService.getUploadByID(body.avatar_id)
+  const avatar = (body.profile.avatar_id)
+    ? await UploadService.getUploadByID(body.profile.avatar_id)
     : undefined
 
-  const user = await UserService.createUser(body)
+  const user = await UserService.createUser({
+    ...body,
+    user_role: "user",
+    profile: {
+      name: body.profile.name,
+      avatar,
+    }
+  })
 
   ctx.status = 201
   ctx.body = Object.assign({}, user.toObject(), { password: undefined })

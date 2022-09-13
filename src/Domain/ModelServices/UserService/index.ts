@@ -1,5 +1,6 @@
 import { Password } from "@/Application/Helpers"
 import { User, IUser, IUserRole } from "@/Domain/Models"
+import { ICreateUser } from "./index.types"
 import { Exception } from "@/Application/Classes"
 
 /**
@@ -28,7 +29,7 @@ async function getAllUsersByRole(role: IUserRole): Promise<IUser[]> {
 */
 async function getUserByIDAndRole(id: string, role: IUserRole): Promise<IUser> {
   const user = await User
-    .findOne({ 
+    .findOne({
       _id: id,
       user_role: role,
     })
@@ -61,7 +62,7 @@ async function getUserByID(id: string) {
  *  register a new user
  * 
 */
-async function createUser(data: IUser): Promise<IUser> {
+async function createUser(data: ICreateUser): Promise<IUser> {
   data.password = await Password.hash(data.password)
 
   const user = new User(data)

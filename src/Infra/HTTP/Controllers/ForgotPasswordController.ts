@@ -4,15 +4,21 @@ import { AuthService } from "@/Domain/ModelServices"
 import { AuthConfig } from "@/Application/Config"
 import LoggerInstance from "@/Infra/Logger"
 import EventBus from "@/Infra/EventBus"
+import { z } from "zod"
 
 /**
  *  if a user forgets their password, we can allow them to request a password
  *  reset token
 */
 async function RequestReset(ctx: Context) {
-  const body = validate(ctx.request.body, {
-    email: "email|required",
-  })
+  const body = validate(
+    ctx.request.body,
+    z.object(
+      {
+        email: z.string().email(),
+      }
+    )
+  )
 
   let resetToken: string | undefined = undefined
   try {
@@ -40,11 +46,16 @@ async function RequestReset(ctx: Context) {
  *  set a new password for their account
 */
 async function ResetPassword(ctx: Context) {
-  const body = validate(ctx.request.body, {
-    token: "string|required",
-    password: `string|min:${AuthConfig.passwords.min_length}|required`,
-    confirm_password: "same:password|required",
-  })
+  const body = validate(
+    ctx.request.body,
+    z.object(
+      {
+        token: z.string(),
+        password: z.string().min(AuthConfig.passwords.min_length),
+        confirm_password: z.string(), // TODO: must match with password
+      }
+    )
+  )
 
   await AuthService.resetPassword(body)
   ctx.body = {

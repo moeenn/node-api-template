@@ -1,6 +1,12 @@
 import AWS from "aws-sdk"
 import { Email } from "@/Infra/Email"
 
+/**
+ *  TODO: 
+ *  - inject instance of global event bus in this service
+ *  - email templates should be defined inside the email class (in md format)
+*/
+
 class EmailService {
   private ses_instance: AWS.SES
   private from_email: string

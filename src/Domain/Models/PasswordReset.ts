@@ -1,4 +1,5 @@
 import mongoose, { Schema, PopulatedDoc, Document } from "mongoose"
+import autopopulate from "mongoose-autopopulate"
 import { IUser } from "."
 
 interface IPasswordReset extends Document {
@@ -12,6 +13,7 @@ const schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "users",
       required: true,
+      autopopulate: true,
     },
     token: {
       type: String,
@@ -21,5 +23,6 @@ const schema = new Schema(
   }
 )
 
+schema.plugin(autopopulate)
 const PasswordReset = mongoose.model<IPasswordReset>("password-resets", schema)
 export { PasswordReset, IPasswordReset } 

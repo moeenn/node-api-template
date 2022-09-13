@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, PopulatedDoc } from "mongoose"
+import autopopulate from "mongoose-autopopulate"
 import { IUser } from "."
 
 interface IAuthToken extends Document {
@@ -12,6 +13,7 @@ const schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "users",
       required: true,
+      autopopulate: true,
     },
     token: {
       type: String,
@@ -21,5 +23,6 @@ const schema = new Schema(
   }
 )
 
+schema.plugin(autopopulate)
 const AuthToken = mongoose.model<IAuthToken>("auth-tokens", schema)
 export { AuthToken, IAuthToken }
