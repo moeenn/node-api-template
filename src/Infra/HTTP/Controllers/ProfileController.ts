@@ -2,7 +2,7 @@ import { Context } from "@/Infra/HTTP/Server"
 import { ProfileService, UploadService } from "@/Domain/ModelServices"
 import { validate } from "@/Application/Helpers"
 import { AuthConfig } from "@/Application/Config"
-import { z } from "zod"
+import { z, objectid } from "@/Application/Helpers/Validator"
 
 /**
  *  get profile details of the current user
@@ -33,7 +33,7 @@ async function EditProfile(ctx: Context) {
             custom_id: z.string(),
             description: z.string().optional(),
             country: z.string().optional(),
-            avatar_id: z.string().optional(), // TODO: valid objectid
+            avatar_id: z.string().refine(objectid.handler, objectid.options).optional(),
           }
         )
       }

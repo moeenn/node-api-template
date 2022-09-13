@@ -2,7 +2,7 @@ import { Context } from "@/Infra/HTTP/Server"
 import { UploadService } from "@/Domain/ModelServices"
 import { validate } from "@/Application/Helpers"
 import { Exception } from "@/Application/Classes"
-import { z } from "zod"
+import { z, objectid } from "@/Application/Helpers/Validator"
 
 /**
  *  get information about an upload
@@ -13,7 +13,7 @@ async function GetUpload(ctx: Context) {
     ctx.params,
     z.object(
       {
-        id: z.string(),   // TODO: valid objectid
+        id: z.string().refine(objectid.handler, objectid.options),
       }
     )
   )
@@ -46,7 +46,7 @@ async function RemoveUpload(ctx: Context) {
     ctx.params,
     z.object(
       {
-        id: z.string(),   // TODO: valid objectid
+        id: z.string().refine(objectid.handler, objectid.options),
       }
     )
   )

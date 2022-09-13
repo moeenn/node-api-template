@@ -3,7 +3,7 @@ import { validate } from "@/Application/Helpers"
 import { UserService, UploadService } from "@/Domain/ModelServices"
 import { Exception } from "@/Application/Classes"
 import { AuthConfig } from "@/Application/Config"
-import { z } from "zod"
+import { z, objectid } from "@/Application/Helpers/Validator"
 
 /**
  *  list down all users registered with the system
@@ -22,7 +22,7 @@ async function GetUser(ctx: Context) {
     ctx.params,
     z.object(
       {
-        id: z.string(),   // TODO: valid objectid
+        id: z.string().refine(objectid.handler, objectid.options),
       }
     )
   )
@@ -78,7 +78,7 @@ async function RegisterUser(ctx: Context) {
         profile: z.object(
           {
             name: z.string(),
-            avatar_id: z.string().optional(), // TODO: valid objectid
+            avatar_id: z.string().refine(objectid.handler, objectid.options).optional(),
           }
         )
       }
@@ -89,17 +89,25 @@ async function RegisterUser(ctx: Context) {
     ? await UploadService.getUploadByID(body.profile.avatar_id)
     : undefined
 
-  const user = await UserService.createUser({
-    ...body,
-    user_role: "user",
-    profile: {
-      name: body.profile.name,
-      avatar,
+  const user = await UserService.createUser(
+    {
+      ...body,
+      user_role: "user",
+      profile: {
+        name: body.profile.name,
+        avatar,
+      }
     }
-  })
+  )
 
   ctx.status = 201
-  ctx.body = Object.assign({}, user.toObject(), { password: undefined })
+  ctx.body = Object.assign(
+    {},
+    user.toObject(),
+    {
+      password: undefined
+    }
+  )
 }
 
 export default {

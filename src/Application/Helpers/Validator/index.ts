@@ -1,8 +1,16 @@
-// import Validator from "validatorjs"
+import { z } from "zod"
 
-// Validator.register("objectid", (value) => {
-//   const pattern = /^[0-9a-fA-F]{24}$/
-//   return pattern.test(`${value}`)
-// }, ":attribute is not in a valid mongodb object id")
+const objectid = {
+  handler(value: any): boolean {
+    const pattern = /^[0-9a-fA-F]{24}$/
+    return pattern.test(`${value}`)
+  },
+  options: {
+    message: "invalid mongodb object id",
+  }
+}
 
-// export default Validator 
+export {
+  z,
+  objectid,
+}
