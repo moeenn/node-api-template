@@ -2,7 +2,7 @@ import { Context } from "@/Infra/HTTP/Server"
 import { validate } from "@/Application/Helpers"
 import { AuthService } from "@/Domain/ModelServices"
 import { AuthConfig } from "@/Application/Config"
-import { z } from "zod"
+import { z } from "@/Application/Helpers/Validator"
 
 /**
  *  log-in a registered user

@@ -1,19 +1,17 @@
-import { z, AnyZodObject, ZodError } from "zod"
+import { z, AnyZodObject } from "zod"
 import { Exception } from "@/Application/Classes"
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 function validate<T extends AnyZodObject>(
-  data: any,
+  data: unknown,
   schema: T
 ): z.infer<T> {
-  try {
-    return schema.parse(data)
-  } catch (error) {
-    if (error instanceof ZodError) {
-      throw new Exception(error.message, 422, error)
-    }
-    throw error
+
+  const result = schema.safeParse(data)
+  if (!result.success) {
+    throw new Exception(result.error.message, 422, result.error)
   }
+
+  return result.data
 }
 
 export default validate

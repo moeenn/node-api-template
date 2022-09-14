@@ -83,6 +83,9 @@ async function RegisterUser(ctx: Context) {
         )
       }
     )
+    // .refine((data) => data.password === data.confirm_password, {
+    //   message: "password confirmation failed",
+    // })
   )
 
   const avatar = (body.profile.avatar_id)

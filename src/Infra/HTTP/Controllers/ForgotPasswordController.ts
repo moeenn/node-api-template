@@ -1,10 +1,10 @@
 import { Context } from "@/Infra/HTTP/Server"
 import { validate } from "@/Application/Helpers"
+import { z } from "@/Application/Helpers/Validator"
 import { AuthService } from "@/Domain/ModelServices"
 import { AuthConfig } from "@/Application/Config"
 import LoggerInstance from "@/Infra/Logger"
 import EventBus from "@/Infra/EventBus"
-import { z } from "zod"
 
 /**
  *  if a user forgets their password, we can allow them to request a password
