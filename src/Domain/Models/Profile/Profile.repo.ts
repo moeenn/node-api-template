@@ -1,12 +1,5 @@
-import { Schema, PopulatedDoc, Document } from "mongoose"
+import { Schema } from "mongoose"
 import autopopulate from "mongoose-autopopulate"
-import { IUpload } from "."
-
-interface IProfile {
-  name: string,
-  description?: string,
-  avatar?: PopulatedDoc<IUpload & Document>,
-}
 
 const ProfileSchema = new Schema(
   {
@@ -28,4 +21,4 @@ const ProfileSchema = new Schema(
 )
 
 ProfileSchema.plugin(autopopulate)
-export { IProfile, ProfileSchema }
+export default ProfileSchema

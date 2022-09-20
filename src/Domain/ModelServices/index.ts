@@ -1,4 +1,2 @@
+// TODO: ModelServices should be renamed to something else. "Service" is confusing in this context
 export { default as AuthService } from "./AuthService"
-export { default as UploadService } from "./UploadService"
-export { default as UserService } from "./UserService"
-export { default as ProfileService } from "./ProfileService"

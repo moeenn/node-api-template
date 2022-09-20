@@ -8,9 +8,11 @@ import { ILoginData, ILoginResult, IResetPasswordData } from "./index.types"
  *  check if an auth bearer token is valid or not
  *  if valid, return the user to it belongs
  * 
+ *  TODO: move to AuthToken actions 
 */
 async function validateAuthToken(token: string): Promise<IAuthToken> {
   const authToken = await AuthToken
+    .repo
     .findOne({ token })
     .populate("user")
 
@@ -27,9 +29,10 @@ async function validateAuthToken(token: string): Promise<IAuthToken> {
 */
 async function login(data: ILoginData): Promise<ILoginResult> {
   const user = await User
+    .repo
     .findOne({ email: data.email })
     .select("+password")
-    .populate("profile.avatar")
+    // .populate("profile.avatar")
 
   if (!user) {
     throw new Exception("invalid email or password", 401)
@@ -47,7 +50,7 @@ async function login(data: ILoginData): Promise<ILoginResult> {
   }
 
   const token = Random.string(AuthConfig.tokens.length)
-  const authToken = new AuthToken({ user, token })
+  const authToken = new AuthToken.repo({ user, token }) // TODO: move to AuthToken actions
   await authToken.save()
 
   return { user, token }
@@ -55,10 +58,10 @@ async function login(data: ILoginData): Promise<ILoginResult> {
 
 /**
  *  logout an already logged-in user
- * 
+ *  TODO: move to AuthToken actions
 */
 async function logout(user: IUser, token: string) {
-  const authToken = await AuthToken.findOne({ user, token })
+  const authToken = await AuthToken.repo.findOne({ user, token })
   if (!authToken) {
     throw new Exception("invalid auth bearer token", 401)
   }
@@ -71,13 +74,17 @@ async function logout(user: IUser, token: string) {
  * 
 */
 async function requestPasswordReset(email: string): Promise<string> {
-  const user = await User.findOne({ email })
+  const user = await User.repo.findOne({ email })
   if (!user) {
     throw new Exception("user not found", 404, { email })
   }
 
   const token = Random.string(AuthConfig.tokens.length)
-  const reset = new PasswordReset({ user, token })
+
+  /**
+   *  TODO: move to PasswordReset actions
+  */
+  const reset = new PasswordReset.repo({ user, token })
   await reset.save()
 
   return token
@@ -85,10 +92,11 @@ async function requestPasswordReset(email: string): Promise<string> {
 
 /**
  *  reset a forgotten password
- * 
+ *  TODO: move to PasswordReset actions
 */
 async function resetPassword(data: IResetPasswordData) {
   const reset = await PasswordReset
+    .repo
     .findOne({ token: data.token })
     .populate("user")
 
@@ -100,6 +108,7 @@ async function resetPassword(data: IResetPasswordData) {
   await reset.user.save()
 
   await PasswordReset
+    .repo
     .find({ user: reset.user })
     .deleteMany()
     .exec()

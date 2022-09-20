@@ -1,39 +1,49 @@
+import User, { IDocumentUser, IUserRole } from "."
+import { IProfile} from "@/Domain/Models"
 import { Password } from "@/Application/Helpers"
-import { User, IUser, IUserRole } from "@/Domain/Models"
-import { ICreateUser } from "./index.types"
 import { Exception } from "@/Application/Classes"
+
+interface ICreateUser {
+  email: string,
+  user_role: IUserRole,
+  password: string,
+  profile: IProfile,
+}
 
 /**
  *  get all users
  * 
 */
-async function getAllUsers(): Promise<IUser[]> {
+async function getAllUsers(): Promise<IDocumentUser[]> {
   return await User
+    .repo
     .find()
-    .populate("profile.avatar")
+    // .populate("profile.avatar")
 }
 
 /**
  *  get all users of a specific user role
  * 
 */
-async function getAllUsersByRole(role: IUserRole): Promise<IUser[]> {
+async function getAllUsersByRole(role: IUserRole): Promise<IDocumentUser[]> {
   return await User
+    .repo
     .find({ user_role: role })
-    .populate("profile.avatar")
+    // .populate("profile.avatar")
 }
 
 /**
  *  get a specific user by id and user role
  * 
 */
-async function getUserByIDAndRole(id: string, role: IUserRole): Promise<IUser> {
+async function getUserByIDAndRole(id: string, role: IUserRole): Promise<IDocumentUser> {
   const user = await User
+    .repo
     .findOne({
       _id: id,
       user_role: role,
     })
-    .populate("profile.avatar")
+    // .populate("profile.avatar")
 
   if (!user) {
     throw new Exception("user not found", 404, { user_id: id })
@@ -46,10 +56,11 @@ async function getUserByIDAndRole(id: string, role: IUserRole): Promise<IUser> {
  *  get complete information about a user including are relevant relations
  *  
 */
-async function getUserByID(id: string) {
+async function getUserByID(id: string): Promise<IDocumentUser> {
   const user = await User
+    .repo
     .findOne({ _id: id })
-    .populate("profile.avatar")
+    // .populate("profile.avatar")
 
   if (!user) {
     throw new Exception("user not found", 404, { user_id: id })
@@ -62,10 +73,10 @@ async function getUserByID(id: string) {
  *  register a new user
  * 
 */
-async function createUser(data: ICreateUser): Promise<IUser> {
+async function createUser(data: ICreateUser): Promise<IDocumentUser> {
   data.password = await Password.hash(data.password)
 
-  const user = new User(data)
+  const user = new User.repo(data)
   await user.save()
 
   return user
@@ -75,7 +86,7 @@ async function createUser(data: ICreateUser): Promise<IUser> {
  *  toggle active status of the provided user
  * 
 */
-async function toggleUserApprovedStatus(user: IUser, status: boolean) {
+async function toggleUserApprovedStatus(user: IDocumentUser, status: boolean) {
   await user.updateOne({ approved: status })
 }
 

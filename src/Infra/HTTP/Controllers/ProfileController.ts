@@ -1,5 +1,5 @@
 import { Context } from "@/Infra/HTTP/Server"
-import { ProfileService, UploadService } from "@/Domain/ModelServices"
+import { Profile, Upload } from "@/Domain/Models"
 import { validate } from "@/Application/Helpers"
 import { AuthConfig } from "@/Application/Config"
 import { z, objectid } from "@/Application/Helpers/Validator"
@@ -49,7 +49,7 @@ async function EditProfile(ctx: Context) {
 
   // const oldAvatar = user.profile.avatar
   const avatar = (body.profile.avatar_id)
-    ? await UploadService.getUploadByID(body.profile.avatar_id)
+    ? await Upload.actions.getUploadByID(body.profile.avatar_id)
     : undefined
 
   /**
@@ -63,7 +63,7 @@ async function EditProfile(ctx: Context) {
   //   }
   // }
 
-  const profile = await ProfileService.updateProfile(user, body, avatar)
+  const profile = await Profile.actions.updateProfile(user, body, avatar)
   ctx.body = profile
 }
 

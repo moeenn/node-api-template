@@ -1,15 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose"
-import { IProfile, ProfileSchema } from "./Profile"
-
-type IUserRole = "admin" | "user"
-
-interface IUser extends Document {
-  email: string,
-  user_role: IUserRole,
-  password: string,
-  approved: boolean,
-  profile: IProfile,
-}
+import mongoose, { Schema } from "mongoose"
+import { ProfileSchema } from "@/Domain/Models/Profile"
+import { IDocumentUser } from "./User.types"
 
 const schema = new Schema(
   {
@@ -37,5 +28,5 @@ const schema = new Schema(
   }
 )
 
-const User = mongoose.model<IUser>("users", schema)
-export { User, IUser, IUserRole } 
+const UserRepo = mongoose.model<IDocumentUser>("users", schema)
+export default UserRepo

@@ -17,6 +17,7 @@ function create(): Server {
   app.silent = true
   const bodyOptions = {
     multipart: true,
+    jsonLimit: UploadConfig.maxFileSize * 1024 * 1024, /* in bytes */  
     formidable: {
       maxFileSize: UploadConfig.maxFileSize * 1024 * 1024, /* in bytes */
     }

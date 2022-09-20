@@ -1,4 +1,4 @@
-import { IUser } from "@/Domain/Models"
+import { IDocumentUser } from "@/Domain/Models"
 
 export interface ILoginData {
   email: string, 
@@ -6,7 +6,7 @@ export interface ILoginData {
 }
 
 export interface ILoginResult {
-  user: IUser,
+  user: IDocumentUser,
   token: string,
 }
 

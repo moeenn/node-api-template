@@ -1,15 +1,15 @@
 import mime from "mime-types"
 import fs from "fs/promises"
 import StorageService, { IFile } from "@/Infra/Storage"
-import { Upload, IUpload } from "@/Domain/Models" 
+import Upload, { IDocumentUpload } from "." 
 import { Exception } from "@/Application/Classes"
 
 /**
  *  get details of a single upload
  *  
 */
-async function getUploadByID(id: string): Promise<IUpload> {
-  const upload = await Upload.findOne({ _id: id })
+async function getUploadByID(id: string): Promise<IDocumentUpload> {
+  const upload = await Upload.repo.findOne({ _id: id })
   if (!upload) {
     throw new Exception("upload not found", 404, {
       upload_id: id,
@@ -23,7 +23,7 @@ async function getUploadByID(id: string): Promise<IUpload> {
  *  recive the incoming file and directly upload it to S3 bucket
  *  
 */
-async function createNewUpload(file: IFile): Promise<IUpload> {
+async function createNewUpload(file: IFile): Promise<IDocumentUpload> {
   const { filepath, newFilename, mimetype } = file
 
   const ext = mime.extension(mimetype)
@@ -32,7 +32,7 @@ async function createNewUpload(file: IFile): Promise<IUpload> {
   const dest = `${newFilename}.${ext}`
   const fileURL = await StorageService.save(dest, content)
 
-  const upload = new Upload({ url: fileURL })
+  const upload = new Upload.repo({ url: fileURL })
   await upload.save()
 
   /* cleanup: delete file from tmp folder */

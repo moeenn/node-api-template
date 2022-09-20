@@ -1,5 +1,5 @@
 import { Context } from "@/Infra/HTTP/Server"
-import { UploadService } from "@/Domain/ModelServices"
+import { Upload } from "@/Domain/Models"
 import { validate } from "@/Application/Helpers"
 import { Exception } from "@/Application/Classes"
 import { z, objectid } from "@/Application/Helpers/Validator"
@@ -18,7 +18,7 @@ async function GetUpload(ctx: Context) {
     )
   )
 
-  const upload = await UploadService.getUploadByID(params.id)
+  const upload = await Upload.actions.getUploadByID(params.id)
   ctx.body = upload
 }
 
@@ -33,7 +33,7 @@ async function NewUpload(ctx: Context) {
     })
   }
 
-  const upload = await UploadService.createNewUpload(ctx.request.files.file)
+  const upload = await Upload.actions.createNewUpload(ctx.request.files.file)
   ctx.body = upload
 }
 
@@ -51,7 +51,7 @@ async function RemoveUpload(ctx: Context) {
     )
   )
 
-  await UploadService.removeUploadedFile(params.id)
+  await Upload.actions.removeUploadedFile(params.id)
   ctx.body = {
     message: "file deleted successfully"
   }

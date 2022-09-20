@@ -1,6 +1,6 @@
 import { Context } from "@/Infra/HTTP/Server"
 import { validate } from "@/Application/Helpers"
-import { UserService, UploadService } from "@/Domain/ModelServices"
+import { User, Upload } from "@/Domain/Models"
 import { Exception } from "@/Application/Classes"
 import { AuthConfig } from "@/Application/Config"
 import { z, objectid } from "@/Application/Helpers/Validator"
@@ -10,7 +10,7 @@ import { z, objectid } from "@/Application/Helpers/Validator"
  * 
 */
 async function All(ctx: Context) {
-  ctx.body = await UserService.getAllUsers()
+  ctx.body = await User.actions.getAllUsers()
 }
 
 /**
@@ -27,7 +27,7 @@ async function GetUser(ctx: Context) {
     )
   )
 
-  const user = await UserService.getUserByID(params.id)
+  const user = await User.actions.getUserByID(params.id)
   ctx.body = user
 }
 
@@ -48,7 +48,7 @@ async function ToggleApprovedStatus(ctx: Context) {
     )
   )
 
-  const user = await UserService.getUserByID(body.user_id)
+  const user = await User.actions.getUserByID(body.user_id)
   const admin = ctx.state["user"]
 
   if (admin._id.toString() === user._id.toString()) {
@@ -57,7 +57,7 @@ async function ToggleApprovedStatus(ctx: Context) {
     })
   }
 
-  await UserService.toggleUserApprovedStatus(user, body.status)
+  await User.actions.toggleUserApprovedStatus(user, body.status)
   ctx.body = {
     message: "user approved status updated successfully"
   }
@@ -89,10 +89,10 @@ async function RegisterUser(ctx: Context) {
   )
 
   const avatar = (body.profile.avatar_id)
-    ? await UploadService.getUploadByID(body.profile.avatar_id)
+    ? await Upload.actions.getUploadByID(body.profile.avatar_id)
     : undefined
 
-  const user = await UserService.createUser(
+  const user = await User.actions.createUser(
     {
       ...body,
       user_role: "user",
