@@ -1,5 +1,5 @@
 import { Context, Next } from "@/Infra/HTTP/Server"
-import { AuthService } from "@/Domain/ModelServices"
+import { AuthToken } from "@/Domain/Models"
 import { Exception } from "@/Application/Classes"
 
 /**
@@ -12,7 +12,7 @@ async function ValidateToken(ctx: Context, next: Next) {
     throw new Exception("please provide a bearer token", 401)
   }
 
-  const authToken = await AuthService.validateAuthToken(token)
+  const authToken = await AuthToken.actions.validateAuthToken(token)
   ctx.state["user"] = authToken.user
 
   await next()

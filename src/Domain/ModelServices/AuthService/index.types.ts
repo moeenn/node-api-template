@@ -9,8 +9,3 @@ export interface ILoginResult {
   user: IDocumentUser,
   token: string,
 }
-
-export interface IResetPasswordData {
-  token: string,
-  password: string,
-}

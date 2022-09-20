@@ -1,6 +1,7 @@
 import { Context } from "@/Infra/HTTP/Server"
 import { validate } from "@/Application/Helpers"
 import { z } from "@/Application/Helpers/Validator"
+import { PasswordReset } from "@/Domain/Models"
 import { AuthService } from "@/Domain/ModelServices"
 import { AuthConfig } from "@/Application/Config"
 import LoggerInstance from "@/Infra/Logger"
@@ -57,7 +58,7 @@ async function ResetPassword(ctx: Context) {
     )
   )
 
-  await AuthService.resetPassword(body)
+  await PasswordReset.actions.resetUserPassword(body)
   ctx.body = {
     message: "password updated successfully"
   }
