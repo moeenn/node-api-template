@@ -1,4 +1,4 @@
-import { User, IDocumentUser, AuthToken, PasswordReset } from "@/Domain/Models"
+import { User, AuthToken, PasswordReset } from "@/Domain/Models"
 import { Password, Random } from "@/Application/Helpers"
 import { Exception } from "@/Application/Exceptions"
 import { AuthConfig } from "@/Application/Config"
