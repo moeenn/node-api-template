@@ -3,7 +3,7 @@ export const AuthConfig = {
     min_length: 8,
   },
   tokens: {
-    length: 32
+    length: 32,
   },
-  frontend_reset_page: "forgot-password/reset"
-} 
+  frontend_reset_page: "forgot-password/reset",
+}

@@ -1,4 +1,4 @@
-import { env } from "@/Application/Helpers" 
+import { env } from "@/Application/Helpers"
 
 export const DatabaseConfig = {
   host: env("MONGO_HOST"),

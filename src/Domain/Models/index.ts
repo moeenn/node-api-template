@@ -1,5 +1,9 @@
-export { default as User, IUser, IDocumentUser, IUserRole } from "./User"
-export { default as Profile, IProfile } from "./Profile"
-export { default as AuthToken, IAuthToken, IDocumentAuthToken } from "./AuthToken"
-export { default as PasswordReset, IPasswordReset, IDocumentPasswordReset } from "./PasswordReset"
-export { default as Upload, IUpload, IDocumentUpload } from "./Upload"
+export { User, IUser, IDocumentUser, IUserRole } from "./User"
+export { Profile, IProfile } from "./Profile"
+export { AuthToken, IAuthToken, IDocumentAuthToken } from "./AuthToken"
+export {
+  PasswordReset,
+  IPasswordReset,
+  IDocumentPasswordReset,
+} from "./PasswordReset"
+export { Upload, IUpload, IDocumentUpload } from "./Upload"

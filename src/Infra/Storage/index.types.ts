@@ -1,5 +1,5 @@
 export interface IFile {
-  filepath: string,
-  newFilename: string,
-  mimetype: string,
+  filepath: string
+  newFilename: string
+  mimetype: string
 }

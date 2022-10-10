@@ -1,0 +1,5 @@
+.git
+.husky
+build/
+mongodb/
+node_modules/

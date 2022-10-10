@@ -1,11 +1,10 @@
 import { z, AnyZodObject } from "zod"
-import { Exception } from "@/Application/Classes"
+import { Exception } from "@/Application/Exceptions"
 
-function validate<T extends AnyZodObject>(
+export function validate<T extends AnyZodObject>(
   data: unknown,
-  schema: T
+  schema: T,
 ): z.infer<T> {
-
   const result = schema.safeParse(data)
   if (!result.success) {
     throw new Exception(result.error.message, 422, result.error)
@@ -13,5 +12,3 @@ function validate<T extends AnyZodObject>(
 
   return result.data
 }
-
-export default validate

@@ -1,13 +1,13 @@
 import mime from "mime-types"
 import fs from "fs/promises"
-import StorageService, { IFile } from "@/Infra/Storage"
-import Upload, { IDocumentUpload } from "." 
-import { Exception } from "@/Application/Classes"
+import { StorageServiceInstance, IFile } from "@/Infra/Storage"
+import { Upload, IDocumentUpload } from "."
+import { Exception } from "@/Application/Exceptions"
 
 /**
  *  get details of a single upload
- *  
-*/
+ *
+ */
 async function getUploadByID(id: string): Promise<IDocumentUpload> {
   const upload = await Upload.repo.findOne({ _id: id })
   if (!upload) {
@@ -21,8 +21,8 @@ async function getUploadByID(id: string): Promise<IDocumentUpload> {
 
 /**
  *  recive the incoming file and directly upload it to S3 bucket
- *  
-*/
+ *
+ */
 async function createNewUpload(file: IFile): Promise<IDocumentUpload> {
   const { filepath, newFilename, mimetype } = file
 
@@ -30,7 +30,7 @@ async function createNewUpload(file: IFile): Promise<IDocumentUpload> {
   const content = await fs.readFile(filepath)
 
   const dest = `${newFilename}.${ext}`
-  const fileURL = await StorageService.save(dest, content)
+  const fileURL = await StorageServiceInstance.save(dest, content)
 
   const upload = new Upload.repo({ url: fileURL })
   await upload.save()
@@ -42,15 +42,15 @@ async function createNewUpload(file: IFile): Promise<IDocumentUpload> {
 
 /**
  *  remove an upload from S3 storage
- * 
-*/
+ *
+ */
 async function removeUploadedFile(id: string) {
   const upload = await getUploadByID(id)
-  await StorageService.remove(upload.url)
+  await StorageServiceInstance.remove(upload.url)
   await upload.deleteOne()
 }
 
-export default {
+export const UploadActions = {
   getUploadByID,
   createNewUpload,
   removeUploadedFile,

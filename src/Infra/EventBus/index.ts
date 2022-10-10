@@ -1,10 +1,10 @@
-import EventBus from "./index.service"
-import listeners from "./Listeners"
-import LoggerInstance from "@/Infra/Logger"
+import { EventBusService } from "./index.service"
+import { listeners } from "./Listeners"
+import { LoggerServiceInstance } from "@/Infra/Logger"
 
-function init(): EventBus {
-  const bus = new EventBus((error: Error) => {
-    LoggerInstance.log("event error", error)
+function init(): EventBusService {
+  const bus = new EventBusService((error: Error) => {
+    LoggerServiceInstance.log("event error", error)
   })
 
   /* activate all event listeners */
@@ -15,5 +15,5 @@ function init(): EventBus {
   return bus
 }
 
-export default init()
+export const EventBusServiceInstance = init()
 export { Func, ErrorHandlerFunc, IEventListener } from "./index.types"

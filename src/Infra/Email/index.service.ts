@@ -2,16 +2,20 @@ import AWS from "aws-sdk"
 import { Email } from "@/Infra/Email"
 
 /**
- *  TODO: 
+ *  TODO:
  *  - inject instance of global event bus in this service
  *  - email templates should be defined inside the email class (in md format)
-*/
-
-class EmailService {
+ */
+export class EmailService {
   private ses_instance: AWS.SES
   private from_email: string
 
-  public constructor(from: string, region: string, keyID: string, secret: string) {
+  public constructor(
+    from: string,
+    region: string,
+    keyID: string,
+    secret: string,
+  ) {
     this.from_email = from
 
     const config: AWS.SES.ClientConfiguration = {
@@ -24,7 +28,10 @@ class EmailService {
     this.ses_instance = new AWS.SES(config)
   }
 
-  async sendEmail(to: string, email: Email): Promise<AWS.SES.SendEmailResponse> {
+  async sendEmail(
+    to: string,
+    email: Email,
+  ): Promise<AWS.SES.SendEmailResponse> {
     const body = await email.body()
 
     const params: AWS.SES.SendEmailRequest = {
@@ -42,12 +49,10 @@ class EmailService {
         Subject: {
           Charset: "UTF-8",
           Data: email.subject,
-        }
-      }
+        },
+      },
     }
 
     return await this.ses_instance.sendEmail(params).promise()
   }
 }
-
-export default EmailService

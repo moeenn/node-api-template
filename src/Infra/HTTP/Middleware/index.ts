@@ -1,4 +1,4 @@
-export { default as HandleErrors } from "./HandleErrors"
-export { default as ValidateToken } from "./ValidateToken"
-export { default as HasRole } from "./HasRole"
-export { default as Logger } from "./Logger"
+export { HandleErrors } from "./HandleErrors"
+export { ValidateToken } from "./ValidateToken"
+export { HasRole } from "./HasRole"
+export { Logger } from "./Logger"

@@ -4,21 +4,19 @@ import { z } from "@/Application/Helpers/Validator"
 import { PasswordReset } from "@/Domain/Models"
 import { AuthService } from "@/Domain/ModelServices"
 import { AuthConfig } from "@/Application/Config"
-import LoggerInstance from "@/Infra/Logger"
-import EventBus from "@/Infra/EventBus"
+import { LoggerServiceInstance } from "@/Infra/Logger"
+import { EventBusServiceInstance } from "@/Infra/EventBus"
 
 /**
  *  if a user forgets their password, we can allow them to request a password
  *  reset token
-*/
+ */
 async function RequestReset(ctx: Context) {
   const body = validate(
     ctx.request.body,
-    z.object(
-      {
-        email: z.string().email(),
-      }
-    )
+    z.object({
+      email: z.string().email(),
+    }),
   )
 
   let resetToken: string | undefined = undefined
@@ -26,45 +24,43 @@ async function RequestReset(ctx: Context) {
     resetToken = await AuthService.requestPasswordReset(body.email)
   } catch (err) {
     if (err instanceof Error) {
-      LoggerInstance.log(err.message)
+      LoggerServiceInstance.log(err.message)
     }
   }
 
   if (resetToken) {
-    EventBus.send("password-reset-request", {
+    EventBusServiceInstance.send("password-reset-request", {
       email: body.email,
       resetToken,
     })
   }
 
   ctx.body = {
-    message: "password reset request will be processed"
+    message: "password reset request will be processed",
   }
 }
 
 /**
- *  when a user receives the password reset token, they must use it to 
+ *  when a user receives the password reset token, they must use it to
  *  set a new password for their account
-*/
+ */
 async function ResetPassword(ctx: Context) {
   const body = validate(
     ctx.request.body,
-    z.object(
-      {
-        token: z.string(),
-        password: z.string().min(AuthConfig.passwords.min_length),
-        confirm_password: z.string(), // TODO: must match with password
-      }
-    )
+    z.object({
+      token: z.string(),
+      password: z.string().min(AuthConfig.passwords.min_length),
+      confirm_password: z.string(), // TODO: must match with password
+    }),
   )
 
   await PasswordReset.actions.resetUserPassword(body)
   ctx.body = {
-    message: "password updated successfully"
+    message: "password updated successfully",
   }
 }
 
-export default {
+export const ForgotPasswordController = {
   RequestReset,
   ResetPassword,
 }

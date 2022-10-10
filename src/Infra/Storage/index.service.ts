@@ -1,6 +1,6 @@
 import AWS from "aws-sdk"
 
-class StorageService {
+export class StorageService {
   private bucket_name: string
   private s3_instance: AWS.S3
 
@@ -14,8 +14,8 @@ class StorageService {
 
   /**
    *  add a new file to the storage
-   * 
-  */
+   *
+   */
   public async save(filename: string, content: Buffer): Promise<string> {
     const params: AWS.S3.PutObjectRequest = {
       Bucket: this.bucket_name,
@@ -29,8 +29,8 @@ class StorageService {
 
   /**
    *  remove a file from storage
-   * 
-  */
+   *
+   */
   public async remove(fileURL: string): Promise<AWS.S3.DeleteObjectOutput> {
     const filename = fileURL.split("/").at(-1)
     if (!filename) {
@@ -45,5 +45,3 @@ class StorageService {
     return await this.s3_instance.deleteObject(params).promise()
   }
 }
-
-export default StorageService

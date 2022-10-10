@@ -1,8 +1,8 @@
-import LoggerService from "./index.service"
+import { LoggerService } from "./index.service"
 
 function init(): LoggerService {
   return new LoggerService()
 }
 
-export default init()
-export { default as Logger } from "./index.service"
+export const LoggerServiceInstance = init()
+export { LoggerService } from "./index.service"

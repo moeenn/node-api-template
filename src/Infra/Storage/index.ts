@@ -1,4 +1,4 @@
-import StorageService from "./index.service"
+import { StorageService } from "./index.service"
 import { StorageConfig } from "@/Application/Config/StorageConfig"
 
 function init(): StorageService {
@@ -6,5 +6,5 @@ function init(): StorageService {
   return new StorageService(bucket, key, secret)
 }
 
-export default init()
+export const StorageServiceInstance = init()
 export { IFile } from "./index.types"

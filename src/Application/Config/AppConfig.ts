@@ -1,4 +1,4 @@
-import { env } from "@/Application/Helpers" 
+import { env } from "@/Application/Helpers"
 
 export const AppConfig = {
   website_name: env("WEBSITE_NAME"),

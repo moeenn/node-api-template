@@ -1,8 +1,8 @@
 export { IUser, IDocumentUser, IUserRole } from "./User.types"
-import UserRepo from "./User.repo"
-import UserActions from "./User.actions"
+import { UserRepo } from "./User.repo"
+import { UserActions } from "./User.actions"
 
-export default {
+export const User = {
   repo: UserRepo,
   actions: UserActions,
 }

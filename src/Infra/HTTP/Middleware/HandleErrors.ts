@@ -1,11 +1,11 @@
 import { DefaultContext, DefaultState } from "koa"
-import { Exception } from "@/Application/Classes"
+import { Exception } from "@/Application/Exceptions"
 
 /**
- *  handle any unhandled / deliberate exceptions thrown inside the request 
+ *  handle any unhandled / deliberate exceptions thrown inside the request
  *  handlers
-*/
-async function HandleErrors(ctx: DefaultContext, next: DefaultState) {
+ */
+export async function HandleErrors(ctx: DefaultContext, next: DefaultState) {
   try {
     await next()
   } catch (err) {
@@ -16,7 +16,7 @@ async function HandleErrors(ctx: DefaultContext, next: DefaultState) {
       const { status, message, details } = err as Exception
       ctx.status = status
       ctx.body = { message, details }
-      return 
+      return
     }
 
     console.error(err)
@@ -25,5 +25,3 @@ async function HandleErrors(ctx: DefaultContext, next: DefaultState) {
     ctx.app.emit("error", err, ctx)
   }
 }
-
-export default HandleErrors

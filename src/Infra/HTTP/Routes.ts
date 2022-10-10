@@ -26,7 +26,12 @@ function init(): Router {
   /* admin routes */
   routes.get("/users", ValidateToken, HasRole("admin"), UserController.All)
   routes.get("/users/:id", ValidateToken, UserController.GetUser)
-  routes.post("/toggle-approved", ValidateToken, HasRole("admin"), UserController.ToggleApprovedStatus)
+  routes.post(
+    "/toggle-approved",
+    ValidateToken,
+    HasRole("admin"),
+    UserController.ToggleApprovedStatus,
+  )
 
   /* profile routes */
   routes.get("/profile", ValidateToken, ProfileController.ProfileDetails)
@@ -35,4 +40,4 @@ function init(): Router {
   return routes
 }
 
-export default init()
+export const router = init()

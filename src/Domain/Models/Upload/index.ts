@@ -1,8 +1,8 @@
 export { IUpload, IDocumentUpload } from "./Upload.types"
-import UploadRepo from "./Upload.repo"
-import UploadActions from "./Upload.actions"
+import { UploadRepo } from "./Upload.repo"
+import { UploadActions } from "./Upload.actions"
 
-export default {
+export const Upload = {
   repo: UploadRepo,
   actions: UploadActions,
 }

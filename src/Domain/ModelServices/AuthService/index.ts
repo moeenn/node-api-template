@@ -1,16 +1,15 @@
 import { User, IDocumentUser, AuthToken, PasswordReset } from "@/Domain/Models"
 import { Password, Random } from "@/Application/Helpers"
-import { Exception } from "@/Application/Classes"
+import { Exception } from "@/Application/Exceptions"
 import { AuthConfig } from "@/Application/Config"
 import { ILoginData, ILoginResult } from "./index.types"
 
 /**
  *  attempt user login
- * 
-*/
+ *
+ */
 async function login(data: ILoginData): Promise<ILoginResult> {
-  const user = await User
-    .repo
+  const user = await User.repo
     .findOne({ email: data.email })
     .select("+password")
   // .populate("profile.avatar")
@@ -38,16 +37,16 @@ async function login(data: ILoginData): Promise<ILoginResult> {
 
 /**
  *  logout an already logged-in user
- *  
-*/
+ *
+ */
 async function logout(user: IDocumentUser, token: string) {
   await AuthToken.actions.deleteAuthToken(user, token)
 }
 
 /**
  *  request a user account password reset
- * 
-*/
+ *
+ */
 async function requestPasswordReset(email: string): Promise<string> {
   const user = await User.repo.findOne({ email })
   if (!user) {
@@ -60,7 +59,7 @@ async function requestPasswordReset(email: string): Promise<string> {
   return token
 }
 
-export default {
+export const AuthService = {
   login,
   logout,
   requestPasswordReset,

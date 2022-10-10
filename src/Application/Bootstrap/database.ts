@@ -9,9 +9,10 @@ function init() {
   const URI = getConnectionURI()
 
   mongoose.connect(URI)
-  mongoose
-    .connection
-    .on("error", console.error.bind(console, "MongoDB connection error:"))
+  mongoose.connection.on(
+    "error",
+    console.error.bind(console, "MongoDB connection error:"),
+  )
 }
 
-export default init()
+export const database = init()

@@ -1,4 +1,4 @@
-class LoggerService {
+export class LoggerService {
   private stream = console.log
 
   private getTime(): string {
@@ -8,7 +8,7 @@ class LoggerService {
 
   /**
    *  log messages to the stdout
-  */
+   */
   public log(message: string, details: unknown = undefined) {
     const time = this.getTime()
     const output = `${time} - ${message}`
@@ -21,5 +21,3 @@ class LoggerService {
     this.stream(output)
   }
 }
-
-export default LoggerService

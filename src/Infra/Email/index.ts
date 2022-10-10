@@ -1,4 +1,4 @@
-import EmailService from "./index.service"
+import { EmailService } from "./index.service"
 import { EmailConfig } from "@/Application/Config"
 
 function init(): EmailService {
@@ -6,7 +6,7 @@ function init(): EmailService {
   return new EmailService(from_address, region, key, secret)
 }
 
-export default init()
-export { default as Email } from "./index.types"
-export { default as ForgotPasswordEmail } from "./Emails/ForgotPasswordEmail"
-export { default as UserRegisteredEmail } from "./Emails/UserRegisteredEmail"
+export const EmailServiceInstance = init()
+export { Email } from "./index.types"
+export { ForgotPasswordEmail } from "./Emails/ForgotPasswordEmail"
+export { UserRegisteredEmail } from "./Emails/UserRegisteredEmail"

@@ -2,16 +2,13 @@ import { config } from "dotenv"
 import { EnvironmentConfig } from "@/Application/Config/EnvironmentConfig"
 
 /**
- *  users are able to configure all the required environment variables in the 
- *  config/env.json file. Here we check if all of them are prevent in the 
+ *  users are able to configure all the required environment variables in the
+ *  config/env.json file. Here we check if all of them are prevent in the
  *  environment
-*/
+ */
 function validateRequired(required: string[]) {
-  const isEmpty = (value: string | undefined) => (
-    value === null ||
-    value === undefined ||
-    value === ""
-  )
+  const isEmpty = (value: string | undefined) =>
+    value === null || value === undefined || value === ""
 
   for (const value of required) {
     const isMissing = isEmpty(process.env[value])
@@ -30,4 +27,4 @@ function init() {
   validateRequired(EnvironmentConfig.required)
 }
 
-export default init()
+export const env = init()
