@@ -34,8 +34,8 @@ async function createAuthToken(
  *  delete auth token (i.e. logout user)
  *
  */
-async function deleteAuthToken(user: IDocumentUser, token: string) {
-  const authToken = await AuthToken.repo.findOne({ user, token })
+async function deleteAuthToken(token: string) {
+  const authToken = await AuthToken.repo.findOne({ token })
   if (!authToken) {
     throw new Exception("invalid auth bearer token", 401)
   }

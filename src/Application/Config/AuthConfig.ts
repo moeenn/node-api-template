@@ -6,4 +6,8 @@ export const AuthConfig = {
     length: 32,
   },
   frontend_reset_page: "forgot-password/reset",
+  state_defaults: {
+    user: {},
+    token: "",
+  },
 }

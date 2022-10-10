@@ -1,8 +1,3 @@
-import { LoggerService } from "./index.service"
+import pino from "pino"
 
-function init(): LoggerService {
-  return new LoggerService()
-}
-
-export const LoggerServiceInstance = init()
-export { LoggerService } from "./index.service"
+export const LoggerInstance = pino()

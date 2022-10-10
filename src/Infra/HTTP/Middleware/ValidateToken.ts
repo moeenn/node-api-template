@@ -1,19 +1,15 @@
-import { Context, Next } from "@/Infra/HTTP/Server"
-import { AuthToken } from "@/Domain/Models"
-import { Exception } from "@/Application/Exceptions"
+import { Request, Reply, Done } from "@/Infra/HTTP/Server"
+import { AuthTokenService } from "@/Domain/Models"
 
-/**
- *  users will provide their auth tokens (issued at login) as bearer tokens
- *  this middleware verifies that the token is valid
- */
-export async function ValidateToken(ctx: Context, next: Next) {
-  const { token } = ctx.request
-  if (!token) {
-    throw new Exception("please provide a bearer token", 401)
-  }
+export const ValidateToken = async (
+  req: Request,
+  _reply: Reply,
+  done: Done,
+) => {
+  const token = req.requestContext.get("token")
+  const authToken = await AuthTokenService.validateAuthToken(token)
 
-  const authToken = await AuthToken.actions.validateAuthToken(token)
-  ctx.state["user"] = authToken.user
-
-  await next()
+  /** store id of the validated user on the request object */
+  req.requestContext.set("user", { _id: authToken.user })
+  done()
 }

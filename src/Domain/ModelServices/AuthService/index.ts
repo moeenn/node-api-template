@@ -39,8 +39,8 @@ async function login(data: ILoginData): Promise<ILoginResult> {
  *  logout an already logged-in user
  *
  */
-async function logout(user: IDocumentUser, token: string) {
-  await AuthToken.actions.deleteAuthToken(user, token)
+async function logout(token: string) {
+  await AuthToken.actions.deleteAuthToken(token)
 }
 
 /**

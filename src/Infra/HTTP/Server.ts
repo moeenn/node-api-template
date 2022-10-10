@@ -1,44 +1,68 @@
-import koa, { DefaultState, DefaultContext } from "koa"
-import koaBody from "koa-body"
-import cors from "@koa/cors"
-import { LoggerServiceInstance } from "@/Infra/Logger"
-import { bearerToken } from "koa-bearer-token"
-import { HandleErrors, Logger } from "@/Infra/HTTP/Middleware"
-import { UploadConfig } from "@/Application/Config"
-import { router } from "@/Infra/HTTP/Routes"
+import fastify, {
+  DoneFuncWithErrOrRes,
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+  RouteOptions,
+} from "fastify"
 
-export type Context = DefaultContext
-export type Next = DefaultState
-export type Middleware = (ctx: Context, next: Next) => Promise<void>
-export type Server = koa<DefaultState, DefaultContext>
+import {
+  serializerCompiler,
+  validatorCompiler,
+} from "fastify-type-provider-zod"
+import { fastifyRequestContextPlugin } from "@fastify/request-context"
+import socket from "@fastify/websocket"
+import cors from "@fastify/cors"
+import helmet from "@fastify/helmet"
+import { APIRoutes } from "./Routes"
+// import { SocketRoutes } from "./Sockets"
+import { AuthConfig } from "@/Application/Config"
+
+export {
+  FastifyInstance,
+  FastifyRequest as Request,
+  FastifyReply as Reply,
+  RouteOptions,
+  DoneFuncWithErrOrRes as Done,
+}
 
 export class ServerFactory {
-  private app: Server
+  private app: FastifyInstance
 
   constructor() {
-    this.app = new koa()
-    this.app.silent = true
-    const bodyOptions = {
-      multipart: true,
-      jsonLimit: UploadConfig.maxFileSize * 1024 * 1024 /* in bytes */,
-      formidable: {
-        maxFileSize: UploadConfig.maxFileSize * 1024 * 1024 /* in bytes */,
-      },
-    }
+    this.app = fastify({ logger: true })
 
+    /** set zod as the schema validator */
     this.app
-      .use(Logger)
-      .use(HandleErrors)
-      .use(cors())
-      .use(koaBody(bodyOptions))
-      .use(bearerToken())
-      .use(router.routes())
-      .use(router.allowedMethods())
+      .setValidatorCompiler(validatorCompiler)
+      .setSerializerCompiler(serializerCompiler)
+
+    this.registerPlugins()
+    this.registerRoutes()
   }
 
-  public run(port: string) {
-    this.app.listen(port, () =>
-      LoggerServiceInstance.log(`Server started on port ${port}`),
-    )
+  private registerPlugins() {
+    this.app
+      .register(cors)
+      .register(helmet, { global: true })
+      .register(socket)
+      .register(fastifyRequestContextPlugin, {
+        hook: "preValidation",
+        defaultStoreValues: AuthConfig.state_defaults,
+      })
+  }
+
+  private registerRoutes() {
+    this.app.register(APIRoutes, { prefix: "/api/v1/" })
+    // this.app.register(SocketRoutes)
+  }
+
+  public run(port: number) {
+    this.app.listen({ port }, (err) => {
+      if (err) {
+        console.error(err)
+        process.exit(1)
+      }
+    })
   }
 }
