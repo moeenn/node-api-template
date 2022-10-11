@@ -4,11 +4,9 @@ import { AuthService } from "@/Domain/ModelServices"
 import { EmailServiceInstance, ForgotPasswordEmail } from "@/Infra/Email"
 import { LoggerServiceInstance } from "@/Infra/Logger"
 
-const bodySchema = z.object(
-  {
-    email: z.string().email(),
-  }
-)
+const bodySchema = z.object({
+  email: z.string().email(),
+})
 type IBody = z.infer<typeof bodySchema>
 
 export const RequestReset: RouteOptions = {
@@ -32,8 +30,8 @@ export const RequestReset: RouteOptions = {
     if (resetToken) {
       EmailServiceInstance.sendEmail(
         body.email,
-        new ForgotPasswordEmail(resetToken)
+        new ForgotPasswordEmail(resetToken),
       )
     }
-  }
+  },
 }

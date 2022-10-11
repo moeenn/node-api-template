@@ -1,6 +1,6 @@
 import AWS from "aws-sdk"
 import EventEmitter from "node:events"
-import { IEmailService ,IPayload } from "./index.types"
+import { IEmailService, IPayload } from "./index.types"
 import { Email } from "@/Infra/Email"
 
 export class EmailService implements IEmailService {
@@ -35,15 +35,15 @@ export class EmailService implements IEmailService {
   /**
    *  action to be performed by the event emitter, when a new email is received
    *  for sending
-  */
+   */
   private emitEmail(payload: IPayload) {
     this.prepareEmail(payload.to, payload.email)
   }
 
   /**
    *  email provider method: use AWS SES for sending out the email
-   * 
-  */
+   *
+   */
   private async prepareEmail(
     to: string,
     email: Email,
@@ -73,9 +73,9 @@ export class EmailService implements IEmailService {
   }
 
   /**
-   *  hand off the email to the event emitter so it can be sent in the 
+   *  hand off the email to the event emitter so it can be sent in the
    *  background
-  */
+   */
   sendEmail(to: string, email: Email) {
     this.emitter.emit(this.eventName, { to, email })
   }
