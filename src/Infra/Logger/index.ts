@@ -1,3 +1,3 @@
 import pino from "pino"
 
-export const LoggerInstance = pino()
+export const LoggerServiceInstance = pino()

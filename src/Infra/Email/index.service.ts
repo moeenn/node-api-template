@@ -1,14 +1,14 @@
 import AWS from "aws-sdk"
+import EventEmitter from "node:events"
+import { IEmailService ,IPayload } from "./index.types"
 import { Email } from "@/Infra/Email"
 
-/**
- *  TODO:
- *  - inject instance of global event bus in this service
- *  - email templates should be defined inside the email class (in md format)
- */
-export class EmailService {
-  private ses_instance: AWS.SES
-  private from_email: string
+export class EmailService implements IEmailService {
+  private emitter: EventEmitter
+  private eventName: string
+
+  private sesInstance: AWS.SES
+  private fromEmail: string
 
   public constructor(
     from: string,
@@ -16,7 +16,11 @@ export class EmailService {
     keyID: string,
     secret: string,
   ) {
-    this.from_email = from
+    this.fromEmail = from
+    this.eventName = "email"
+
+    this.emitter = new EventEmitter()
+    this.emitter.addListener(this.eventName, this.emitEmail.bind(this))
 
     const config: AWS.SES.ClientConfiguration = {
       apiVersion: "2010-12-01",
@@ -25,17 +29,29 @@ export class EmailService {
       region: region,
     }
 
-    this.ses_instance = new AWS.SES(config)
+    this.sesInstance = new AWS.SES(config)
   }
 
-  async sendEmail(
+  /**
+   *  action to be performed by the event emitter, when a new email is received
+   *  for sending
+  */
+  private emitEmail(payload: IPayload) {
+    this.prepareEmail(payload.to, payload.email)
+  }
+
+  /**
+   *  email provider method: use AWS SES for sending out the email
+   * 
+  */
+  private async prepareEmail(
     to: string,
     email: Email,
   ): Promise<AWS.SES.SendEmailResponse> {
     const body = await email.body()
 
     const params: AWS.SES.SendEmailRequest = {
-      Source: this.from_email,
+      Source: this.fromEmail,
       Destination: {
         ToAddresses: [to],
       },
@@ -53,6 +69,14 @@ export class EmailService {
       },
     }
 
-    return await this.ses_instance.sendEmail(params).promise()
+    return await this.sesInstance.sendEmail(params).promise()
+  }
+
+  /**
+   *  hand off the email to the event emitter so it can be sent in the 
+   *  background
+  */
+  sendEmail(to: string, email: Email) {
+    this.emitter.emit(this.eventName, { to, email })
   }
 }

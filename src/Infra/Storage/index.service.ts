@@ -1,12 +1,13 @@
 import AWS from "aws-sdk"
+import { IStorageService } from "./index.types"
 
-export class StorageService {
-  private bucket_name: string
-  private s3_instance: AWS.S3
+export class StorageService implements IStorageService {
+  private bucketName: string
+  private s3Instance: AWS.S3
 
   public constructor(bucketName: string, keyID: string, secret: string) {
-    this.bucket_name = bucketName
-    this.s3_instance = new AWS.S3({
+    this.bucketName = bucketName
+    this.s3Instance = new AWS.S3({
       accessKeyId: keyID,
       secretAccessKey: secret,
     })
@@ -18,12 +19,12 @@ export class StorageService {
    */
   public async save(filename: string, content: Buffer): Promise<string> {
     const params: AWS.S3.PutObjectRequest = {
-      Bucket: this.bucket_name,
+      Bucket: this.bucketName,
       Key: filename,
       Body: content,
     }
 
-    const result = await this.s3_instance.upload(params).promise()
+    const result = await this.s3Instance.upload(params).promise()
     return result.Location
   }
 
@@ -38,10 +39,10 @@ export class StorageService {
     }
 
     const params: AWS.S3.DeleteObjectRequest = {
-      Bucket: this.bucket_name,
+      Bucket: this.bucketName,
       Key: filename,
     }
 
-    return await this.s3_instance.deleteObject(params).promise()
+    return await this.s3Instance.deleteObject(params).promise()
   }
 }

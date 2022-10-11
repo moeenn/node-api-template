@@ -7,6 +7,6 @@ function init(): EmailService {
 }
 
 export const EmailServiceInstance = init()
-export { Email } from "./index.types"
+export { Email } from "./Email"
 export { ForgotPasswordEmail } from "./Emails/ForgotPasswordEmail"
 export { UserRegisteredEmail } from "./Emails/UserRegisteredEmail"
