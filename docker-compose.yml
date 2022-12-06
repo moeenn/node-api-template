@@ -1,20 +1,18 @@
 version: '3.3'
 
-networks:
-  webapp:
-
 services:
-  db:
-    container_name: "${PROJECT_NAME}-database"
-    image: postgres:14.1-alpine
-    restart: always
+  mongo:
+    container_name: "node-api-mongo-dev"
+    image: mongo:latest
     environment:
-      - POSTGRES_DB=${DB_DATABASE}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    ports:
-      - '${DB_PORT}:5432'
+      MONGO_INITDB_DATABASE: "node-api"
     volumes:
-      - ${DB_VOLUME}:/var/lib/postgresql/data
+      - ./mongodb/init/:/docker-entrypoint-initdb.d
+      - ./mongodb/docker-volume:/data/db
+    ports:
+      - "27017:27017"      
     networks:
-      - webapp
+      - app-network
+
+networks:
+  app-network:

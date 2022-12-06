@@ -13,7 +13,6 @@ module.exports = {
       "allowTemplateLiterals": true,
       "avoidEscape": true 
     }],
-    "@typescript-eslint/explicit-function-return-type": 2,
     "semi": ["error", "never"],
   }
 };

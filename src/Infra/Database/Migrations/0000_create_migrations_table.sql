@@ -1,4 +1,0 @@
-CREATE TABLE migrations (
-  file VARCHAR(255) UNIQUE PRIMARY KEY,
-  applied_at TIMESTAMP
-);

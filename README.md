@@ -1,23 +1,35 @@
-# node-template
-A Project Template for NodeJS (API) Back-end Project.
+# ts-sandbox
+A Typescript sandbox with following tools already setup
+- Typescript compiler i.e. ```tsc```
+- Absolute imports with `module-alias`
+- ```eslint``` for static analysis and linting
+- ```vitest``` for testing
+- Some basic ```package.json``` scripts
+- Git pre-commit hooks with `husky`
 
 ## Setup
 ```bash
-# install dependencies
 $ npm i --save-dev
+```
 
-# run in development mode
+## Run in Development Mode
+```bash
 $ npm run dev
+```
 
-# run in production mode
+## Run in Production Mode
+```bash
 $ npm run build
 $ npm run start
 ```
+*Note*: The `NODE_ENV` environment variable will be set to `production` when running the app in production mode.
 
-## TODO
-- [ ] Setup db tests
-- [ ] Setup db seeding mechanism
-- [ ] Test: Migrations system
-- [ ] Create Database Seeding Mechanism
-- [ ] Create Admin Seeder
-- [ ] Entity Factories
+## Linting with ESLint
+```bash
+$ npm run lint
+```
+
+## Running Tests with Vitest
+```bash
+$ npm run test
+```

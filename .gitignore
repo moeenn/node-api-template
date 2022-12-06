@@ -1,4 +1,4 @@
 node_modules/
 build/
-database_storage/
 *.old
+db/

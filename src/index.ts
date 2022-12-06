@@ -1,18 +1,13 @@
-import "module-alias/register"
 import "reflect-metadata"
-
+import "module-alias/register"
 import { Container } from "typedi"
-import Env from "@/Infra/Env"
-import Server from "@/Infra/HTTP/Server"
+import { Server } from "@/Vendor/Entities/Server"
+import { ApplicationBootstrap } from "@/Application/Bootstrap"
 
-function main(): void {
-	const server = Container.get(Server)
-	const env = Container.get(Env)
-	const port = env.read("SERVER_PORT")
-
-	server.start(
-		parseInt(port)
-	)
+async function main() {
+  Container.get(ApplicationBootstrap)
+  const server = Container.get(Server)
+  await server.run()
 }
 
-main()
+main().catch(console.error)
