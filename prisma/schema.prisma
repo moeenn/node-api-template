@@ -7,18 +7,35 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Role {
+  id Int @id @default(autoincrement())
+  slug String 
+  name String
+  users UserRole[]
+}
+
+// pivot table for many-to-many relation between user & role
+model UserRole {
+  role Role @relation(fields: [role_id], references: [id])
+  role_id Int
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+
+  @@id([user_id, role_id])
+}
+
 model User {
   id Int @id @default(autoincrement())
   email String @unique
-  name String? 
-  posts Post[]
+  name String
+  password String? 
+  roles UserRole[]
+  auth_tokens AuthToken[]
 }
 
-model Post {
+model AuthToken {
   id Int @id @default(autoincrement())
-  title String 
-  content String
-  published Boolean @default(false)
-  author User @relation(fields: [author_id], references: [id])
-  author_id Int
+  token String @unique
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
 }

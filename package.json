@@ -10,10 +10,14 @@
     "lint": "npx eslint . --ext .ts",
     "format": "npx prettier --write 'src/**/*.ts'",
     "check": "npm run format && npm run lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "db:seed": "npx prisma db seed"
   },
   "_moduleAliases": {
     "@": "build"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed/index.ts"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
@@ -25,6 +29,7 @@
     "prisma": "^4.7.1",
     "tsc-watch": "^4.6.0",
     "typescript": "^4.5.5",
+    "ts-node": "^10.9.1",
     "vitest": "^0.14.2"
   },
   "dependencies": {

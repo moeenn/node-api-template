@@ -2,5 +2,5 @@
 .husky
 build/
 database/
-prisma/
+prisma/migrations/
 node_modules/
