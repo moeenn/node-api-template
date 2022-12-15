@@ -43,7 +43,7 @@ export class Server {
       .register(socket)
       .register(fastifyRequestContextPlugin, {
         hook: "preValidation",
-        defaultStoreValues: this.authConfig.state_defaults,
+        defaultStoreValues: this.authConfig.auth_state_defaults,
       })
   }
 

@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASSWORD=devpass
       - POSTGRES_DB=sandbox
     volumes:
-      - ./docker-volume:/var/lib/postgresql/data
+      - ./database/docker-volume:/var/lib/postgresql/data
     ports:
       - "5432:5432"      
     networks:

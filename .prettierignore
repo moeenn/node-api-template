@@ -1,5 +1,6 @@
 .git
 .husky
 build/
-db/
+database/
+prisma/
 node_modules/

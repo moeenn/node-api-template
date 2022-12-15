@@ -33,6 +33,7 @@
     "@fastify/helmet": "^10.1.0",
     "@fastify/request-context": "^4.1.0",
     "@fastify/websocket": "^7.1.1",
+    "@prisma/client": "^4.7.1",
     "argon2": "^0.30.2",
     "dotenv": "^16.0.3",
     "fastify": "^4.10.2",
