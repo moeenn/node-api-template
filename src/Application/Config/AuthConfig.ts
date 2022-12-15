@@ -2,16 +2,19 @@ import { Service } from "typedi"
 
 @Service()
 export class AuthConfig {
-  public readonly passwords = {
-    min_length: 8,
+  public readonly passwords_min_length: number
+  public readonly tokens_length: number
+  public readonly auth_state_defaults: {
+    user: Record<string, unknown>
+    token: string
   }
 
-  public readonly tokens = {
-    length: 32,
-  }
-
-  public readonly state_defaults = {
-    user: {},
-    token: "",
+  constructor() {
+    this.passwords_min_length = 8
+    this.tokens_length = 32
+    this.auth_state_defaults = {
+      user: {},
+      token: "",
+    }
   }
 }

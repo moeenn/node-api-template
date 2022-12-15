@@ -3,12 +3,13 @@ import { FastifyInstance } from "fastify"
 import {
   ZodTypeProvider,
   serializerCompiler,
-  validatorCompiler
+  validatorCompiler,
 } from "fastify-type-provider-zod"
 import { RouteRegistry } from "@/Application/Routes"
+import { IPlugin } from "./IPlugin"
 
 @Service()
-export class RoutesPlugin {
+export class RoutesPlugin implements IPlugin {
   private routes: RouteRegistry
 
   constructor(routes: RouteRegistry) {

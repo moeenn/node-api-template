@@ -2,15 +2,17 @@ version: '3.3'
 
 services:
   mongo:
-    container_name: "node-api-mongo-dev"
-    image: mongo:latest
+    container_name: "pg-sandbox"
+    image: postgres:14.1-alpine
+    restart: always
     environment:
-      MONGO_INITDB_DATABASE: "node-api"
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=devpass
+      - POSTGRES_DB=sandbox
     volumes:
-      - ./mongodb/init/:/docker-entrypoint-initdb.d
-      - ./mongodb/docker-volume:/data/db
+      - ./docker-volume:/var/lib/postgresql/data
     ports:
-      - "27017:27017"      
+      - "5432:5432"      
     networks:
       - app-network
 

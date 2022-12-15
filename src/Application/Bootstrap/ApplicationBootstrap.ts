@@ -4,7 +4,9 @@ import { DatabaseBootstrap } from "./DatabaseBootstrap"
 
 @Service()
 export class ApplicationBootstrap {
-  constructor(environment: EnvironmentBootstrap, /*database: DatabaseBootstrap */) {
+  constructor(
+    environment: EnvironmentBootstrap /*database: DatabaseBootstrap */,
+  ) {
     environment.bootstrap()
     // database.bootstrap()
   }

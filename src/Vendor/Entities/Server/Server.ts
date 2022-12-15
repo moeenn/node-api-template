@@ -5,11 +5,12 @@ import { fastifyRequestContextPlugin } from "@fastify/request-context"
 import socket from "@fastify/websocket"
 import cors from "@fastify/cors"
 import helmet from "@fastify/helmet"
-import { RoutesPlugin } from "@/Vendor/Entities/Plugins/RoutesPlugin"
-// TODO: implement
-// import { SocketRoutes } from "@/Infra/HTTP/Sockets"
+import { RoutesPlugin } from "@/Vendor/Entities/Plugins"
 import { AuthConfig, ServerConfig } from "@/Application/Config"
 import { ErrorHandler } from "./ErrorHandler"
+
+// TODO: implement
+// import { SocketRoutes } from "@/Infra/HTTP/Sockets"
 
 @Service()
 export class Server {
@@ -58,10 +59,8 @@ export class Server {
    *  initialization
    */
   public async run(): Promise<void> {
-    const { host, port } = this.serverConfig
-
     return new Promise((resolve, reject) => {
-      this.app.listen({ port, host }, (err) => {
+      this.app.listen(this.serverConfig, (err) => {
         if (err) {
           reject(err)
         }

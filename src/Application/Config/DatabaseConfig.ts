@@ -17,10 +17,10 @@ export class DatabaseConfig {
     username: Option<string> = undefined,
     password: Option<string> = undefined,
   ) {
-    this.host = host ?? env("MONGO_HOST")
-    this.port = port ?? env("MONGO_PORT")
-    this.db = db ?? env("MONGO_DATABASE")
-    this.username = username ?? env("MONGO_USERNAME")
-    this.password = password ?? env("MONGO_PASSWORD")
+    this.host = host ?? env("PG_HOST")
+    this.port = port ?? env("PG_PORT")
+    this.db = db ?? env("PG_DATABASE")
+    this.username = username ?? env("PG_USERNAME")
+    this.password = password ?? env("PG_PASSWORD")
   }
 }
