@@ -14,6 +14,8 @@ export const Register: RouteOptions = {
   },
   handler: async (req) => {
     const controller = Container.get(UserController)
+
+    /* TODO: send email to user with instructions to set a password */
     const user = await controller.registerUser(req.body as IRegisterUser)
 
     return {
