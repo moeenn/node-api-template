@@ -10,11 +10,7 @@ import { IPlugin } from "./IPlugin"
 
 @Service()
 export class RoutesPlugin implements IPlugin {
-  private routes: RouteRegistry
-
-  constructor(routes: RouteRegistry) {
-    this.routes = routes
-  }
+  constructor(private routes: RouteRegistry) {}
 
   /**
    *  replace default schema engine with zod

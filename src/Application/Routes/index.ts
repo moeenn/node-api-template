@@ -1,7 +1,7 @@
 import { Service } from "typedi"
-import { AuthController } from "@/Application/Controllers"
+import { Register as UserRegister } from "./User/Register"
 
 @Service()
 export class RouteRegistry {
-  public readonly routes = [AuthController.Login]
+  public readonly routes = [UserRegister]
 }

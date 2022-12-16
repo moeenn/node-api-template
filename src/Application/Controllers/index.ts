@@ -1,1 +1,0 @@
-export { AuthController } from "./AuthController"

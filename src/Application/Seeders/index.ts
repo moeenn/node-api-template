@@ -8,11 +8,9 @@ async function seed() {
     for (const seeder of seeders) {
       await seeder(client)
     }
-  } 
-  catch (err) {
-    console.error(err)    
-  }
-  finally {
+  } catch (err) {
+    console.error(err)
+  } finally {
     await client.$disconnect()
   }
 }

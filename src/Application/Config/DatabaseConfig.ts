@@ -8,6 +8,6 @@ export class DatabaseConfig {
   public readonly uri
 
   constructor(URI: Option<string> = undefined) {
-    this.uri = URI ?? env("DB_URI")
+    this.uri = URI ?? env("DATABASE_URI")
   }
 }

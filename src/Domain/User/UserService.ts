@@ -1,15 +1,12 @@
 import { Service } from "typedi"
+import { User } from "."
 import { Database } from "@/Vendor/Entities/Database"
-import { User } from "@prisma/client"
 import { NotFoundException } from "@/Vendor/Exceptions"
+import { ICreateUserArgs } from "./UserService.types"
 
 @Service()
 export class UserService {
-  private db: Database
-
-  constructor(db: Database) {
-    this.db = db
-  }
+  constructor(private db: Database) {}
 
   /**
    *  get a single user using ID
@@ -23,6 +20,26 @@ export class UserService {
     if (!user) {
       throw NotFoundException(`user with id ${id} not found`)
     }
+
+    return user
+  }
+
+  /**
+   *  register a new user with the system
+   *
+   */
+  public async createUser(args: ICreateUserArgs): Promise<User> {
+    const user = await this.db.conn.user.create({
+      data: {
+        name: args.name,
+        email: args.email,
+        roles: {
+          create: args.roles.map((role) => ({
+            role_id: role.id,
+          })),
+        },
+      },
+    })
 
     return user
   }

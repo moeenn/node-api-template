@@ -9,6 +9,6 @@ export class EnvironmentConfig {
   constructor() {
     this.file = ".env"
     this.load_in_production = false
-    this.required = ["SERVER_PORT", "DB_URI"]
+    this.required = ["SERVER_PORT", "DATABASE_URI"]
   }
 }
