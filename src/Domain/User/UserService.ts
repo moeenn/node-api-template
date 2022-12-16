@@ -3,6 +3,7 @@ import { User } from "."
 import { Database } from "@/Vendor/Entities/Database"
 import { NotFoundException } from "@/Vendor/Exceptions"
 import { ICreateUserArgs } from "./UserService.types"
+import { Password } from "@/Vendor/Helpers"
 
 @Service()
 export class UserService {
@@ -62,5 +63,22 @@ export class UserService {
     })
 
     return user
+  }
+
+  /**
+   *  set password for a user
+   *
+   */
+  public async setUserPassword(user: User, password: string) {
+    const hash = await Password.hash(password)
+
+    await this.db.conn.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: hash,
+      },
+    })
   }
 }

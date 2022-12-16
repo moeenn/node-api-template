@@ -1,2 +1,7 @@
 export { AuthController } from "./AuthController"
-export { LoginSchema, ILogin } from "./AuthController.schema"
+export {
+  LoginSchema,
+  ILogin,
+  SetFirstPasswordSchema,
+  ISetFirstPassword,
+} from "./AuthController.schema"

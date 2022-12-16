@@ -4,10 +4,32 @@ import { User } from "@/Domain/User"
 import { Database } from "@/Vendor/Entities/Database"
 import { Random } from "@/Vendor/Helpers"
 import { AuthConfig } from "@/Application/Config"
+import { NotFoundException } from "@/Vendor/Exceptions"
 
 @Service()
 export class PasswordTokenService {
   constructor(private db: Database, private authConfig: AuthConfig) {}
+
+  /**
+   *  find a single password token using its token value
+   *
+   */
+  public async findToken(
+    token: string,
+  ): Promise<PasswordToken & { user: User }> {
+    const passwordToken = await this.db.conn.passwordToken.findUnique({
+      where: { token },
+      include: {
+        user: true,
+      },
+    })
+
+    if (!passwordToken) {
+      throw NotFoundException("password token not found", { token })
+    }
+
+    return passwordToken
+  }
 
   /**
    *  when a new user is registered, they have an empty password. they must
@@ -34,10 +56,10 @@ export class PasswordTokenService {
    *  remove password token after a user's password has been set
    *
    */
-  public async deleteToken(user: User) {
+  public async deleteToken(token: PasswordToken) {
     await this.db.conn.passwordToken.delete({
       where: {
-        user_id: user.id,
+        id: token.id,
       },
     })
   }
