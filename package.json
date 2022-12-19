@@ -20,6 +20,7 @@
     "seed": "node build/Application/Seeders/index.js"
   },
   "devDependencies": {
+    "@types/marked": "^4.0.8",
     "@types/node": "^17.0.23",
     "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
@@ -43,6 +44,7 @@
     "dotenv": "^16.0.3",
     "fastify": "^4.10.2",
     "fastify-type-provider-zod": "^1.1.7",
+    "marked": "^4.2.4",
     "module-alias": "^2.2.2",
     "pino": "^8.7.0",
     "reflect-metadata": "^0.1.13",
