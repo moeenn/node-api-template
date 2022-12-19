@@ -10,6 +10,6 @@ export class RouteRegistry {
     UserRegister,
     UserLogin,
     SetUserFirstPassword,
-    UserLogout
+    UserLogout,
   ]
 }
