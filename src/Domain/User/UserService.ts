@@ -35,7 +35,7 @@ export class UserService {
     })
 
     if (!user) {
-      throw NotFoundException(`user with email ${email} not found`)
+      throw NotFoundException("user not found", { email })
     }
 
     return user

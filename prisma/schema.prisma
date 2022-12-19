@@ -32,6 +32,7 @@ model User {
   roles UserRole[]
   auth_tokens AuthToken[]
   password_token PasswordToken?
+  password_reset_token PasswordResetToken?
 }
 
 model AuthToken {
@@ -46,4 +47,12 @@ model PasswordToken {
   token String @unique
   user User @relation(fields: [user_id], references: [id])
   user_id Int @unique
+}
+
+model PasswordResetToken {
+  id Int @id @default(autoincrement())
+  token String @unique
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int @unique
+  created_at DateTime @default(now())
 }
