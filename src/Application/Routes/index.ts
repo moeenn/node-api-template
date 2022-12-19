@@ -3,6 +3,7 @@ import { Register as UserRegister } from "./User/Register"
 import { Login as UserLogin } from "./Auth/Login"
 import { SetPassword as SetUserFirstPassword } from "./Auth/SetPassword"
 import { Logout as UserLogout } from "./Auth/Logout"
+import { GetUserProfile } from "./User/GetUserProfile"
 
 @Service()
 export class RouteRegistry {
@@ -11,5 +12,6 @@ export class RouteRegistry {
     UserLogin,
     SetUserFirstPassword,
     UserLogout,
+    GetUserProfile,
   ]
 }

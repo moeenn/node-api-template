@@ -13,6 +13,6 @@ export const ValidateToken = async (
   const authToken = await authTokenService.validateToken(token)
 
   /** store id of the validated user on the request object */
-  req.requestContext.set("user", authToken.user)
+  req.requestContext.set("user_id", authToken.user.id)
   done()
 }

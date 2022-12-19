@@ -5,7 +5,7 @@ export class AuthConfig {
   public readonly passwords_min_length: number
   public readonly tokens_length: number
   public readonly auth_state_defaults: {
-    user: Record<string, unknown>
+    user_id: number
     token: string
   }
 
@@ -13,7 +13,7 @@ export class AuthConfig {
     this.passwords_min_length = 8
     this.tokens_length = 32
     this.auth_state_defaults = {
-      user: {},
+      user_id: 0,
       token: "",
     }
   }

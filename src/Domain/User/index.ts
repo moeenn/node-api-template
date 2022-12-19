@@ -1,4 +1,5 @@
 export { User } from "@prisma/client"
+export { UserWithoutPassword } from "./UserService.types"
 export { UserService } from "./UserService"
 export { UserController } from "./UserController"
 export { RegisterUserSchema, IRegisterUser } from "./UserController.schema"

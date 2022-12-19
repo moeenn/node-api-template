@@ -2,7 +2,7 @@ import { Service } from "typedi"
 import { User } from "."
 import { Database } from "@/Vendor/Entities/Database"
 import { NotFoundException } from "@/Vendor/Exceptions"
-import { ICreateUserArgs } from "./UserService.types"
+import { UserWithoutPassword, ICreateUserArgs } from "./UserService.types"
 import { Password } from "@/Vendor/Helpers"
 
 @Service()
@@ -13,7 +13,7 @@ export class UserService {
    *  get a single user using ID
    *
    */
-  public async getUserByID(id: number): Promise<User> {
+  public async getUserByID(id: number): Promise<UserWithoutPassword> {
     const user = await this.db.conn.user.findUnique({
       where: { id },
     })
@@ -22,7 +22,7 @@ export class UserService {
       throw NotFoundException(`user with id ${id} not found`)
     }
 
-    return user
+    return Object.assign(user, { password: undefined })
   }
 
   /**

@@ -1,5 +1,5 @@
 import { Service } from "typedi"
-import { User, UserService } from "."
+import { User, UserService, UserWithoutPassword } from "."
 import { RoleService } from "@/Domain/Role"
 import { PasswordTokenService } from "@/Domain/PasswordToken"
 import { IRegisterUser } from "./UserController.schema"
@@ -25,6 +25,15 @@ export class UserController {
     })
 
     await this.passwordTokenService.createToken(user)
+    return user
+  }
+
+  /**
+   *  get complete details of a single user, using their id
+   *
+   */
+  public async getUser(id: number): Promise<UserWithoutPassword> {
+    const user = await this.userService.getUserByID(id)
     return user
   }
 }
