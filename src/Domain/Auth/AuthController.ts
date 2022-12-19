@@ -66,4 +66,13 @@ export class AuthController {
      */
     await this.passwordTokenService.deleteToken(passwordTokenInstance)
   }
+
+  /**
+   *  logout an already logged-in user
+   * 
+  */
+  public async logout(token: string) {
+    const authToken = await this.authTokenService.validateToken(token)
+    await this.authTokenService.revokeToken(authToken)
+  }
 }
