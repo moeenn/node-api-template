@@ -6,10 +6,8 @@ interface IForgotPasswordEmailArgs {
 }
 
 export class ForgotPasswordEmail extends Email {
-  subject = "Forgot Password"
-
   constructor(private args: IForgotPasswordEmailArgs) {
-    super()
+    super("Forgot Password")
   }
 
   template(): string {
