@@ -7,7 +7,7 @@ describe("SetFirstPasswordEmail test", () => {
       appName: "Sample app",
       frontendURL: "http://site.com/",
       resetPath: "path/to/setup",
-      resetToken: "123123123"
+      resetToken: "123123123",
     }
 
     const email = new SetFirstPasswordEmail(args)
