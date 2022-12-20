@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  mongo:
+    container_name: "pg-sandbox"
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=devpass
+      - POSTGRES_DB=sandbox
+    volumes:
+      - ./database/docker-volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"      
+    networks:
+      - app-network
+
+networks:
+  app-network:

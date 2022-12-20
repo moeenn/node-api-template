@@ -1,0 +1,6 @@
+node_modules/
+build/
+*.old
+database/
+.husky
+prisma/migrations/*
