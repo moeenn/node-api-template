@@ -17,4 +17,16 @@ describe("Password helper", () => {
 
     expect(isValid).toBe(false)
   })
+
+  it("weak password strength test", async () => {
+    const weak = await Password.checkStrength("1231231")
+    expect(weak.strong).toBe(false)
+    expect(weak.errors.length).toBeTruthy()
+  })
+
+  it("strong password strength test", async () => {
+    const weak = await Password.checkStrength("!@#!@cas*CBCL32")
+    expect(weak.strong).toBe(true)
+    expect(weak.errors.length).toBeFalsy()
+  })
 })

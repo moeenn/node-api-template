@@ -1,7 +1,7 @@
 import { Service } from "typedi"
 import { User } from "."
 import { Database } from "@/Vendor/Entities/Database"
-import { NotFoundException } from "@/Vendor/Exceptions"
+import { BadRequestException, NotFoundException } from "@/Vendor/Exceptions"
 import { UserWithoutPassword, ICreateUserArgs } from "./UserService.types"
 import { Password } from "@/Vendor/Helpers"
 
@@ -70,8 +70,14 @@ export class UserService {
    *
    */
   public async setUserPassword(user: User, password: string) {
-    const hash = await Password.hash(password)
+    const strengthTest = await Password.checkStrength(password)
+    if (!strengthTest.strong) {
+      throw BadRequestException("please provide a stronger password", {
+        errors: strengthTest.errors,
+      })
+    }
 
+    const hash = await Password.hash(password)
     await this.db.conn.user.update({
       where: {
         id: user.id,

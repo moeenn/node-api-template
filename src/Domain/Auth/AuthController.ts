@@ -29,6 +29,7 @@ export class AuthController {
       throw AuthException("invalid email or password")
     }
 
+    /* dont send password hash back to the client */
     user.password = null
 
     const token = await this.authTokenService.createToken(user)

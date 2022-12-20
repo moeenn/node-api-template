@@ -1,4 +1,5 @@
 import argon2 from "argon2"
+import owasp, { TestResult } from "owasp-password-strength-test"
 
 export const Password = {
   /**
@@ -15,5 +16,13 @@ export const Password = {
    */
   async verify(hashed: string, cleartext: string): Promise<boolean> {
     return await argon2.verify(hashed, cleartext)
+  },
+
+  /**
+   *  check strength of a cleartext password
+   *
+   */
+  async checkStrength(cleartext: string): Promise<TestResult> {
+    return owasp.test(cleartext)
   },
 }
