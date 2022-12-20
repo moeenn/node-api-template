@@ -21,9 +21,7 @@ export class AuthController {
   public async login(args: ILogin): Promise<ILoginResponse> {
     const user = await this.userService.getUserByEmail(args.email)
     if (!user.password) {
-      throw BadRequestException("user account not configured", {
-        user_id: user.id,
-      })
+      throw BadRequestException("user account not configured")
     }
 
     const isValid = await Password.verify(user.password, args.password)
