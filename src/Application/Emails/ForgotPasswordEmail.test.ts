@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { ForgotPasswordEmail} from "./ForgotPasswordEmail"
+import { ForgotPasswordEmail } from "./ForgotPasswordEmail"
 
 describe("ForgotPasswordEmail test", () => {
   it("email html has all provided fields", () => {

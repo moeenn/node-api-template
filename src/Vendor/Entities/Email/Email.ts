@@ -5,7 +5,7 @@ import { marked } from "marked"
  *
  */
 export abstract class Email {
-	constructor(protected subject: string) {} 
+  constructor(protected subject: string) {}
   abstract template(): string
 
   html(): string {
