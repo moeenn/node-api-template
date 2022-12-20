@@ -1,6 +1,0 @@
-docker-volume/
-node_modules/
-build/
-*.old
-.env.local
-.env.live

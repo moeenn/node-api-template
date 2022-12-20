@@ -1,5 +1,0 @@
-export { AuthController } from "./AuthController"
-export { ForgotPasswordController } from "./ForgotPasswordController"
-export { UploadController } from "./UploadController"
-export { UserController } from "./UserController"
-export { ProfileController } from "./ProfileController"
