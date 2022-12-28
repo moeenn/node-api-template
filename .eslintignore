@@ -1,6 +1,5 @@
-build
 node_modules
-database
-prisma/migrations
-.husky
 .git
+.husky
+build
+prisma/migrations

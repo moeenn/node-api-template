@@ -3,26 +3,26 @@ import { RouteOptions } from "@/Vendor/Entities/Server"
 import { ParseBearerToken, ValidateToken, HasRole } from "@/Vendor/Middleware"
 import {
   UserController,
-  RegisterUserSchema,
-  IRegisterUser,
+  ApproveDisapproveUserSchema,
+  IApproveDisapproveUser,
 } from "@/Domain/User"
 
-export const Register: RouteOptions = {
-  url: "/users/register",
+export const ApproveDisapproveUser: RouteOptions = {
+  url: "/user/set-approval-status",
   method: "POST",
   preValidation: [ParseBearerToken, ValidateToken, HasRole("admin")],
   schema: {
-    body: RegisterUserSchema,
+    body: ApproveDisapproveUserSchema,
   },
   handler: async (req) => {
     const userController = Container.get(UserController)
+    const currentUserID = req.requestContext.get("user_id")
 
-    /* TODO: send email to user with instructions to set a password */
-    const user = await userController.registerUser(req.body as IRegisterUser)
+    const body = req.body as IApproveDisapproveUser
+    await userController.approveDisapproveUser(currentUserID, body)
 
     return {
-      message: "user registered successfully",
-      user,
+      message: "user account approval status updated successfully",
     }
   },
 }

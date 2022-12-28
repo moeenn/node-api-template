@@ -2,7 +2,8 @@ import { Service } from "typedi"
 import { User, UserService, UserWithoutPassword } from "."
 import { RoleService } from "@/Domain/Role"
 import { PasswordTokenService } from "@/Domain/PasswordToken"
-import { IRegisterUser } from "./UserController.schema"
+import { IApproveDisapproveUser, IRegisterUser } from "./UserController.schema"
+import { BadRequestException } from "@/Vendor/Exceptions"
 
 @Service()
 export class UserController {
@@ -36,4 +37,22 @@ export class UserController {
     const user = await this.userService.getUserByID(id)
     return user
   }
+
+  /**
+   *  approve or disapprove a user's account
+   *
+   */
+  public async approveDisapproveUser(
+    currentUserID: number,
+    args: IApproveDisapproveUser,
+  ) {
+    const user = await this.userService.getUserByID(args.user_id)
+    if (user.id === currentUserID) {
+      throw BadRequestException("cannot disable own account")
+    }
+
+    await this.userService.approveDisaproveUser(user, args.status)
+  }
+
+  // TODO: remove user?
 }

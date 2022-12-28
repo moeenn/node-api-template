@@ -11,8 +11,10 @@ export const ValidateToken = async (
 
   const token = req.requestContext.get("token")
   const authToken = await authTokenService.validateToken(token)
+  const roleSlugs = authToken.user.roles.map((role) => role.role.slug)
 
   /** store id of the validated user on the request object */
   req.requestContext.set("user_id", authToken.user.id)
+  req.requestContext.set("user_roles", roleSlugs)
   done()
 }

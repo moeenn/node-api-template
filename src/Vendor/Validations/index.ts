@@ -1,1 +1,2 @@
-export { objectid } from "./ObjectId"
+export { ObjectId } from "./ObjectId"
+export { Domain } from "./Domain"

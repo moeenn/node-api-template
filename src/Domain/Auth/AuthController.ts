@@ -18,10 +18,28 @@ export class AuthController {
     private passwordTokenService: PasswordTokenService,
   ) {}
 
-  public async login(args: ILogin): Promise<ILoginResponse> {
+  public async login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
     const user = await this.userService.getUserByEmail(args.email)
     if (!user.password) {
       throw BadRequestException("user account not configured")
+    }
+
+    /**
+     *  ordinary users should not be able to login to the admin dashboard,
+     *  only admins should be able to login to the dashboard
+     */
+    const isCurrentUserAadmin = await this.userService.hasRole(user, "admin")
+    if (isAdmin && !isCurrentUserAadmin) {
+      throw AuthException("only authorized roles can access this resource", {
+        authorized_roles: ["admin"],
+      })
+    }
+
+    /* only allow approved users to login */
+    if (!user.approved) {
+      throw AuthException(
+        "user account has been disabled by system administrators",
+      )
     }
 
     const isValid = await Password.verify(user.password, args.password)
@@ -68,7 +86,7 @@ export class AuthController {
 
   /**
    *  logout an already logged-in user
-   *
+   *  FIXME: logout function runs twice
    */
   public async logout(token: string) {
     const authToken = await this.authTokenService.validateToken(token)

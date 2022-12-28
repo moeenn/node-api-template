@@ -1,11 +1,18 @@
+import { Service } from "typedi"
+import { Seeder } from "@/Vendor/Entities/Seeder"
 import { RolesSeeder } from "./RolesSeeder"
-// import { AdminSeeder } from "./AdminSeeder"
+import { AdminSeeder } from "./AdminSeeder"
+import { UsersSeeder } from "./UsersSeeder"
 
-/**
- *  register all enabled seeders here
- *
- */
-export const seeders = [
-  RolesSeeder,
-  // AdminSeeder, // TODO: finalize implementation
-]
+@Service()
+export class DefaultSeeders {
+  public readonly seeders: Seeder[]
+
+  constructor() {
+    /**
+     *  register all enabled seeders here
+     *
+     */
+    this.seeders = [RolesSeeder, AdminSeeder, UsersSeeder]
+  }
+}

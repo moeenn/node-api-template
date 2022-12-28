@@ -7,8 +7,8 @@ export class EnvironmentConfig {
   public readonly required: string[]
 
   constructor() {
-    this.file = ".env"
+    this.file = ".env.development"
     this.load_in_production = false
-    this.required = ["APP_NAME", "FRONTEND_URL", "SERVER_PORT", "DATABASE_URI"]
+    this.required = ["DATABASE_URI"]
   }
 }

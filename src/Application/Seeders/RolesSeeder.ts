@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client"
+import { Seeder } from "@/Vendor/Entities/Seeder"
 
-export async function RolesSeeder(client: PrismaClient) {
+export const RolesSeeder: Seeder = async (client) => {
   const roles = [
     { slug: "admin", name: "Admin" },
     { slug: "user", name: "User" },

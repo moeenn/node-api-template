@@ -1,7 +1,7 @@
 import { Service } from "typedi"
 import { Database } from "@/Vendor/Entities/Database"
 import { AuthToken } from "."
-import { User } from "@/Domain/User"
+import { User, UserWithRelations } from "@/Domain/User"
 import { Random } from "@/Vendor/Helpers"
 import { AuthConfig } from "@/Application/Config"
 import { AuthException } from "@/Vendor/Exceptions"
@@ -31,11 +31,19 @@ export class AuthTokenService {
    */
   public async validateToken(
     token: string,
-  ): Promise<AuthToken & { user: User }> {
+  ): Promise<AuthToken & { user: UserWithRelations }> {
     const authToken = await this.db.conn.authToken.findUnique({
       where: { token },
       include: {
-        user: true,
+        user: {
+          include: {
+            roles: {
+              include: {
+                role: true,
+              },
+            },
+          },
+        },
       },
     })
 

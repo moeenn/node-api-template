@@ -1,8 +1,8 @@
 import { Service } from "typedi"
-import { User } from "."
+import { User, UserWithoutPassword, UserWithRelations } from "."
 import { Database } from "@/Vendor/Entities/Database"
 import { BadRequestException, NotFoundException } from "@/Vendor/Exceptions"
-import { UserWithoutPassword, ICreateUserArgs } from "./UserService.types"
+import { ICreateUserArgs } from "./UserService.types"
 import { Password } from "@/Vendor/Helpers"
 
 @Service()
@@ -16,6 +16,13 @@ export class UserService {
   public async getUserByID(id: number): Promise<UserWithoutPassword> {
     const user = await this.db.conn.user.findUnique({
       where: { id },
+      include: {
+        roles: {
+          include: {
+            role: true,
+          },
+        },
+      },
     })
 
     if (!user) {
@@ -29,9 +36,16 @@ export class UserService {
    *  get a single user using email
    *
    */
-  public async getUserByEmail(email: string): Promise<User> {
+  public async getUserByEmail(email: string): Promise<UserWithRelations> {
     const user = await this.db.conn.user.findFirst({
       where: { email },
+      include: {
+        roles: {
+          include: {
+            role: true,
+          },
+        },
+      },
     })
 
     if (!user) {
@@ -45,7 +59,21 @@ export class UserService {
    *  register a new user with the system
    *
    */
-  public async createUser(args: ICreateUserArgs): Promise<User> {
+  public async createUser(args: ICreateUserArgs): Promise<UserWithRelations> {
+    /**
+     *  all users must have unique email addresses, ensure that provided
+     *  email is unique
+     */
+    const exists = await this.db.conn.user.findFirst({
+      where: {
+        email: args.email,
+      },
+    })
+
+    if (exists) {
+      throw BadRequestException("user with email address already registered")
+    }
+
     /**
      *  all users will be created with an empty password. They will use the
      *  password token to set a password
@@ -58,6 +86,13 @@ export class UserService {
           create: args.roles.map((role) => ({
             role_id: role.id,
           })),
+        },
+      },
+      include: {
+        roles: {
+          include: {
+            role: true,
+          },
         },
       },
     })
@@ -84,6 +119,56 @@ export class UserService {
       },
       data: {
         password: hash,
+      },
+    })
+  }
+
+  /**
+   *  check whether a user has a particular role
+   *
+   */
+  public async hasRole(
+    user: UserWithRelations,
+    slug: string,
+  ): Promise<boolean> {
+    for (const role of user.roles) {
+      if (role.role.slug === slug) {
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
+   *  check if any users match the provided domain name pattern
+   *
+   */
+  public async matchUserDomains(domain: string): Promise<number> {
+    const users = await this.db.conn.user.findMany({
+      where: {
+        email: {
+          endsWith: domain,
+        },
+      },
+    })
+
+    return users.length
+  }
+
+  /**
+   *  approve or disapprove a users account
+   *
+   */
+  public async approveDisaproveUser(
+    user: UserWithoutPassword,
+    status: boolean,
+  ) {
+    await this.db.conn.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        approved: status,
       },
     })
   }

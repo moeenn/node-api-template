@@ -1,6 +1,11 @@
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URI")
+// }
+
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URI")
+  provider = "sqlite"
+  url      = "file:dev.db"
 }
 
 generator client {
@@ -8,51 +13,52 @@ generator client {
 }
 
 model Role {
-  id Int @id @default(autoincrement())
-  slug String 
-  name String
+  id    Int        @id @default(autoincrement())
+  slug  String     @unique
+  name  String     @unique
   users UserRole[]
 }
 
 // pivot table for many-to-many relation between user & role
 model UserRole {
-  role Role @relation(fields: [role_id], references: [id])
+  role    Role @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  user    User @relation(fields: [user_id], references: [id], onDelete: Cascade)
   role_id Int
-  user User @relation(fields: [user_id], references: [id])
   user_id Int
 
   @@id([user_id, role_id])
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  name String
-  password String? 
-  roles UserRole[]
-  auth_tokens AuthToken[]
-  password_token PasswordToken?
+  id                   Int                 @id @default(autoincrement())
+  email                String              @unique
+  name                 String
+  password             String?
+  approved             Boolean             @default(true)
+  roles                UserRole[]
+  auth_tokens          AuthToken[]
+  password_token       PasswordToken?
   password_reset_token PasswordResetToken?
 }
 
 model AuthToken {
-  id Int @id @default(autoincrement())
-  token String @unique
-  user User @relation(fields: [user_id], references: [id])
+  id      Int    @id @default(autoincrement())
+  token   String @unique
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id Int
 }
 
 model PasswordToken {
-  id Int @id @default(autoincrement())
-  token String @unique
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int @unique
+  id      Int    @id @default(autoincrement())
+  token   String @unique
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id Int    @unique
 }
 
 model PasswordResetToken {
-  id Int @id @default(autoincrement())
-  token String @unique
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int @unique
+  id         Int      @id @default(autoincrement())
+  token      String   @unique
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id    Int      @unique
   created_at DateTime @default(now())
 }

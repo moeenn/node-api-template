@@ -6,6 +6,7 @@ export class AuthConfig {
   public readonly tokens_length: number
   public readonly auth_state_defaults: {
     user_id: number
+    user_roles: string[]
     token: string
   }
 
@@ -14,6 +15,7 @@ export class AuthConfig {
     this.tokens_length = 32
     this.auth_state_defaults = {
       user_id: 0,
+      user_roles: [],
       token: "",
     }
   }

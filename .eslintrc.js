@@ -14,5 +14,6 @@ module.exports = {
       "avoidEscape": true 
     }],
     "semi": ["error", "never"],
+    // "require-await": 2,          // TODO: consider enabling
   }
 };

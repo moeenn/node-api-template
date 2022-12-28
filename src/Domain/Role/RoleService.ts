@@ -17,7 +17,9 @@ export class RoleService {
     })
 
     if (!role) {
-      throw NotFoundException(`role with slug ${slug} not found`)
+      throw NotFoundException("user role not found", {
+        role: slug,
+      })
     }
 
     return role

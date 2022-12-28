@@ -1,20 +1,33 @@
 version: '3.3'
 
 services:
-  mongo:
-    container_name: "pg-sandbox"
+  db:
+    container_name: "pg-banking-dev"
     image: postgres:14.1-alpine
     restart: always
     environment:
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=devpass
-      - POSTGRES_DB=sandbox
+      - POSTGRES_DB=dev
     volumes:
-      - ./database/docker-volume:/var/lib/postgresql/data
+      - ./docker-volume:/var/lib/postgresql/data
     ports:
       - "5432:5432"      
     networks:
       - app-network
+
+  # db-test:
+  #   container_name: "pg-banking-test"
+  #   image: postgres:14.1-alpine
+  #   restart: always
+  #   environment:
+  #     - POSTGRES_USER=devuser
+  #     - POSTGRES_PASSWORD=devpass
+  #     - POSTGRES_DB=test
+  #   ports:
+  #     - "5433:5432"      
+  #   networks:
+  #     - app-network
 
 networks:
   app-network:

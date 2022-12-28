@@ -13,9 +13,9 @@ describe("SetFirstPasswordEmail test", () => {
     const email = new SetFirstPasswordEmail(args)
     const html = email.html()
 
-    expect(html.includes(args.appName)).toBe(true)
-    expect(html.includes(args.frontendURL)).toBe(true)
-    expect(html.includes(args.resetPath)).toBe(true)
-    expect(html.includes(args.resetToken)).toBe(true)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const [_, value] of Object.entries(args)) {
+      expect(html.includes(value)).toBe(true)
+    }
   })
 })

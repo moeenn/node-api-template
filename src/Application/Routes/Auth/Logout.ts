@@ -10,6 +10,8 @@ export const Logout: RouteOptions = {
   handler: async (req) => {
     const token = req.requestContext.get("token")
 
+    console.log("logging out...")
+
     const authController = Container.get(AuthController)
     await authController.logout(token)
 

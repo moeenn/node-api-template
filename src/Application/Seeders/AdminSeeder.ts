@@ -1,17 +1,16 @@
 import { Container } from "typedi"
-import { PrismaClient } from "@prisma/client"
+import { Seeder } from "@/Vendor/Entities/Seeder"
 import { RoleService } from "@/Domain/Role"
-// import { Password } from "@/Vendor/Helpers"
-import argon2 from "argon2"
+import { Password } from "@/Vendor/Helpers"
 
-export async function AdminSeeder(client: PrismaClient) {
+export const AdminSeeder: Seeder = async (client) => {
   const roleService = Container.get(RoleService)
   const adminRole = await roleService.getRoleBySlug("admin")
 
   const admin = {
     name: "Admin",
     email: "admin@site.com",
-    password: await argon2.hash("password"),
+    password: await Password.hash("123_Orangez"),
   }
 
   const user = await client.user.create({
