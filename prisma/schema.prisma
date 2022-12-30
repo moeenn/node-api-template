@@ -1,0 +1,39 @@
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URI")
+// }
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Role {
+  id    Int        @id @default(autoincrement())
+  slug  String     @unique
+  name  String     @unique
+  users UserRole[]
+}
+
+// pivot table for many-to-many relation between user & role
+model UserRole {
+  role    Role @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  user    User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  role_id Int
+  user_id Int
+
+  @@id([user_id, role_id])
+}
+
+model User {
+  id       Int        @id @default(autoincrement())
+  email    String     @unique
+  name     String
+  password String?
+  approved Boolean    @default(true)
+  roles    UserRole[]
+}
