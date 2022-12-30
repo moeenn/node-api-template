@@ -1,5 +1,5 @@
-# ts-sandbox
-A Typescript sandbox with following tools already setup
+# NodeJS API Template
+A template with following tools already setup
 - Typescript compiler i.e. ```tsc```
 - Absolute imports with `module-alias`
 - ```eslint``` for static analysis and linting
