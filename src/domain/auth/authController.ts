@@ -56,9 +56,12 @@ async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
  */
 async function setFirstPassword(args: ISetFirstPassword) {
   const jwtPayload = await JWT.validate(env("JWT_SECRET"), args.password_token)
-  const { userID } = jwtPayload as { userID: number }
+  const result = jwtPayload as { userID: number }
+  if (!result.userID) {
+    throw BadRequestException("invalid password token")
+  }
 
-  const user = await userService.getUserByIDWithPassword(userID)
+  const user = await userService.getUserByIDWithPassword(result.userID)
   await userService.setUserPassword(user, args.password)
 }
 

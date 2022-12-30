@@ -15,6 +15,7 @@ export const adminLogin: RouteOptions = {
   },
   handler: async (req) => {
     /* only allow admins to login using this route */
+    // TODO: admin JWT should expire in ~1hr
     const res = await authController.login(req.body as ILogin, true)
 
     return {

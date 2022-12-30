@@ -10,7 +10,11 @@ export const JWT = {
     payload: Record<string, unknown>,
     expiredInSeconds?: number,
   ): Promise<string> {
-    return jwt.sign(payload, secret, { expiresIn: expiredInSeconds })
+    if (expiredInSeconds) {
+      jwt.sign(payload, secret, { expiresIn: expiredInSeconds })
+    }
+
+    return jwt.sign(payload, secret)
   },
 
   /**

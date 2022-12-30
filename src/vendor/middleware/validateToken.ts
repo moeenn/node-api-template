@@ -14,12 +14,12 @@ export const validateToken = async (req: Request) => {
     throw AuthException("invalid bearer token")
   }
 
-  const { userID } = jwtPayload as { userID: number }
-  if (!userID) {
+  const result = jwtPayload as { userID: number }
+  if (!result.userID) {
     throw AuthException("invalid bearer token")
   }
 
-  const user = await userService.getUserByID(userID)
+  const user = await userService.getUserByID(result.userID)
   const roleSlugs = user.roles.map((role) => role.role.slug)
 
   /** store id of the validated user on the request object */

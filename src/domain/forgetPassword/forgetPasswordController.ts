@@ -46,8 +46,12 @@ async function resetForgottenPassword(args: IResetForgottenPassword) {
     throw BadRequestException("invalid password reset token")
   }
 
-  const { userID } = result as { userID: number }
-  const user = await userService.getUserByIDWithPassword(userID)
+  const res = result as { userID: number }
+  if (!res.userID) {
+    throw BadRequestException("invalid password reset token")
+  }
+
+  const user = await userService.getUserByIDWithPassword(res.userID)
 
   /* set new password */
   await userService.setUserPassword(user, args.password)
