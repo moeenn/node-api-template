@@ -36,16 +36,8 @@ model User {
   password             String?
   approved             Boolean             @default(true)
   roles                UserRole[]
-  auth_tokens          AuthToken[]
   password_token       PasswordToken?
   password_reset_token PasswordResetToken?
-}
-
-model AuthToken {
-  id      Int    @id @default(autoincrement())
-  token   String @unique
-  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id Int
 }
 
 model PasswordToken {

@@ -1,4 +1,4 @@
-import { User, UserWithoutPassword, userService, UserWithRelations } from "."
+import { UserWithoutPassword, userService, UserWithRelations } from "."
 import { roleService } from "@/domain/role"
 import { passwordTokenService } from "@/domain/passwordToken"
 import { IApproveDisapproveUser, IRegisterUser } from "./userController.schema"

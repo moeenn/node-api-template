@@ -63,7 +63,7 @@ test("setUserPassword", async () => {
 test("hasRole", async () => {
   const roleUser = await roleService.getRoleBySlug("user")
   const email = (await Random.string(5)) + "@site.com"
-  let newUser = await userService.createUser({
+  const newUser = await userService.createUser({
     name: "someone",
     email: email,
     roles: [roleUser],

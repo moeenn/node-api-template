@@ -2,7 +2,7 @@ import { Request, Reply, Done } from "@/vendor/entities/server"
 import { AuthException } from "@/vendor/exceptions"
 
 export const hasRole = (...roles: string[]) => {
-  return async (req: Request, _reply: Reply, done: Done) => {
+  return (req: Request, _reply: Reply, done: Done) => {
     const currentRoles = req.requestContext.get("user_roles")
 
     /**

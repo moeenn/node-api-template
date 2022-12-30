@@ -6,7 +6,6 @@ import { userRoleService } from "@/domain/userRole"
 import { Password } from "@/vendor/helpers"
 import { passwordTokenService } from "../passwordToken"
 import { passwordResetTokenService } from "../passwordResetToken"
-import { authTokenService } from "../authToken"
 
 /**
  *  get a single user using ID
@@ -180,7 +179,6 @@ async function removeUser(user: UserWithRelations) {
   /* must remove all relations first */
   await passwordTokenService.deleteUserTokens(user)
   await passwordResetTokenService.deleteUserTokens(user)
-  await authTokenService.removeUserTokens(user)
   await userRoleService.removeUserRoles(user)
 
   /* finally delete the actual user */

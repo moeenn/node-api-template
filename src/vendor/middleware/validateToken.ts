@@ -1,17 +1,26 @@
-import { Request, Reply, Done } from "@/vendor/entities/server"
-import { authTokenService } from "@/domain/authToken"
+import { Request } from "@/vendor/entities/server"
+import { JWT, env } from "@/vendor/helpers"
+import { userService } from "@/domain/user"
+import { AuthException } from "@/vendor/exceptions"
 
-export const validateToken = async (
-  req: Request,
-  _reply: Reply,
-  done: Done,
-) => {
+export const validateToken = async (req: Request) => {
   const token = req.requestContext.get("token")
-  const authToken = await authTokenService.validateToken(token)
-  const roleSlugs = authToken.user.roles.map((role) => role.role.slug)
+  const jwtPayload = await JWT.validate(env("JWT_SECRET"), token)
+  if (!jwtPayload) {
+    throw AuthException("invalid bearer token")
+  }
+
+  const { userID } = jwtPayload as { userID: number }
+  if (!userID) {
+    throw AuthException("invalid bearer token")
+  }
+
+  const user = await userService.getUserByID(userID)
+  const roleSlugs = user.roles.map((role) => role.role.slug)
 
   /** store id of the validated user on the request object */
-  req.requestContext.set("user_id", authToken.user.id)
+  req.requestContext.set("user_id", user.id)
   req.requestContext.set("user_roles", roleSlugs)
-  done()
+
+  // done()
 }

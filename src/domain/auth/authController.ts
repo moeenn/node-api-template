@@ -1,4 +1,3 @@
-import { authTokenService } from "@/domain/authToken"
 import { userService } from "@/domain/user"
 import { passwordTokenService } from "@/domain/passwordToken"
 import {
@@ -7,7 +6,7 @@ import {
   ISetFirstPassword,
 } from "./authController.schema"
 import { BadRequestException, AuthException } from "@/vendor/exceptions"
-import { Password } from "@/vendor/helpers"
+import { Password, JWT, env } from "@/vendor/helpers"
 
 async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
   const user = await userService.getUserByEmail(args.email)
@@ -41,11 +40,9 @@ async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
   /* dont send password hash back to the client */
   user.password = null
 
-  const token = await authTokenService.createToken(user)
-  return {
-    user,
-    token: token.token,
-  }
+  const jwtSecret = env("JWT_SECRET")
+  const token = await JWT.generate(jwtSecret, { userID: user.id })
+  return { user, token }
 }
 
 /**
@@ -72,17 +69,7 @@ async function setFirstPassword(args: ISetFirstPassword) {
   await passwordTokenService.deleteToken(passwordTokenInstance)
 }
 
-/**
- *  logout an already logged-in user
- *  FIXME: logout function runs twice
- */
-async function logout(token: string) {
-  const authToken = await authTokenService.validateToken(token)
-  await authTokenService.revokeToken(authToken)
-}
-
 export const authController = {
   login,
   setFirstPassword,
-  logout,
 }

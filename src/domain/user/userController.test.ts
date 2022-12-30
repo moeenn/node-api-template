@@ -20,4 +20,3 @@ test("registerUser valid", async () => {
   const fullUser = await userService.getUserByEmail(user.email)
   await userService.removeUser(fullUser)
 })
-

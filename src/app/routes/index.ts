@@ -2,7 +2,6 @@ import { userRegister } from "./user/userRegister"
 import { userLogin } from "./auth/userLogin"
 import { adminLogin } from "./auth/adminLogin"
 import { setFirstPassword } from "./auth/setFirstPassword"
-import { logout } from "./auth/logout"
 import { getUserProfile } from "./user/getUserProfile"
 import { approveDisapproveUser } from "./user/approveDisapproveUser"
 import { requestPasswordReset } from "./forgetPassword/requestPasswordReset"
@@ -18,7 +17,6 @@ export const routes = [
   userLogin,
   adminLogin,
   setFirstPassword,
-  logout,
   getUserProfile,
   approveDisapproveUser,
   requestPasswordReset,

@@ -1,22 +1,17 @@
-import { Done, Request, Reply } from "@/vendor/entities/server"
+import { Request } from "@/vendor/entities/server"
 import { AuthException } from "@/vendor/exceptions"
 
-export const parseBearerToken = (req: Request, _reply: Reply, done: Done) => {
+export const parseBearerToken = async (req: Request) => {
   const header = req.headers["authorization"]
 
   if (!header) {
-    done(AuthException("please provide bearer token"))
-    return
+    throw AuthException("please provide bearer token")
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, token] = header.split(" ")
-
+  const token = header.replace("Bearer ", "")
   if (!token) {
-    done(AuthException("invalid bearer token"))
-    return
+    throw AuthException("invalid bearer token")
   }
 
   req.requestContext.set("token", token)
-  done()
 }
