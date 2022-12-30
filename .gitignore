@@ -1,7 +1,0 @@
-node_modules/
-build/
-*.old
-.husky
-prisma/migrations/*
-prisma/*.db
-prisma/*.db-journal

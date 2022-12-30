@@ -1,6 +1,0 @@
-docker-volume
-.git
-.build
-.husky
-node_modules
-.env.*
