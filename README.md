@@ -1,5 +1,5 @@
-# Banking Application
-A NodeJS API for banks with following tools already setup
+# ts-sandbox
+A Typescript sandbox with following tools already setup
 - Typescript compiler i.e. ```tsc```
 - Absolute imports with `module-alias`
 - ```eslint``` for static analysis and linting

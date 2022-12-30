@@ -1,10 +1,8 @@
-import "reflect-metadata"
 import "module-alias/register"
-import { Container } from "typedi"
-import { Server } from "@/Vendor/Entities/Server"
+import { Server } from "@/vendor/entities/server"
 
 async function main() {
-  const server = Container.get(Server)
+  const server = new Server()
   await server.run()
 }
 
