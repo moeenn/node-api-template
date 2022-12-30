@@ -1,5 +1,5 @@
 import { RouteOptions } from "@/vendor/entities/server"
-import { parseBearerToken, validateToken, hasRole } from "@/vendor/middleware"
+import { validateToken, hasRole } from "@/vendor/middleware"
 import {
   userController,
   RegisterUserSchema,
@@ -9,7 +9,7 @@ import {
 export const userRegister: RouteOptions = {
   url: "/users/register",
   method: "POST",
-  preValidation: [parseBearerToken, validateToken, hasRole("admin")],
+  preValidation: [validateToken, hasRole("admin")],
   schema: {
     body: RegisterUserSchema,
   },

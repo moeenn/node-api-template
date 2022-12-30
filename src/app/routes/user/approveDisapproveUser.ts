@@ -1,5 +1,5 @@
 import { RouteOptions } from "@/vendor/entities/server"
-import { parseBearerToken, validateToken, hasRole } from "@/vendor/middleware"
+import { validateToken, hasRole } from "@/vendor/middleware"
 import {
   userController,
   ApproveDisapproveUserSchema,
@@ -9,7 +9,7 @@ import {
 export const approveDisapproveUser: RouteOptions = {
   url: "/user/set-approval-status",
   method: "POST",
-  preValidation: [parseBearerToken, validateToken, hasRole("admin")],
+  preValidation: [validateToken, hasRole("admin")],
   schema: {
     body: ApproveDisapproveUserSchema,
   },

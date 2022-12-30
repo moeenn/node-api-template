@@ -4,7 +4,11 @@ import { userService } from "@/domain/user"
 import { AuthException } from "@/vendor/exceptions"
 
 export const validateToken = async (req: Request) => {
-  const token = req.requestContext.get("token")
+  const token = parseBearerToken(req)
+  if (!token) {
+    throw AuthException("invalid bearer token")
+  }
+
   const jwtPayload = await JWT.validate(env("JWT_SECRET"), token)
   if (!jwtPayload) {
     throw AuthException("invalid bearer token")
@@ -19,8 +23,17 @@ export const validateToken = async (req: Request) => {
   const roleSlugs = user.roles.map((role) => role.role.slug)
 
   /** store id of the validated user on the request object */
+  req.requestContext.set("token", token)
   req.requestContext.set("user_id", user.id)
   req.requestContext.set("user_roles", roleSlugs)
+}
 
-  // done()
+function parseBearerToken(req: Request): string | undefined {
+  const header = req.headers["authorization"]
+  if (!header) return
+
+  const token = header.replace("Bearer ", "")
+  if (!token) return
+
+  return token
 }
