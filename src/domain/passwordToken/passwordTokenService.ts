@@ -1,4 +1,4 @@
-import { PasswordToken } from "."
+import { PasswordToken, PasswordTokenWithRelations } from "."
 import { User } from "@/domain/user"
 import { database } from "@/vendor/entities/database"
 import { Random } from "@/vendor/helpers"
@@ -9,9 +9,7 @@ import { NotFoundException } from "@/vendor/exceptions"
  *  find a single password token using its token value
  *
  */
-async function findToken(
-  token: string,
-): Promise<PasswordToken & { user: User }> {
+async function findToken(token: string): Promise<PasswordTokenWithRelations> {
   const passwordToken = await database.passwordToken.findUnique({
     where: { token },
     include: {
@@ -59,8 +57,21 @@ async function deleteToken(token: PasswordToken) {
   })
 }
 
+/**
+ *  remove all tokens for a user
+ *
+ */
+async function deleteUserTokens(user: User) {
+  await database.passwordToken.deleteMany({
+    where: {
+      user_id: user.id,
+    },
+  })
+}
+
 export const passwordTokenService = {
   findToken,
   createToken,
   deleteToken,
+  deleteUserTokens,
 }

@@ -52,8 +52,21 @@ async function deleteToken(token: PasswordResetToken) {
   })
 }
 
+/**
+ *  remove all password reset tokens for a user
+ *
+ */
+async function deleteUserTokens(user: User) {
+  await database.passwordResetToken.deleteMany({
+    where: {
+      user_id: user.id,
+    },
+  })
+}
+
 export const passwordResetTokenService = {
   findToken,
   createToken,
   deleteToken,
+  deleteUserTokens,
 }

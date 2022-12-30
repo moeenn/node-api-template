@@ -10,7 +10,8 @@
     "lint": "npx eslint . --ext .ts",
     "prepare": "husky install",
     "format": "npx prettier --write 'src/**/*.ts'",
-    "check": "npm run format && npm run lint"
+    "check": "npm run format && npm run lint",
+    "env:check": "node ./src/vendor/scripts/validate_env.mjs"
   },
   "_moduleAliases": {
     "@": "build"

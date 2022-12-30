@@ -2,7 +2,11 @@ import { User, UserWithoutPassword, UserWithRelations } from "."
 import { database } from "@/vendor/entities/database"
 import { BadRequestException, NotFoundException } from "@/vendor/exceptions"
 import { ICreateUserArgs } from "./userService.types"
+import { userRoleService } from "@/domain/userRole"
 import { Password } from "@/vendor/helpers"
+import { passwordTokenService } from "../passwordToken"
+import { passwordResetTokenService } from "../passwordResetToken"
+import { authTokenService } from "../authToken"
 
 /**
  *  get a single user using ID
@@ -168,6 +172,25 @@ async function approveDisaproveUser(
   })
 }
 
+/**
+ *  completely delete a single user
+ *
+ */
+async function removeUser(user: UserWithRelations) {
+  /* must remove all relations first */
+  await userRoleService.removeUserRoles(user)
+  await passwordTokenService.deleteUserTokens(user)
+  await passwordResetTokenService.deleteUserTokens(user)
+  await authTokenService.removeUserTokens(user)
+
+  /* finally delete the actual user */
+  await database.user.delete({
+    where: {
+      id: user.id,
+    },
+  })
+}
+
 export const userService = {
   getUserByID,
   getUserByEmail,
@@ -176,4 +199,5 @@ export const userService = {
   hasRole,
   matchUserDomains,
   approveDisaproveUser,
+  removeUser,
 }

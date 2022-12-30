@@ -61,8 +61,21 @@ async function revokeToken(token: AuthToken) {
   })
 }
 
+/**
+ *  remove all user auth tokens
+ *
+ */
+async function removeUserTokens(user: User) {
+  await database.authToken.deleteMany({
+    where: {
+      user_id: user.id,
+    },
+  })
+}
+
 export const authTokenService = {
   createToken,
   validateToken,
   revokeToken,
+  removeUserTokens,
 }
