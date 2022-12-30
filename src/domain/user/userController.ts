@@ -1,4 +1,4 @@
-import { User, UserWithoutPassword, userService } from "."
+import { User, UserWithoutPassword, userService, UserWithRelations } from "."
 import { roleService } from "@/domain/role"
 import { passwordTokenService } from "@/domain/passwordToken"
 import { IApproveDisapproveUser, IRegisterUser } from "./userController.schema"
@@ -8,7 +8,7 @@ import { BadRequestException } from "@/vendor/exceptions"
  *  register a new user with the system with provided roles and details
  *
  */
-async function registerUser(args: IRegisterUser): Promise<User> {
+async function registerUser(args: IRegisterUser): Promise<UserWithRelations> {
   const roles = await roleService.getRolesBySlugs(args.roles)
   const user = await userService.createUser({
     name: args.name,

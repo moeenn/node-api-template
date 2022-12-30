@@ -178,10 +178,10 @@ async function approveDisaproveUser(
  */
 async function removeUser(user: UserWithRelations) {
   /* must remove all relations first */
-  await userRoleService.removeUserRoles(user)
   await passwordTokenService.deleteUserTokens(user)
   await passwordResetTokenService.deleteUserTokens(user)
   await authTokenService.removeUserTokens(user)
+  await userRoleService.removeUserRoles(user)
 
   /* finally delete the actual user */
   await database.user.delete({

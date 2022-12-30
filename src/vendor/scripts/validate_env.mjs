@@ -70,7 +70,11 @@ async function main() {
   
   if (missing.length) {
     console.error("Error: Required environment variables missing:", missing)
+    process.exit(1)
   }
 }
 
-main().catch(e => console.error("Error:", e.message))
+main().catch(e => {
+  console.error("Error:", e.message)
+  process.exit(1)
+})

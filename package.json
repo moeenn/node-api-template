@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node build/index.js\"",
     "build": "npx tsc",
-    "start": "NODE_ENV=production node build/index.js",
-    "test": "npx vitest",
+    "start": "npm run env:check && node build/index.js",
+    "test": "dotenv -e .env -- npx vitest",
     "lint": "npx eslint . --ext .ts",
     "prepare": "husky install",
     "format": "npx prettier --write 'src/**/*.ts'",
     "check": "npm run format && npm run lint",
-    "env:check": "node ./src/vendor/scripts/validate_env.mjs"
+    "env:check": "node ./src/vendor/scripts/validate_env.mjs",
+    "db:migrate": "npx prisma migrate dev"
   },
   "_moduleAliases": {
     "@": "build"
@@ -42,6 +43,7 @@
     "@fastify/websocket": "^7.1.1",
     "@prisma/client": "^4.8.0",
     "argon2": "^0.30.2",
+    "dotenv-cli": "^6.0.0",
     "fastify": "^4.10.2",
     "fastify-type-provider-zod": "^1.1.8",
     "marked": "^4.2.5",
