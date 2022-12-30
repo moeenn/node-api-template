@@ -4,12 +4,7 @@ import { Role } from "@/domain/role"
 
 export { userService } from "./userService"
 export { userController } from "./userController"
-export {
-  RegisterUserSchema,
-  IRegisterUser,
-  ApproveDisapproveUserSchema,
-  IApproveDisapproveUser,
-} from "./userController.schema"
+export * from "./userController.schema"
 
 export { User }
 export type UserWithRelations = User & { roles: (UserRole & { role: Role })[] }

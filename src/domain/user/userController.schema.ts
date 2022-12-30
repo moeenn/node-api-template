@@ -12,3 +12,8 @@ export const ApproveDisapproveUserSchema = z.object({
   status: z.boolean(),
 })
 export type IApproveDisapproveUser = z.infer<typeof ApproveDisapproveUserSchema>
+
+export const RemoveUserSchema = z.object({
+  user_id: z.number(),
+})
+export type IRemoveUser = z.infer<typeof RemoveUserSchema>

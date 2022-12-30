@@ -1,8 +1,13 @@
 import { UserWithoutPassword, userService, UserWithRelations } from "."
 import { roleService } from "@/domain/role"
-import { passwordTokenService } from "@/domain/passwordToken"
-import { IApproveDisapproveUser, IRegisterUser } from "./userController.schema"
+import {
+  IApproveDisapproveUser,
+  IRegisterUser,
+  IRemoveUser,
+} from "./userController.schema"
 import { BadRequestException } from "@/vendor/exceptions"
+import { authConfig } from "@/app/config"
+import { JWT, env } from "@/vendor/helpers"
 
 /**
  *  register a new user with the system with provided roles and details
@@ -16,7 +21,16 @@ async function registerUser(args: IRegisterUser): Promise<UserWithRelations> {
     roles,
   })
 
-  await passwordTokenService.createToken(user)
+  const token = await JWT.generate(
+    env("JWT_SECRET"),
+    { userID: user.id },
+    authConfig.tokensExpiry.firstPassword,
+  )
+
+  // TODO: email password token to the user
+  // TODO: remove from console
+  console.log({ token })
+
   return user
 }
 
@@ -45,10 +59,18 @@ async function approveDisapproveUser(
   await userService.approveDisaproveUser(user, args.status)
 }
 
-// TODO: remove user?
+/**
+ *  completely remove a user from the system
+ *
+ */
+async function removeUser(args: IRemoveUser) {
+  const user = await userService.getUserByIDWithPassword(args.user_id)
+  await userService.removeUser(user)
+}
 
 export const userController = {
   registerUser,
   getUser,
   approveDisapproveUser,
+  removeUser,
 }

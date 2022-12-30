@@ -4,8 +4,6 @@ import { BadRequestException, NotFoundException } from "@/vendor/exceptions"
 import { ICreateUserArgs } from "./userService.types"
 import { userRoleService } from "@/domain/userRole"
 import { Password } from "@/vendor/helpers"
-import { passwordTokenService } from "../passwordToken"
-import { passwordResetTokenService } from "../passwordResetToken"
 
 /**
  *  get a single user using ID
@@ -28,6 +26,29 @@ async function getUserByID(id: number): Promise<UserWithoutPassword> {
   }
 
   return Object.assign(user, { password: undefined })
+}
+
+/**
+ *  get s single user with password
+ *
+ */
+async function getUserByIDWithPassword(id: number): Promise<UserWithRelations> {
+  const user = await database.user.findUnique({
+    where: { id },
+    include: {
+      roles: {
+        include: {
+          role: true,
+        },
+      },
+    },
+  })
+
+  if (!user) {
+    throw NotFoundException(`user with id ${id} not found`)
+  }
+
+  return user
 }
 
 /**
@@ -175,10 +196,8 @@ async function approveDisaproveUser(
  *  completely delete a single user
  *
  */
-async function removeUser(user: UserWithRelations) {
+async function removeUser(user: User) {
   /* must remove all relations first */
-  await passwordTokenService.deleteUserTokens(user)
-  await passwordResetTokenService.deleteUserTokens(user)
   await userRoleService.removeUserRoles(user)
 
   /* finally delete the actual user */
@@ -191,6 +210,7 @@ async function removeUser(user: UserWithRelations) {
 
 export const userService = {
   getUserByID,
+  getUserByIDWithPassword,
   getUserByEmail,
   createUser,
   setUserPassword,

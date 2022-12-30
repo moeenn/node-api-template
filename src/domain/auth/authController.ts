@@ -1,5 +1,4 @@
 import { userService } from "@/domain/user"
-import { passwordTokenService } from "@/domain/passwordToken"
 import {
   ILogin,
   ILoginResponse,
@@ -56,23 +55,11 @@ async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
  *  empty
  */
 async function setFirstPassword(args: ISetFirstPassword) {
-  const passwordTokenInstance = await passwordTokenService.findToken(
-    args.password_token,
-  )
+  const jwtPayload = await JWT.validate(env("JWT_SECRET"), args.password_token)
+  const { userID } = jwtPayload as { userID: number }
 
-  if (!passwordTokenInstance.user) {
-    throw BadRequestException("user not found against passwordToken", {
-      password_token_id: passwordTokenInstance.id,
-    })
-  }
-
-  await userService.setUserPassword(passwordTokenInstance.user, args.password)
-
-  /**
-   *  password token can only be used once, i.e. to set the first password
-   *  for the user. we remove it when password is successfully set
-   */
-  await passwordTokenService.deleteToken(passwordTokenInstance)
+  const user = await userService.getUserByIDWithPassword(userID)
+  await userService.setUserPassword(user, args.password)
 }
 
 export const authController = {

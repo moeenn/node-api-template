@@ -4,10 +4,8 @@ import {
   IValidateToken,
   IResetForgottenPassword,
 } from "./forgetPasswordController.schema"
-import {
-  PasswordResetToken,
-  passwordResetTokenService,
-} from "@/domain/passwordResetToken"
+import { authConfig } from "@/app/config"
+import { JWT, env } from "@/vendor/helpers"
 import { BadRequestException } from "@/vendor/exceptions"
 
 /**
@@ -17,12 +15,16 @@ import { BadRequestException } from "@/vendor/exceptions"
  */
 async function requestPasswordReset(
   args: IRequestPasswordReset,
-): Promise<PasswordResetToken> {
+): Promise<string> {
   const user = await userService.getUserByEmail(args.email)
-  return await passwordResetTokenService.createToken(user)
+  const token = await JWT.generate(
+    env("JWT_SECRET"),
+    { userID: user.id },
+    authConfig.tokensExpiry.passwordReset,
+  )
 
   /* TODO: send email to user */
-  /* TODO: auto-delete token after n-minutes */
+  return token
 }
 
 /**
@@ -30,9 +32,8 @@ async function requestPasswordReset(
  *
  */
 async function validateToken(args: IValidateToken): Promise<boolean> {
-  const token = await passwordResetTokenService.findToken(args.token)
-  if (!token) return false
-  return true
+  const result = await JWT.validate(env("JWT_SECRET"), args.token)
+  return !result ? false : true
 }
 
 /**
@@ -40,20 +41,16 @@ async function validateToken(args: IValidateToken): Promise<boolean> {
  *
  */
 async function resetForgottenPassword(args: IResetForgottenPassword) {
-  const token = await passwordResetTokenService.findToken(args.token)
-  if (!token) {
-    throw BadRequestException("invalid password reset token", {
-      token: args.token,
-    })
+  const result = await JWT.validate(env("JWT_SECRET"), args.token)
+  if (!result) {
+    throw BadRequestException("invalid password reset token")
   }
 
-  /* set new password */
-  await userService.setUserPassword(token.user, args.password)
+  const { userID } = result as { userID: number }
+  const user = await userService.getUserByIDWithPassword(userID)
 
-  /**
-   *  password reset token should only be used once, i.e. delete after use
-   */
-  await passwordResetTokenService.deleteToken(token)
+  /* set new password */
+  await userService.setUserPassword(user, args.password)
 }
 
 export const forgetPasswordController = {

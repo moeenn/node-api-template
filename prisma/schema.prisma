@@ -30,27 +30,10 @@ model UserRole {
 }
 
 model User {
-  id                   Int                 @id @default(autoincrement())
-  email                String              @unique
-  name                 String
-  password             String?
-  approved             Boolean             @default(true)
-  roles                UserRole[]
-  password_token       PasswordToken?
-  password_reset_token PasswordResetToken?
-}
-
-model PasswordToken {
-  id      Int    @id @default(autoincrement())
-  token   String @unique
-  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id Int    @unique
-}
-
-model PasswordResetToken {
-  id         Int      @id @default(autoincrement())
-  token      String   @unique
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id    Int      @unique
-  created_at DateTime @default(now())
+  id       Int        @id @default(autoincrement())
+  email    String     @unique
+  name     String
+  password String?
+  approved Boolean    @default(true)
+  roles    UserRole[]
 }
