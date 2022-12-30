@@ -8,8 +8,9 @@ export const JWT = {
   async generate(
     secret: string,
     payload: Record<string, unknown>,
+    expiredInSeconds?: number,
   ): Promise<string> {
-    return jwt.sign(payload, secret)
+    return jwt.sign(payload, secret, { expiresIn: expiredInSeconds })
   },
 
   /**

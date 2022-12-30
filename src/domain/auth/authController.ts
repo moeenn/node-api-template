@@ -6,6 +6,7 @@ import {
   ISetFirstPassword,
 } from "./authController.schema"
 import { BadRequestException, AuthException } from "@/vendor/exceptions"
+import { authConfig } from "@/app/config"
 import { Password, JWT, env } from "@/vendor/helpers"
 
 async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
@@ -41,7 +42,12 @@ async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
   user.password = null
 
   const jwtSecret = env("JWT_SECRET")
-  const token = await JWT.generate(jwtSecret, { userID: user.id })
+  const token = await JWT.generate(
+    jwtSecret,
+    { userID: user.id },
+    authConfig.tokensExpiry.auth,
+  )
+
   return { user, token }
 }
 
