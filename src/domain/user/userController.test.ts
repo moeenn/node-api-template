@@ -48,7 +48,7 @@ test("registerUser invalid role", async () => {
 
   const isError = await throws(
     async () => await userController.registerUser(payload),
-    "role not found"
+    "role not found",
   )
   expect(isError).toBe(true)
 })
@@ -71,4 +71,3 @@ test("approveDisapproveUser disapprove user", async () => {
   /* cleanup */
   await userService.removeUser(user)
 })
-
