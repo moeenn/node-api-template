@@ -4,7 +4,7 @@ import { User } from "@/domain/user"
 
 export const LoginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(10),
+  password: z.string().min(authConfig.password.minLength),
 })
 export type ILogin = z.infer<typeof LoginSchema>
 

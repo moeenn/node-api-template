@@ -9,7 +9,13 @@ import { authConfig } from "@/app/config"
 import { Password, JWT, env } from "@/vendor/helpers"
 
 async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
-  const user = await userService.getUserByEmail(args.email)
+  let user
+  try {
+    user = await userService.getUserByEmail(args.email)
+  } catch (err) {
+    throw AuthException("invalid email or password")
+  }
+
   if (!user.password) {
     throw BadRequestException("user account not configured")
   }
