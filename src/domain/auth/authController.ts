@@ -5,8 +5,8 @@ import {
   ISetFirstPassword,
 } from "./authController.schema"
 import { BadRequestException, AuthException } from "@/vendor/exceptions"
-import { authConfig } from "@/app/config"
-import { Password, JWT, env } from "@/vendor/helpers"
+import { authService } from "./authService"
+import { Password } from "@/vendor/helpers"
 
 async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
   let user
@@ -46,13 +46,7 @@ async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
   /* dont send password hash back to the client */
   user.password = null
 
-  const jwtSecret = env("JWT_SECRET")
-  const token = await JWT.generate(
-    jwtSecret,
-    { userID: user.id },
-    authConfig.tokensExpiry.auth,
-  )
-
+  const token = await authService.generateLoginAuthToken(user.id)
   return { user, token }
 }
 
@@ -61,13 +55,11 @@ async function login(args: ILogin, isAdmin: boolean): Promise<ILoginResponse> {
  *  empty
  */
 async function setFirstPassword(args: ISetFirstPassword) {
-  const jwtPayload = await JWT.validate(env("JWT_SECRET"), args.password_token)
-  const result = jwtPayload as { userID: number }
-  if (!result.userID) {
-    throw BadRequestException("invalid password token")
-  }
+  const userID = await authService.validateFirstPasswordToken(
+    args.password_token,
+  )
 
-  const user = await userService.getUserByIDWithPassword(result.userID)
+  const user = await userService.getUserByIDWithPassword(userID)
   await userService.setUserPassword(user, args.password)
 }
 

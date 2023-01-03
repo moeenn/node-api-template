@@ -6,8 +6,7 @@ import {
   IRemoveUser,
 } from "./userController.schema"
 import { BadRequestException } from "@/vendor/exceptions"
-import { authConfig } from "@/app/config"
-import { JWT, env } from "@/vendor/helpers"
+import { authService } from "@/domain/auth"
 
 /**
  *  register a new user with the system with provided roles and details
@@ -21,11 +20,7 @@ async function registerUser(args: IRegisterUser): Promise<UserWithRelations> {
     roles,
   })
 
-  const token = await JWT.generate(
-    env("JWT_SECRET"),
-    { userID: user.id },
-    authConfig.tokensExpiry.firstPassword,
-  )
+  const token = await authService.generateFirstPasswordToken(user.id)
 
   // TODO: email password token to the user
   // TODO: remove from console

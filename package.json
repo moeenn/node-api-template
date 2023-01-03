@@ -6,7 +6,7 @@
     "dev": "tsc-watch --onSuccess \"node build/index.js\"",
     "build": "npx tsc",
     "start": "npm run env:check && node build/index.js",
-    "test": "dotenv -e .env -- npx vitest",
+    "test": "dotenv -e .env -- npx vitest --threads false",
     "lint": "npx eslint . --ext .ts",
     "prepare": "husky install",
     "format": "npx prettier --write 'src/**/*.ts'",

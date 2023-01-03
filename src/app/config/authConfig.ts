@@ -6,10 +6,10 @@ export const authConfig = {
    *  set expiry time for different token (in seconds)
    *  undefined means never expires
    */
-  tokensExpiry: {
-    auth: undefined,
-    firstPassword: 60 * 60 * 72,
-    passwordReset: 60 * 15,
+  tokens: {
+    auth: { scope: "AUTH", expiry: undefined },
+    firstPassword: { scope: "FIRST_PASSWORD", expiry: 60 * 60 * 72 },
+    passwordReset: { scope: "RESET_PASSWORD", expiry: 60 * 15 },
   },
   /**
    *  fastify requires that keys (with default values) for all request context

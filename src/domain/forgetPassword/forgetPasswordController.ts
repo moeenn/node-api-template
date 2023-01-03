@@ -4,9 +4,7 @@ import {
   IValidateToken,
   IResetForgottenPassword,
 } from "./forgetPasswordController.schema"
-import { authConfig } from "@/app/config"
-import { JWT, env } from "@/vendor/helpers"
-import { BadRequestException } from "@/vendor/exceptions"
+import { authService } from "@/domain/auth"
 
 /**
  *  if a user forgets the password for their account, they will request
@@ -17,11 +15,7 @@ async function requestPasswordReset(
   args: IRequestPasswordReset,
 ): Promise<string> {
   const user = await userService.getUserByEmail(args.email)
-  const token = await JWT.generate(
-    env("JWT_SECRET"),
-    { userID: user.id },
-    authConfig.tokensExpiry.passwordReset,
-  )
+  const token = await authService.generatePasswordResetToken(user.id)
 
   /* TODO: send email to user */
   return token
@@ -32,8 +26,8 @@ async function requestPasswordReset(
  *
  */
 async function validateToken(args: IValidateToken): Promise<boolean> {
-  const result = await JWT.validate(env("JWT_SECRET"), args.token)
-  return !result ? false : true
+  const result = await authService.validatePasswordResetToken(args.token)
+  return result != 0
 }
 
 /**
@@ -41,17 +35,8 @@ async function validateToken(args: IValidateToken): Promise<boolean> {
  *
  */
 async function resetForgottenPassword(args: IResetForgottenPassword) {
-  const result = await JWT.validate(env("JWT_SECRET"), args.token)
-  if (!result) {
-    throw BadRequestException("invalid password reset token")
-  }
-
-  const res = result as { userID: number }
-  if (!res.userID) {
-    throw BadRequestException("invalid password reset token")
-  }
-
-  const user = await userService.getUserByIDWithPassword(res.userID)
+  const userID = await authService.validatePasswordResetToken(args.token)
+  const user = await userService.getUserByIDWithPassword(userID)
 
   /* set new password */
   await userService.setUserPassword(user, args.password)
