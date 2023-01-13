@@ -6,7 +6,7 @@ import {
   IRemoveUser,
 } from "./userController.schema"
 import { BadRequestException } from "@/vendor/exceptions"
-import { authService } from "@/domain/auth"
+// import { authService } from "@/domain/auth"
 
 /**
  *  register a new user with the system with provided roles and details
@@ -20,11 +20,8 @@ async function registerUser(args: IRegisterUser): Promise<UserWithRelations> {
     roles,
   })
 
-  const token = await authService.generateFirstPasswordToken(user.id)
-
   // TODO: email password token to the user
-  // TODO: remove from console
-  console.log({ token })
+  // const token = await authService.generateFirstPasswordToken(user.id)
 
   return user
 }

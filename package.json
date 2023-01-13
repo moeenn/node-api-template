@@ -22,6 +22,7 @@
     "seed": "node build/vendor/entities/seeder/seed.js"
   },
   "env": [
+    "FRONT_END_URL",
     "DATABASE_URI",
     "JWT_SECRET"
   ],

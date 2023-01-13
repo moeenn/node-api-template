@@ -1,3 +1,5 @@
+import { healthCheck } from "./healthCheck/healthcheck"
+import { memoryUsage } from "./healthCheck/memoryUsage"
 import { userRegister } from "./user/userRegister"
 import { userLogin } from "./auth/userLogin"
 import { adminLogin } from "./auth/adminLogin"
@@ -14,6 +16,8 @@ import { resetForgottenPassword } from "./forgetPassword/resetForgottenPassword"
  *
  */
 export const routes = [
+  healthCheck,
+  memoryUsage,
   userRegister,
   userLogin,
   adminLogin,
