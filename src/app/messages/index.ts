@@ -1,6 +1,6 @@
-import { MessageHandler } from "@/vendor/entities/sockets"
+import { MessageDefinition } from "@/vendor/entities/sockets"
 import { echo } from "./echo"
 
-export const registeredMessages: Map<string, MessageHandler> = new Map([
-  ["echo", echo],
-])
+export const messageDefinitions: MessageDefinition[] = [
+  { type: "echo", handler: echo },
+]

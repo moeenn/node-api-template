@@ -2,7 +2,7 @@ import { FastifyInstance } from "@/vendor/entities/server"
 import { SocketStream } from "@fastify/websocket"
 import { Socket } from "@/vendor/entities/sockets"
 import { logger } from "@/vendor/entities/logger"
-import { handleMessage } from "@/vendor/entities/sockets/socketHelpers"
+import { messageRouterInstance } from "@/vendor/entities/sockets"
 import { socketConfig } from "@/app/config"
 import { subscriptionManagerInstance } from "@/vendor/entities/sockets"
 
@@ -16,7 +16,7 @@ export async function socketsPlugin(app: FastifyInstance) {
     logger.info({ message: "new socket connected", id: socket.id })
 
     /** error handling and routing of messages */
-    socket.socket.on("message", handleMessage(socket))
+    socket.socket.on("message", messageRouterInstance.handleMessage(socket))
 
     /** cleanup: remove all socket subscriptions on close */
     socket.socket.on("close", () => {
