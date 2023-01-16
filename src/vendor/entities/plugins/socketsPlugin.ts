@@ -4,7 +4,6 @@ import { Socket } from "@/vendor/entities/sockets"
 import { logger } from "@/vendor/entities/logger"
 import { messageRouterInstance } from "@/vendor/entities/sockets"
 import { socketConfig } from "@/app/config"
-import { subscriptionManagerInstance } from "@/vendor/entities/sockets"
 
 /**
  *  this function defines a fastify plugin which is responsible for handling
@@ -19,9 +18,10 @@ export async function socketsPlugin(app: FastifyInstance) {
     socket.socket.on("message", messageRouterInstance.handleMessage(socket))
 
     /** cleanup: remove all socket subscriptions on close */
-    socket.socket.on("close", () => {
-      subscriptionManagerInstance.unsubscribeAll(socket)
-      logger.info({ message: "socket disconnected", id: socket.id })
-    })
+    // TODO: close all channel subscriptions for the closing socket
+    // socket.socket.on("close", () => {
+    //   subscriptionManagerInstance.unsubscribeAll(socket)
+    //   logger.info({ message: "socket disconnected", id: socket.id })
+    // })
   })
 }

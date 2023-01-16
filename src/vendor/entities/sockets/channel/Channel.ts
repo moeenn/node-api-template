@@ -1,7 +1,12 @@
-import { ISubscription } from "./index.types"
+import { IChannel } from "./index.types"
 import { ISocket } from "@/vendor/entities/sockets/socket"
 
-export class Subscription implements ISubscription {
+/**
+ *  channel is a generic class because the payload type for messages
+ *  published on the channel will vary between different instances of
+ *  channels
+ */
+export class Channel<T> implements IChannel<T> {
   public readonly name: string
   private sockets: ISocket[]
 
@@ -11,7 +16,7 @@ export class Subscription implements ISubscription {
   }
 
   /**
-   *  allow a new socket to subscribe to the subscription
+   *  allow a new socket to subscribe to the channel
    *
    */
   public subscribe(socket: ISocket) {
@@ -22,7 +27,7 @@ export class Subscription implements ISubscription {
   }
 
   /**
-   *  remove socket from subscription
+   *  remove socket from channel
    *
    */
   public unsubscribe(socket: ISocket) {
@@ -30,10 +35,10 @@ export class Subscription implements ISubscription {
   }
 
   /**
-   *  push a message to all sockets subscribed to the current subscription
+   *  push a message to all sockets subscribed to the current channel
    *
    */
-  public publish(payload: unknown) {
+  public publish(payload: T) {
     for (const socket of this.sockets) {
       socket.send({
         type: this.name,

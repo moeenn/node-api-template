@@ -1,6 +1,6 @@
 import { MessageHandler, IMessage, ISocket } from "@/vendor/entities/sockets"
 import { IMessageRouter } from "./index.types"
-import { messageDefinitions } from "@/app/messages"
+import { messageDefinitions } from "@/app/messages/handlers"
 import { isJSON } from "@/vendor/helpers"
 import { logger } from "@/vendor/entities/logger"
 
