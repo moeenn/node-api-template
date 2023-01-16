@@ -16,7 +16,7 @@ export const updateTestChannel: MessageHandler = async (socket, payload) => {
   const validated = validate(payload, schema)
   testChannel.publish(validated)
 
-  socket.send({
+  return socket.send({
     message: "message published to channel",
     channel_name: testChannel.name,
   })

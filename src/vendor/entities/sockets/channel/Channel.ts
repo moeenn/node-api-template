@@ -16,6 +16,14 @@ export class Channel<T> implements IChannel<T> {
   }
 
   /**
+   *  get a readonly list of subscribed sockets (mainly for testing)
+   *
+   */
+  public getSockets(): ISocket[] {
+    return this.sockets
+  }
+
+  /**
    *  allow a new socket to subscribe to the channel
    *
    */

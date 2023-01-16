@@ -13,7 +13,7 @@ const schema = z.object({
 export const echo: MessageHandler = async (socket, payload) => {
   const validated = validate(payload, schema)
 
-  socket.send({
+  return socket.send({
     message: validated.message,
   })
 }

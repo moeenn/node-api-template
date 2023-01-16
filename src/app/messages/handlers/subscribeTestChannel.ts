@@ -8,7 +8,7 @@ import { testChannel } from "@/app/messages/channels"
 export const subscribeTestChannel: MessageHandler = async (socket) => {
   testChannel.subscribe(socket)
 
-  socket.send({
+  return socket.send({
     message: "subscribed successfully",
     channel_name: testChannel.name,
   })

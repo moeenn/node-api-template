@@ -7,3 +7,11 @@ async function main() {
 }
 
 main().catch(console.error)
+
+
+/**
+ *  TODO:
+ *  - socket optional filter functions 
+ *  - mechanism for removing a closing socket from all channels
+ *  - tests for base library implementation
+*/

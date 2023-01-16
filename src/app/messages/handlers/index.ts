@@ -5,8 +5,8 @@ import { updateTestChannel } from "./updateTestChannel"
 
 /**
  *  register all websocket message handlers here
- * 
-*/
+ *
+ */
 export const messageDefinitions: MessageDefinition[] = [
   { type: "echo", handler: echo },
   { type: "sub.test", handler: subscribeTestChannel },
