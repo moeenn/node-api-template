@@ -1,5 +1,2 @@
-import { ChannelBus } from "./ChannelBus"
-
-export { ChannelBus }
+export { ChannelBus } from "./ChannelBus"
 export { IChannelBus } from "./index.types"
-export const channelBusInstance = new ChannelBus()

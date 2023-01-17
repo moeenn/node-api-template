@@ -4,10 +4,16 @@ import { messageDefinitions } from "@/app/messages/handlers"
 import { isJSON } from "@/vendor/helpers"
 import { logger } from "@/vendor/entities/logger"
 
+/**
+ *  this is a singleton class responsible for routing incomsing messages on
+ *  connected sockets to their intended handlers, based on message.type
+ *
+ */
 export class MessageRouter implements IMessageRouter {
   private messages: Map<string, MessageHandler> = new Map()
+  private static _instance: MessageRouter
 
-  constructor() {
+  private constructor() {
     /**
      *  register list of message handlers defined in the app directory
      *
@@ -15,6 +21,15 @@ export class MessageRouter implements IMessageRouter {
     for (const definition of messageDefinitions) {
       this.messages.set(definition.type, definition.handler)
     }
+  }
+
+  /* return singleton instance */
+  public static instance(): MessageRouter {
+    if (!this._instance) {
+      this._instance = new MessageRouter()
+    }
+
+    return this._instance
   }
 
   /**

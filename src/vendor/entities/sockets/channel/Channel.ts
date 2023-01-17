@@ -31,11 +31,8 @@ export class Channel<T> implements IChannel<T> {
    *  in the event a socket is closing, remove it from sockets registered
    *  with the current channel
    */
-  private removeClosingSocket({ socketID }: { socketID: string }) {
+  private removeClosingSocket(socketID: string) {
     this.sockets = this.sockets.filter((s) => s.id !== socketID)
-
-    // TODO: remove after testing
-    console.log("removing socket", { name: this.name, socketID })
   }
 
   /**
