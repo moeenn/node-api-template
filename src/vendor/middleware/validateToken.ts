@@ -22,7 +22,7 @@ export const validateToken = async (req: Request) => {
   const user = await userService.getUserByID(result.userID)
   const roleSlugs = user.roles.map((role) => role.role.slug)
 
-  /** store id of the validated user on the request object */
+  /* store id of the validated user on the request object */
   req.requestContext.set("token", token)
   req.requestContext.set("user_id", user.id)
   req.requestContext.set("user_roles", roleSlugs)

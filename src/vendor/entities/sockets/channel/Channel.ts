@@ -1,5 +1,6 @@
 import { IChannel } from "./index.types"
 import { ISocket } from "@/vendor/entities/sockets/socket"
+import { IChannelBus } from "@/vendor/entities/sockets/channelBus"
 
 /**
  *  channel is a generic class because the payload type for messages
@@ -8,11 +9,33 @@ import { ISocket } from "@/vendor/entities/sockets/socket"
  */
 export class Channel<T> implements IChannel<T> {
   public readonly name: string
+  private channelBus: IChannelBus
   private sockets: ISocket[]
 
-  constructor(name: string) {
+  constructor(name: string, channelBus: IChannelBus) {
     this.name = name
+    this.channelBus = channelBus
     this.sockets = []
+
+    /**
+     *  register all channel bus events
+     *
+     */
+    this.channelBus.emitter.on(
+      "socket.close",
+      this.removeClosingSocket.bind(this),
+    )
+  }
+
+  /**
+   *  in the event a socket is closing, remove it from sockets registered
+   *  with the current channel
+   */
+  private removeClosingSocket({ socketID }: { socketID: string }) {
+    this.sockets = this.sockets.filter((s) => s.id !== socketID)
+
+    // TODO: remove after testing
+    console.log("removing socket", { name: this.name, socketID })
   }
 
   /**

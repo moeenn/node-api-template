@@ -19,7 +19,7 @@ export class Server {
   constructor() {
     this.app = fastify({ logger: true })
 
-    /** register the custom global error handler */
+    /* register the custom global error handler */
     this.app.setErrorHandler(errorHandler)
     this.registerPlugins()
     this.registerRoutes()

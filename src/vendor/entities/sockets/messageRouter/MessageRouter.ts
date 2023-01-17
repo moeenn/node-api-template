@@ -19,7 +19,7 @@ export class MessageRouter implements IMessageRouter {
 
   /**
    *  ensure that the incoming message has the required fields
-   *
+   *  i.e. type and payload
    */
   private validatePayload(buffer: Buffer): IMessage {
     const payloadJSON = buffer.toString()
