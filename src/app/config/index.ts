@@ -1,4 +1,6 @@
 export { appConfig } from "./appConfig"
 export { serverConfig } from "./serverConfig"
 export { authConfig } from "./authConfig"
-export { socketConfig } from "./socketConfig"
+export { awsConfig } from "./awsConfig"
+export { emailConfig } from "./emailConfig"
+export { mapConfig } from "./mapConfig"

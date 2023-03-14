@@ -1,0 +1,1 @@
+export { AWSEmailProvider } from "./AWSEmailProvider"

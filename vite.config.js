@@ -4,7 +4,7 @@ import path from "path"
 export default defineConfig({
   test: {
     watch: false,
-    exclude: ["node_modules", "build"]
+    exclude: ["node_modules", "build", "docker-volume"]
   },  
   resolve: {
     alias: {

@@ -1,7 +1,8 @@
 node_modules/
 build/
 *.old
-.husky
+.env
 prisma/migrations/*
 prisma/*.db
 prisma/*.db-journal
+docker-volume

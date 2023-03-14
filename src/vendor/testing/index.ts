@@ -1,1 +1,0 @@
-export { throws } from "./throws"

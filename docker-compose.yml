@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  db:
+    container_name: "dms-postgres"
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=devpass
+      - POSTGRES_DB=dev
+    volumes:
+      - ./docker-volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"      

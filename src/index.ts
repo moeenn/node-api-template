@@ -1,15 +1,9 @@
 import "module-alias/register"
-import { Server } from "@/vendor/entities/server"
+import { Server } from "@/core/server"
 
 async function main() {
-  const server = new Server()
-  await server.run()
+  const server = Server.new()
+  Server.start(server)
 }
 
 main().catch(console.error)
-
-/**
- *  TODO:
- *  - socket optional filter functions
- *  - tests for base library implementation
- */
