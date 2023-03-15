@@ -1,4 +1,4 @@
-import { FastifyInstance, RouteOptions } from "fastify"
+import { FastifyInstance } from "fastify"
 import { routes } from "@/app/routes"
 
 export const routesPlugin = {

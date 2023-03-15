@@ -1,4 +1,4 @@
-import fastify, { FastifyInstance, RouteOptions } from "fastify"
+import fastify, { FastifyInstance } from "fastify"
 import { fastifyRequestContextPlugin } from "@fastify/request-context"
 import cors from "@fastify/cors"
 import helmet from "@fastify/helmet"
@@ -9,10 +9,12 @@ import {
   requestContextPluginOptions,
 } from "./plugins"
 import { serverConfig } from "@/app/config"
+import process from "node:process"
 
 export const Server = {
   new(): FastifyInstance {
-    const app = fastify({ logger: true })
+    /* disable request logging during testing */
+    const app = fastify({ logger: process.env.NODE_ENV !== "test" })
 
     /* register all plugins */
     app
