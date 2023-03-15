@@ -1,4 +1,4 @@
-import fastify, { FastifyInstance } from "fastify"
+import fastify, { FastifyInstance, RouteOptions } from "fastify"
 import { fastifyRequestContextPlugin } from "@fastify/request-context"
 import cors from "@fastify/cors"
 import helmet from "@fastify/helmet"

@@ -3,7 +3,7 @@ import { JWT, env } from "@/core/helpers"
 import { BadRequestException, ForbiddenException } from "@/core/exceptions"
 import { UserRole } from "@prisma/client"
 
-export function generateToken(
+function generateToken(
   type: keyof typeof authConfig.tokens,
 ): (userId: number) => Promise<string> {
   return async (userId: number): Promise<string> => {
@@ -21,7 +21,7 @@ export function generateToken(
  * encodes the user role inside the token
  *
  */
-export function generateLoginToken(
+function generateLoginToken(
   type: keyof typeof authConfig.tokens,
 ): (userId: number, userRole: UserRole) => Promise<string> {
   return async (userId: number, userRole: string): Promise<string> => {
@@ -37,7 +37,7 @@ export function generateLoginToken(
   }
 }
 
-export function validateToken(
+function validateToken(
   type: keyof typeof authConfig.tokens,
 ): (token: string) => Promise<number> {
   return async (token: string): Promise<number> => {
@@ -59,7 +59,7 @@ export function validateToken(
  * encodes the user role inside the token
  *
  */
-export function validateLoginToken(
+function validateLoginToken(
   type: keyof typeof authConfig.tokens,
 ): (token: string) => Promise<{ userId: number; userRole: string }> {
   return async (
@@ -86,4 +86,15 @@ export function validateLoginToken(
       userRole: result.userRole,
     }
   }
+}
+
+export const AuthService = {
+  generateLoginAuthToken: generateLoginToken("auth"),
+  validateLoginAuthToken: validateLoginToken("auth"),
+
+  generateFirstPasswordToken: generateToken("firstPassword"),
+  validateFirstPasswordToken: validateToken("firstPassword"),
+
+  generatePasswordResetToken: generateToken("passwordReset"),
+  validatePasswordResetToken: validateToken("passwordReset"),
 }

@@ -55,7 +55,10 @@
   "env": [
     "FRONT_END_URL",
     "DATABASE_URI",
-    "JWT_SECRET"
+    "JWT_SECRET",
+    "AWS_ACCESS_KEY_ID",
+    "AWS_SECRET_ACCESS_KEY",
+    "FROM_EMAIL"
   ],
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.1",

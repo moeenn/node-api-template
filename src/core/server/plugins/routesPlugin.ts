@@ -1,8 +1,7 @@
-import { FastifyInstance } from "fastify"
+import { FastifyInstance, RouteOptions } from "fastify"
 import { routes } from "@/app/routes"
-import { IPlugin } from "./IPlugin"
 
-export const routesPlugin: IPlugin = {
+export const routesPlugin = {
   plug() {
     return async (app: FastifyInstance) => {
       for (const route of routes) {

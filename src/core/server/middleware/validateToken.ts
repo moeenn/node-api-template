@@ -1,6 +1,6 @@
 import { Request } from "@/core/server"
 import { AuthException } from "@/core/exceptions"
-import { AuthService } from "@/app/domain/auth"
+import { AuthService } from "@/app/services/Auth.service"
 
 export const validateToken = async (req: Request) => {
   const token = parseBearerToken(req)
