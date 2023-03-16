@@ -17,7 +17,7 @@ type Body = FromSchema<typeof bodySchema>
 
 export const updateUserProfile: RouteOptions = {
   url: "/user/profile",
-  method: "POST",
+  method: "PUT",
   preValidation: [validateToken],
   schema: {
     body: bodySchema,
