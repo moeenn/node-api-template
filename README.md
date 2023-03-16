@@ -1,5 +1,5 @@
-# DMS Back-end
-O&B Delivery Management System (DMS) API back-end with the following tools already setup
+# NodeJS API Boilerplate
+NodeJS API back-end with the following tools already setup
 - Typescript compiler i.e. ```tsc```
 - Absolute imports with `module-alias`
 - ```eslint``` for static analysis and linting
@@ -31,4 +31,19 @@ $ npm run check
 ## Running Tests with Vitest
 ```bash
 $ npm test
+```
+
+## Generate JWT secret
+```bash
+$ npm run gen:secret
+```
+
+## Run database migrations
+```bash
+$ npm run db:migrate
+```
+
+## Run database seeders
+```bash
+$ npm run db:seed
 ```

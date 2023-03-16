@@ -31,6 +31,10 @@ export const setFirstPassword: RouteOptions = {
   handler: async (req) => {
     const body = req.body as Body
 
+    if (body.password !== body.confirmPassword) {
+      throw BadRequestException("password confirmation failed")
+    }
+
     const userId = await AuthService.validateFirstPasswordToken(
       body.passwordToken,
     )

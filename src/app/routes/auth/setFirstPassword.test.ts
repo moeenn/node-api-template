@@ -1,16 +1,15 @@
-import { describe, it, expect, afterAll } from "vitest"
-import { Server } from "@/core/server"
+// import { describe, it, expect, afterAll } from "vitest"
+// import { Server } from "@/core/server"
 
-describe("setFirstPassword", () => {
-  const server = Server.new()
-  const url = "/api/user/configure"
-  const method = "POST"
+// describe("setFirstPassword", () => {
+//   const server = Server.new()
+//   const url = "/api/user/configure"
+//   const method = "POST"
 
-  afterAll(() => server.close())
+//   afterAll(() => server.close())
 
-  it("valid configure request", async () => {
-    /** setup */
-    // TODO: implement
-    /** cleanup */
-  })
-})
+//   it("valid configure request", async () => {
+//     /** setup */
+//     /** cleanup */
+//   })
+// })
