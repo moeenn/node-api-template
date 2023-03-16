@@ -1,8 +1,8 @@
-import { Request } from "@/core/server"
+import { FastifyRequest } from "fastify"
 import { AuthException } from "@/core/exceptions"
 import { AuthService } from "@/app/services/AuthService"
 
-export const validateToken = async (req: Request) => {
+export const validateToken = async (req: FastifyRequest) => {
   const token = parseBearerToken(req)
   if (!token) {
     throw AuthException("invalid bearer token")
@@ -16,7 +16,7 @@ export const validateToken = async (req: Request) => {
   req.requestContext.set("userRole", userRole)
 }
 
-function parseBearerToken(req: Request): string | undefined {
+function parseBearerToken(req: FastifyRequest): string | undefined {
   const header = req.headers["authorization"]
   if (!header) return
 

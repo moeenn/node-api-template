@@ -1,9 +1,9 @@
-import { Request, Reply, Done } from "@/core/server"
+import { FastifyRequest, FastifyReply, DoneFuncWithErrOrRes } from "fastify"
 import { AuthException } from "@/core/exceptions"
 import { UserRole } from "@prisma/client"
 
 export const hasRole = (...roles: UserRole[]) => {
-  return (req: Request, _reply: Reply, done: Done) => {
+  return (req: FastifyRequest, _reply: FastifyReply, done: DoneFuncWithErrOrRes) => {
     const currentRole = req.requestContext.get("userRole")
 
     /**
