@@ -10,8 +10,8 @@
     "lint": "npx eslint ./src/ --ext .ts",
     "fmt": "npx prettier --write ./src/",
     "check": "npm run fmt && npm run lint",
-    "env:check": "node ./src/core/scripts/validate_env.mjs",
-    "gen:secret": "node ./src/core/scripts/generate_secret.mjs",
+    "env:check": "node ./src/core/scripts/validateEnv.mjs",
+    "gen:secret": "node ./src/core/scripts/generateSecret.mjs",
     "db:migrate": "npx prisma migrate dev",
     "db:seed": "npx prisma db seed"
   },
