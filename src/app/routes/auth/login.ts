@@ -4,7 +4,7 @@ import { FromSchema } from "json-schema-to-ts"
 import { database } from "@/core/database"
 import { AuthException, BadRequestException } from "@/core/exceptions"
 import { Password } from "@/core/helpers"
-import { AuthService } from "@/app/services/Auth.service"
+import { AuthService } from "@/app/services/AuthService"
 import { logger } from "@/core/server/logger"
 
 const bodySchema = {

@@ -2,7 +2,7 @@ import { database } from "@/core/database"
 import { logger } from "@/core/server/logger"
 import { RouteOptions } from "fastify"
 import { FromSchema } from "json-schema-to-ts"
-import { AuthService } from "@/app/services/Auth.service"
+import { AuthService } from "@/app/services/AuthService"
 import { ForgotPasswordEmail } from "@/app/emails"
 import { EmailService } from "@/core/email"
 

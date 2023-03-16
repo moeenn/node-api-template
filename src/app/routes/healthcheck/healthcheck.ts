@@ -1,5 +1,5 @@
 import { RouteOptions } from "fastify"
-import { HealthCheckService } from "@/app/services/HealthCheck.service"
+import { HealthCheckService } from "@/app/services/HealthCheckService"
 
 export const healthCheck: RouteOptions = {
   url: "/health-check",

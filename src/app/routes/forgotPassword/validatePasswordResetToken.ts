@@ -1,6 +1,6 @@
 import { RouteOptions } from "fastify"
 import { FromSchema } from "json-schema-to-ts"
-import { AuthService } from "@/app/services/Auth.service"
+import { AuthService } from "@/app/services/AuthService"
 
 const bodySchema = {
   type: "object",

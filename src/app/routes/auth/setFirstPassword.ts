@@ -1,7 +1,7 @@
 import { RouteOptions } from "fastify"
 import { authConfig } from "@/app/config"
 import { FromSchema } from "json-schema-to-ts"
-import { AuthService } from "@/app/services/Auth.service"
+import { AuthService } from "@/app/services/AuthService"
 import { database } from "@/core/database"
 import { Password } from "@/core/helpers"
 import { logger } from "@/core/server/logger"
