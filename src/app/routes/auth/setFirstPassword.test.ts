@@ -1,15 +1,90 @@
-// import { describe, it, expect, afterAll } from "vitest"
-// import { Server } from "@/core/server"
+import { describe, it, expect, afterAll } from "vitest"
+import { Server } from "@/core/server"
+import { database } from "@/core/database"
+import { UserRole } from "@prisma/client"
+import { AuthService } from "@/app/services/AuthService"
+import { Password } from "@/core/helpers"
 
-// describe("setFirstPassword", () => {
-//   const server = Server.new()
-//   const url = "/api/user/configure"
-//   const method = "POST"
+describe("setFirstPassword", () => {
+  const server = Server.new()
+  const url = "/api/user/configure"
+  const method = "POST"
 
-//   afterAll(() => server.close())
+  afterAll(() => server.close())
 
-//   it("valid configure request", async () => {
-//     /** setup */
-//     /** cleanup */
-//   })
-// })
+  it("valid configure request", async () => {
+    /** setup */
+    const user = await database.user.create({
+      data: {
+        email: "user@site.com",
+        name: "User",
+        role: UserRole.USER,
+      }
+    })
+    const firstPasswordToken = await AuthService.generateFirstPasswordToken(user.id)
+
+    /** test */
+    const password = "some_random_13123_password"
+    const res = await server.inject({
+      url, 
+      method,
+      payload: {
+        passwordToken: firstPasswordToken,
+        password,
+        confirmPassword: password,
+      }
+    })
+    expect(res.statusCode).toBe(200)
+
+    const updatedUser = await database.user.findUnique({
+      where: { id: user.id },
+      include: { password: true },
+    })
+    expect(updatedUser?.password).toBeTruthy()
+
+    const isHashCorrect = await Password.verify(
+      updatedUser?.password?.hash ?? "", password)
+
+    expect(isHashCorrect).toBe(true)
+
+    /** cleanup */
+    await database.user.delete({ where: { id: user.id }})
+  })
+
+  it("account already configured", async () => {
+    /** setup */
+    const password = "some_random_password-231313"
+    const user = await database.user.create({
+      data: {
+        email: "user@site.com",
+        name: "User",
+        role: UserRole.USER,
+        password: {
+          create: {
+            hash: await Password.hash(password)
+          }
+        }
+      }
+    })
+    const firstPasswordToken = await AuthService.generateFirstPasswordToken(user.id)
+
+    /** test */
+    const updatedPassword = "another_weak_password111"
+    const res = await server.inject({
+      url,
+      method,
+      payload: {
+        passwordToken: firstPasswordToken,
+        password: updatedPassword,
+        confirmPassword: updatedPassword,
+      }
+    })
+    expect(res.statusCode).toBe(400)
+
+    const body = JSON.parse(res.body)
+    expect(body.message.includes("already configured")).toBe(true)
+
+    /** cleanup */
+    await database.user.delete({ where: { id: user.id }})
+  })
+})

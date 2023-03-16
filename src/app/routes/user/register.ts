@@ -23,7 +23,7 @@ const bodySchema = {
 type Body = FromSchema<typeof bodySchema>
 
 export const register: RouteOptions = {
-  url: "/register",
+  url: "/user/register",
   method: "POST",
   schema: {
     body: bodySchema,
