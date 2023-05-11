@@ -69,11 +69,12 @@ export const login: RouteOptions = {
       throw AuthException("invalid email or password")
     }
 
+		/** include token expiry timestamp in the response */
     const token = await AuthService.generateLoginAuthToken(user.id, user.role)
 
     return {
       message: "login successful",
-      user,
+      user: Object.assign(user, { password: undefined }),
       token,
     }
   },
