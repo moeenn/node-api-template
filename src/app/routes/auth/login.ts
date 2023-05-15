@@ -10,10 +10,11 @@ import { logger } from "@/core/server/logger"
 const bodySchema = {
   type: "object",
   properties: {
-    email: { type: "string" },
+    email: { type: "string", format: "email" },
     password: { type: "string", minLength: authConfig.password.minLength },
   },
   required: ["email", "password"],
+  additionalProperties: false,
 } as const
 
 type Body = FromSchema<typeof bodySchema>

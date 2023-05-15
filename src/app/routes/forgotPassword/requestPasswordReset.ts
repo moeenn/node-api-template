@@ -9,7 +9,7 @@ import { EmailService } from "@/core/email"
 const bodySchema = {
   type: "object",
   properties: {
-    email: { type: "string" },
+    email: { type: "string", format: "email" },
   },
   required: ["email"],
 } as const

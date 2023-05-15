@@ -1,5 +1,6 @@
 import fastify, { FastifyInstance } from "fastify"
 import { fastifyRequestContextPlugin } from "@fastify/request-context"
+import ajvFormats from "ajv-formats"
 import cors from "@fastify/cors"
 import helmet from "@fastify/helmet"
 import rateLimit from "@fastify/rate-limit"
@@ -11,12 +12,18 @@ import {
 import { serverConfig } from "@/app/config"
 import process from "node:process"
 
-// TODO: register additional Ajv formats
-
 export const Server = {
   new(): FastifyInstance {
     /* disable request logging during testing */
-    const app = fastify({ logger: process.env.NODE_ENV !== "test" })
+    const app = fastify({ 
+      logger: process.env.NODE_ENV !== "test",
+      ajv: {
+        plugins: [
+          /** See: https://ajv.js.org/packages/ajv-formats.html */
+          ajvFormats,
+        ]
+      } 
+    })
 
     /* register all plugins */
     app
@@ -29,11 +36,6 @@ export const Server = {
     return app
   },
 
-  /**
-   * start the web server process on the provided port
-   * promise is used so the caller can know when the server has finished
-   * initialization
-   */
   start(app: FastifyInstance) {
     app.listen(serverConfig, (err) => {
       if (err) {
