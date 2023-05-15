@@ -1,8 +1,8 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
-import { AuthService } from "@/app/services/AuthService"
+import { AuthService } from "@/core/services/AuthService"
 
 describe("getUserProfile", () => {
   const server = Server.new()
@@ -13,7 +13,7 @@ describe("getUserProfile", () => {
 
   it("valid request", async () => {
     /** setup */
-    const user = await database.user.create({
+    const user = await db.user.create({
       data: {
         email: "user@site.com",
         name: "User",
@@ -41,7 +41,7 @@ describe("getUserProfile", () => {
     expect(body.role).toBe(user.role)
 
     /** cleanup */
-    await database.user.delete({ where: { id: user.id } })
+    await db.user.delete({ where: { id: user.id } })
   })
 
   it("invalid token", async () => {

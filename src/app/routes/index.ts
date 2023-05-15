@@ -7,7 +7,6 @@ import { requestPasswordReset } from "./forgotPassword/requestPasswordReset"
 import { validatePasswordResetToken } from "./forgotPassword/validatePasswordResetToken"
 import { resetForgottenPassword } from "./forgotPassword/resetForgottenPassword"
 import { getUserProfile } from "./user/getUserProfile"
-import { register } from "./user/register"
 import { setUserStatus } from "./user/setUserStatus"
 import { updatePassword } from "./user/updatePassword"
 import { updateUserProfile } from "./user/updateUserProfile"
@@ -25,7 +24,6 @@ export const routes: RouteOptions[] = [
   validatePasswordResetToken,
   resetForgottenPassword,
   getUserProfile,
-  register,
   setUserStatus,
   updatePassword,
   updateUserProfile,

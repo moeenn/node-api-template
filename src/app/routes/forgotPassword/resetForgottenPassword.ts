@@ -2,12 +2,12 @@ import { RouteOptions } from "fastify"
 import { FromSchema } from "json-schema-to-ts"
 import { authConfig } from "@/app/config"
 import { AuthException, BadRequestException } from "@/core/exceptions"
-import { AuthService } from "@/app/services/AuthService"
-import { database } from "@/core/database"
+import { AuthService } from "@/core/services/AuthService"
+import { db } from "@/core/database"
 import { logger } from "@/core/server/logger"
 import { Password } from "@/core/helpers"
 
-export const bodySchema = {
+const bodySchema = {
   type: "object",
   properties: {
     token: { type: "string" },
@@ -20,7 +20,7 @@ export const bodySchema = {
   required: ["token", "password", "confirmPassword"],
 } as const
 
-export type Body = FromSchema<typeof bodySchema>
+type Body = FromSchema<typeof bodySchema>
 
 export const resetForgottenPassword: RouteOptions = {
   url: "/forgot-password/reset-password",
@@ -36,7 +36,7 @@ export const resetForgottenPassword: RouteOptions = {
     }
 
     const userId = await AuthService.validatePasswordResetToken(body.token)
-    const user = await database.user.findUnique({
+    const user = await db.user.findUnique({
       where: {
         id: userId,
       },
@@ -48,7 +48,7 @@ export const resetForgottenPassword: RouteOptions = {
     }
 
     const hash = await Password.hash(body.password)
-    await database.password.upsert({
+    await db.password.upsert({
       where: {
         userId: user.id,
       },

@@ -1,8 +1,8 @@
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { logger } from "@/core/server/logger"
 import { RouteOptions } from "fastify"
 import { FromSchema } from "json-schema-to-ts"
-import { AuthService } from "@/app/services/AuthService"
+import { AuthService } from "@/core/services/AuthService"
 import { ForgotPasswordEmail } from "@/app/emails"
 import { EmailService } from "@/core/email"
 
@@ -25,7 +25,7 @@ export const requestPasswordReset: RouteOptions = {
   handler: async (req) => {
     const body = req.body as Body
 
-    const user = await database.user.findUnique({
+    const user = await db.user.findUnique({
       where: {
         email: body.email,
       },
@@ -44,7 +44,6 @@ export const requestPasswordReset: RouteOptions = {
     const token = await AuthService.generatePasswordResetToken(user.id)
     const email = new ForgotPasswordEmail({ resetToken: token })
 
-    /** don't await, send in the background */
     EmailService.instance().sendEmail(user.email, email)
     logger.info(
       { email: body.email },

@@ -1,7 +1,7 @@
 import { RouteOptions } from "fastify"
 import { validateToken, hasRole } from "@/core/server/middleware"
 import { UserRole } from "@prisma/client"
-import { HealthCheckService } from "@/app/services/HealthCheckService"
+import { HealthCheckService } from "@/core/services/HealthCheckService"
 
 export const memoryUsage: RouteOptions = {
   url: "/health-check/memory",

@@ -1,8 +1,8 @@
 import { RouteOptions } from "fastify"
 import { authConfig } from "@/app/config"
 import { FromSchema } from "json-schema-to-ts"
-import { AuthService } from "@/app/services/AuthService"
-import { database } from "@/core/database"
+import { AuthService } from "@/core/services/AuthService"
+import { db } from "@/core/database"
 import { Password } from "@/core/helpers"
 import { logger } from "@/core/server/logger"
 import { BadRequestException } from "@/core/exceptions"
@@ -39,7 +39,7 @@ export const setFirstPassword: RouteOptions = {
       body.passwordToken,
     )
 
-    const user = await database.user.findFirst({
+    const user = await db.user.findFirst({
       where: {
         id: userId,
       },
@@ -59,7 +59,7 @@ export const setFirstPassword: RouteOptions = {
     }
 
     const hash = await Password.hash(body.password)
-    await database.password.upsert({
+    await db.password.upsert({
       where: {
         userId: user.id,
       },

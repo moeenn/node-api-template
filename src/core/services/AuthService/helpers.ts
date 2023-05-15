@@ -3,7 +3,7 @@ import { JWT, env } from "@/core/helpers"
 import { BadRequestException, ForbiddenException } from "@/core/exceptions"
 import { UserRole } from "@prisma/client"
 
-export function generateToken(
+export function generateGeneralToken(
   type: keyof typeof authConfig.tokens,
 ): (userId: number) => Promise<string> {
   return async (userId: number): Promise<string> => {
@@ -37,7 +37,7 @@ export function generateLoginToken(
   }
 }
 
-export function validateToken(
+export function validateGeneralToken(
   type: keyof typeof authConfig.tokens,
 ): (token: string) => Promise<number> {
   return async (token: string): Promise<number> => {

@@ -1,9 +1,9 @@
-import { describe, it, expect, afterAll  } from "vitest"
+import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
 import { Password } from "@/core/helpers"
-import { AuthService } from "@/app/services/AuthService"
+import { AuthService } from "@/core/services/AuthService"
 
 describe("updatePassword", () => {
   const server = Server.new()
@@ -12,9 +12,9 @@ describe("updatePassword", () => {
 
   afterAll(() => server.close())
 
-  it ("valid request", async () => {
+  it("valid request", async () => {
     /** setup */
-    const user = await database.user.create({
+    const user = await db.user.create({
       data: {
         email: "user@site.com",
         name: "User",
@@ -22,11 +22,14 @@ describe("updatePassword", () => {
         password: {
           create: {
             hash: await Password.hash("some_random-password"),
-          }
-        }
-      }
+          },
+        },
+      },
     })
-    const authToken = await AuthService.generateLoginAuthToken(user.id, user.role)
+    const authToken = await AuthService.generateLoginAuthToken(
+      user.id,
+      user.role,
+    )
 
     /** test */
     const updatedPassword = "another-new-password-123123"
@@ -34,28 +37,27 @@ describe("updatePassword", () => {
       url,
       method,
       headers: {
-        "authorization": "Bearer " + authToken,
+        authorization: "Bearer " + authToken,
       },
       payload: {
         password: updatedPassword,
         confirmPassword: updatedPassword,
-      }
+      },
     })
     expect(res.statusCode).toBe(200)
 
-    const updatedUser = await database.user.findUnique({ 
+    const updatedUser = await db.user.findUnique({
       where: { id: user.id },
-      include: { password: true }
+      include: { password: true },
     })
 
     const isHashValid = await Password.verify(
-      updatedUser?.password?.hash ?? "", 
+      updatedUser?.password?.hash ?? "",
       updatedPassword,
     )
     expect(isHashValid).toBe(true)
 
     /** cleanup */
-    await database.user.delete({ where: { id: user.id }})
+    await db.user.delete({ where: { id: user.id } })
   })
-
 })

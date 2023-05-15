@@ -1,3 +1,4 @@
+// @ts-check
 import fs from "node:fs"
 
 /**
@@ -84,7 +85,4 @@ async function main() {
   }
 }
 
-main().catch((e) => {
-  console.error("Error:", e.message)
-  process.exit(1)
-})
+main().catch(console.error)

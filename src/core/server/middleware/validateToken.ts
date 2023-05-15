@@ -1,6 +1,6 @@
 import { FastifyRequest } from "fastify"
 import { AuthException } from "@/core/exceptions"
-import { AuthService } from "@/app/services/AuthService"
+import { AuthService } from "@/core/services/AuthService"
 
 export const validateToken = async (req: FastifyRequest) => {
   const token = parseBearerToken(req)

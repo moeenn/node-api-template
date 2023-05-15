@@ -1,4 +1,4 @@
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { AuthException } from "@/core/exceptions"
 import { logger } from "@/core/server/logger"
 import { validateToken } from "@/core/server/middleware"
@@ -26,7 +26,7 @@ export const updateUserProfile: RouteOptions = {
     const body = req.body as Body
     const userId = req.requestContext.get("userId")
 
-    const user = await database.user.findUnique({
+    const user = await db.user.findUnique({
       where: {
         id: userId,
       },
@@ -37,7 +37,7 @@ export const updateUserProfile: RouteOptions = {
       throw AuthException("cannot update user profile")
     }
 
-    const updatedUser = await database.user.update({
+    const updatedUser = await db.user.update({
       where: {
         id: user.id,
       },

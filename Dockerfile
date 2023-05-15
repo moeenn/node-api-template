@@ -1,9 +1,10 @@
-FROM node:16-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 COPY . .
 
 RUN npm i --save-dev
+RUN npm run schema:generate
 RUN npm run build
 
 ENV NODE_ENV=production

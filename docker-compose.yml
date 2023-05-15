@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   db:
-    container_name: "dms-postgres"
+    container_name: "node-api-postgres"
     image: postgres:14.1-alpine
     restart: always
     environment:

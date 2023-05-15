@@ -1,4 +1,4 @@
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { AuthException } from "@/core/exceptions"
 import { logger } from "@/core/server/logger"
 import { validateToken } from "@/core/server/middleware"
@@ -10,14 +10,15 @@ export const getUserProfile: RouteOptions = {
   preValidation: [validateToken],
   handler: async (req) => {
     const userId = req.requestContext.get("userId")
-    const user = await database.user.findUnique({
+    const user = await db.user.findUnique({
       where: {
         id: userId,
       },
+      // TODO: include relational data
     })
 
     if (!user) {
-      logger.error({ userId }, "non-existent user id in json token")
+      logger.error({ userId }, "non-existent userId in json token")
       throw AuthException("cannot view profile")
     }
 

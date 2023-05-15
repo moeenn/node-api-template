@@ -3,10 +3,6 @@ import { IEmailProvider, Email } from "@/core/email"
 import { awsConfig, emailConfig } from "@/app/config"
 import { logger } from "@/core/server/logger"
 
-/**
- * TODO: test by sending out an actual email
- * migrated from sdk v2 -> v3
- */
 export class AWSEmailProvider implements IEmailProvider {
   private sesInstance: SESClient
 

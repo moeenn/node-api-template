@@ -1,8 +1,9 @@
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { Password } from "@/core/helpers"
-import { UserRole } from "@prisma/client"
+import { Password as Pwd, User, UserRole } from "@prisma/client"
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
+import { AuthService } from "@/core/services/AuthService"
 
 describe("login", () => {
   const server = Server.new()
@@ -14,11 +15,10 @@ describe("login", () => {
   it("valid credentials", async () => {
     /** setup */
     const password = "123123123123"
-    const user = await database.user.create({
+    const user = await db.user.create({
       data: {
         email: "user@site.com",
-        name: "user",
-        role: UserRole.USER,
+        name: "Mr. User",
         password: {
           create: {
             hash: await Password.hash(password),
@@ -36,14 +36,24 @@ describe("login", () => {
         password: password,
       },
     })
-    expect(res.statusCode).toBe(200)
 
-    const body = JSON.parse(res.body)
+    expect(res.statusCode).toBe(200)
+    const body = JSON.parse(res.body) as {
+      user: User
+      password: Pwd
+      token: string
+    }
+
     expect(body.user).toBeTruthy()
+    expect(body.password).toBeFalsy()
     expect(body.token).toBeTruthy()
 
+    const result = await AuthService.validateLoginAuthToken(body.token)
+    expect(result.userId).toBe(user.id)
+    expect(result.userRole).toBe(user.role)
+
     /** cleanup */
-    await database.user.delete({ where: { id: user.id } })
+    await db.user.delete({ where: { id: user.id }})
   })
 
   it("invalid credentials", async () => {

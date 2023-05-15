@@ -1,8 +1,8 @@
 import { describe, it, expect, afterAll } from "vitest"
-import { Server } from "@/core/server" 
-import { database } from "@/core/database"
+import { Server } from "@/core/server"
+import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
-import { AuthService } from "@/app/services/AuthService"
+import { AuthService } from "@/core/services/AuthService"
 
 describe("validatePasswordResetToken", () => {
   const server = Server.new()
@@ -13,12 +13,12 @@ describe("validatePasswordResetToken", () => {
 
   it("valid request", async () => {
     /** setup */
-    const user = await database.user.create({
+    const user = await db.user.create({
       data: {
         email: "user@site.com",
         name: "User",
-        role: UserRole.SUB_CONTRACTOR,
-      }
+        role: UserRole.USER,
+      },
     })
     const resetToken = await AuthService.generatePasswordResetToken(user.id)
 
@@ -28,14 +28,14 @@ describe("validatePasswordResetToken", () => {
       method,
       payload: {
         token: resetToken,
-      }
+      },
     })
     expect(res.statusCode).toBe(200)
 
-    const body = JSON.parse(res.body)
+    const body = JSON.parse(res.body) as { isValid: boolean }
     expect(body.isValid).toBe(true)
 
     /** cleanup */
-    await database.user.delete({ where: { id: user.id }})
+    await db.user.delete({ where: { id: user.id } })
   })
 })

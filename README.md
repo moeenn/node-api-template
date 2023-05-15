@@ -1,4 +1,4 @@
-# NodeJS API Boilerplate
+# NodeJS API Template
 NodeJS API back-end with the following tools already setup
 - Typescript compiler i.e. ```tsc```
 - Absolute imports with `module-alias`

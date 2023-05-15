@@ -1,4 +1,4 @@
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { defaultSeeders } from "@/app/seeders/defaultSeeders"
 
 export async function seedRunner() {
@@ -7,9 +7,9 @@ export async function seedRunner() {
       /**
        * stop seeding at the first error
        */
-      await seeder(database)
+      await seeder(db)
     }
   } finally {
-    await database.$disconnect()
+    await db.$disconnect()
   }
 }

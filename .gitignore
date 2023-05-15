@@ -2,6 +2,7 @@ node_modules/
 build/
 *.old
 .env
+.env.prod
 prisma/migrations/*
 prisma/*.db
 prisma/*.db-journal

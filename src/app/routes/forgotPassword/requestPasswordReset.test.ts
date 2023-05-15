@@ -1,10 +1,10 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
-import { EmailService } from "@/core/email"  
+import { EmailService } from "@/core/email"
 import { ForgotPasswordEmailArgs } from "@/app/emails"
-import { AuthService } from "@/app/services/AuthService"
+import { AuthService } from "@/core/services/AuthService"
 
 describe("requestPasswordReset", () => {
   const server = Server.new()
@@ -15,12 +15,12 @@ describe("requestPasswordReset", () => {
 
   it("valid request", async () => {
     /** setup */
-    const user = await database.user.create({
+    const user = await db.user.create({
       data: {
         email: "user@site.com",
         name: "User",
-        role: UserRole.SUB_CONTRACTOR,
-      }
+        role: UserRole.USER,
+      },
     })
 
     /** test */
@@ -29,7 +29,7 @@ describe("requestPasswordReset", () => {
       method,
       payload: {
         email: user.email,
-      }
+      },
     })
     expect(res.statusCode).toBe(200)
 
@@ -46,7 +46,7 @@ describe("requestPasswordReset", () => {
     expect(isTokenValid !== 0).toBe(true)
 
     /** cleanup */
-    await database.user.delete({ where: { id: user.id }})
+    await db.user.delete({ where: { id: user.id } })
     EmailService.instance().clearSentEmails()
   })
 
@@ -58,13 +58,13 @@ describe("requestPasswordReset", () => {
       method,
       payload: {
         email,
-      }
+      },
     })
     expect(res.statusCode).toBe(200)
 
     const isEmailSent = EmailService.instance().sentEmails.find(
       (e) => e.to == email,
     )
-    expect(isEmailSent).toBeFalsy()    
+    expect(isEmailSent).toBeFalsy()
   })
 })

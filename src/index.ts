@@ -6,4 +6,5 @@ async function main() {
   Server.start(server)
 }
 
+/* eslint-disable-next-line no-console */
 main().catch(console.error)

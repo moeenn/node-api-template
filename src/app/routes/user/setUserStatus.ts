@@ -2,7 +2,7 @@ import { RouteOptions } from "fastify"
 import { validateToken, hasRole } from "@/core/server/middleware"
 import { UserRole } from "@prisma/client"
 import { FromSchema } from "json-schema-to-ts"
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { logger } from "@/core/server/logger"
 import { BadRequestException } from "@/core/exceptions"
 
@@ -27,7 +27,7 @@ export const setUserStatus: RouteOptions = {
   handler: async (req) => {
     const body = req.body as Body
 
-    const user = await database.user.findFirst({
+    const user = await db.user.findFirst({
       where: {
         id: body.userId,
       },
@@ -41,7 +41,7 @@ export const setUserStatus: RouteOptions = {
       throw BadRequestException("invalid user id")
     }
 
-    await database.user.update({
+    await db.user.update({
       where: {
         id: user.id,
       },

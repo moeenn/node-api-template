@@ -1,5 +1,5 @@
 import { authConfig } from "@/app/config"
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { AuthException, BadRequestException } from "@/core/exceptions"
 import { Password } from "@/core/helpers"
 import { logger } from "@/core/server/logger"
@@ -36,7 +36,7 @@ export const updatePassword: RouteOptions = {
       throw BadRequestException("password confirmation failed")
     }
 
-    const user = await database.user.findUnique({
+    const user = await db.user.findUnique({
       where: {
         id: userId,
       },
@@ -47,7 +47,7 @@ export const updatePassword: RouteOptions = {
       throw AuthException("cannot update user password")
     }
 
-    await database.password.update({
+    await db.password.update({
       where: {
         userId: user.id,
       },

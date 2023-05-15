@@ -3,7 +3,11 @@ import { AuthException } from "@/core/exceptions"
 import { UserRole } from "@prisma/client"
 
 export const hasRole = (...roles: UserRole[]) => {
-  return (req: FastifyRequest, _reply: FastifyReply, done: DoneFuncWithErrOrRes) => {
+  return (
+    req: FastifyRequest,
+    _reply: FastifyReply,
+    done: DoneFuncWithErrOrRes,
+  ) => {
     const currentRole = req.requestContext.get("userRole")
 
     /**

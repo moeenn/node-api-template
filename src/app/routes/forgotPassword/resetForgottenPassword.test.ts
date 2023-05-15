@@ -1,8 +1,8 @@
 import { describe, it, expect, afterAll } from "vitest"
-import { Server } from "@/core/server" 
-import { database } from "@/core/database"
+import { Server } from "@/core/server"
+import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
-import { AuthService } from "@/app/services/AuthService"
+import { AuthService } from "@/core/services/AuthService"
 import { Password } from "@/core/helpers"
 
 describe("resetForgottenPassword", () => {
@@ -14,17 +14,17 @@ describe("resetForgottenPassword", () => {
 
   it("valid request", async () => {
     /** setup */
-    const user = await database.user.create({
+    const user = await db.user.create({
       data: {
         email: "user@site.com",
         name: "User",
-        role: UserRole.SUB_CONTRACTOR,
+        role: UserRole.USER,
         password: {
           create: {
-            hash: await Password.hash("some_random_password123123")
-          }
-        }
-      }
+            hash: await Password.hash("some_random_password123123"),
+          },
+        },
+      },
     })
     const resetToken = await AuthService.generatePasswordResetToken(user.id)
 
@@ -37,13 +37,13 @@ describe("resetForgottenPassword", () => {
         token: resetToken,
         password: newPassword,
         confirmPassword: newPassword,
-      }
+      },
     })
     expect(res.statusCode).toBe(200)
 
-    const updatedUser = await database.user.findUnique({ 
+    const updatedUser = await db.user.findUnique({
       where: { id: user.id },
-      include: { password: true }
+      include: { password: true },
     })
 
     const isHashValid = await Password.verify(
@@ -53,6 +53,6 @@ describe("resetForgottenPassword", () => {
     expect(isHashValid)
 
     /** cleanup */
-    await database.user.delete({ where: { id: user.id }})
+    await db.user.delete({ where: { id: user.id } })
   })
 })

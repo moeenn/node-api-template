@@ -1,10 +1,10 @@
 import { RouteOptions } from "fastify"
 import { authConfig } from "@/app/config"
 import { FromSchema } from "json-schema-to-ts"
-import { database } from "@/core/database"
+import { db } from "@/core/database"
 import { AuthException, BadRequestException } from "@/core/exceptions"
 import { Password } from "@/core/helpers"
-import { AuthService } from "@/app/services/AuthService"
+import { AuthService } from "@/core/services/AuthService"
 import { logger } from "@/core/server/logger"
 
 const bodySchema = {
@@ -23,7 +23,7 @@ export const login: RouteOptions = {
   method: "POST",
   config: {
     rateLimit: {
-      max: 5,
+      max: 10,
       timeWindow: 1000 * 60 /* 1 minute */,
     },
   },
@@ -33,7 +33,7 @@ export const login: RouteOptions = {
   handler: async (req) => {
     const body = req.body as Body
 
-    const user = await database.user.findFirst({
+    const user = await db.user.findFirst({
       where: {
         email: body.email,
       },
@@ -63,13 +63,13 @@ export const login: RouteOptions = {
       throw BadRequestException("user account disabled by admin")
     }
 
+    /** validate the actual password */
     const isValid = await Password.verify(user.password.hash, body.password)
     if (!isValid) {
       logger.warn({ email: body.email }, "invalid login password")
       throw AuthException("invalid email or password")
     }
 
-		/** include token expiry timestamp in the response */
     const token = await AuthService.generateLoginAuthToken(user.id, user.role)
 
     return {
