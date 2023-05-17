@@ -46,7 +46,7 @@ export function validateGeneralToken(
     const result = jwtPayload as { userId: number; scope: string }
     const scope = authConfig.tokens[type].scope
 
-    if (!result.userId || !result.scope || result.scope !== scope) {
+    if (!result || !result.userId || !result.scope || result.scope !== scope) {
       throw BadRequestException("invalid password token")
     }
 

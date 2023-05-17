@@ -19,8 +19,7 @@ export const Server = {
       logger: process.env.NODE_ENV !== "test",
       ajv: {
         plugins: [
-          /** See: https://ajv.js.org/packages/ajv-formats.html */
-          ajvFormats,
+          ajvFormats, /** See: https://ajv.js.org/packages/ajv-formats.html */
         ]
       } 
     })
