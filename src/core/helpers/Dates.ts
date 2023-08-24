@@ -1,5 +1,3 @@
-type Day = "SUN" | "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT"
-
 export const Dates = {
   /** check if the provided string is a valid date */
   isDateValid(date: string): boolean {
@@ -18,7 +16,7 @@ export const Dates = {
   },
 
   /** get day name for specific date */
-  getDateDay(date: string): Day {
+  getDateDay(date: string): string {
     const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] as const
     const d = new Date(date)
     return days[d.getDay()]
@@ -41,5 +39,18 @@ export const Dates = {
     }
 
     return result
+  },
+
+  currentDate(): Date {
+    const date = new Date()
+    date.setHours(0, 0, 0, 0)
+    return date
+  },
+
+  getDateByDelta(date: Date, deltaDays: number): Date {
+    const newDate = new Date(date.getTime())
+    newDate.setDate(date.getDate() + deltaDays)
+
+    return newDate
   },
 }

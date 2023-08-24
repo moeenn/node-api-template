@@ -1,8 +1,10 @@
 import createError from "@fastify/error"
+import { logger } from "@/core/server/logger"
 
 function generateError(code: string, statusCode: number) {
-  return (message: string) => {
-    const ex = createError(code, message, statusCode)
+  return (error: string, details?: Record<string, unknown>) => {
+    logger.warn(details ?? { error })
+    const ex = createError(code, error, statusCode)
     return new ex()
   }
 }

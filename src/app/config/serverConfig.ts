@@ -6,7 +6,7 @@ export const serverConfig = {
 
   /* global: max requests to allow per IP during each time window */
   rateLimit: {
-    max: 30,
+    max: 100,
     timeWindow: 60000 /* 1 minute i.e. 1000 ms * 60 */,
   },
 }

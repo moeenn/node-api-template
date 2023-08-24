@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply, DoneFuncWithErrOrRes } from "fastify"
 import { AuthException } from "@/core/exceptions"
 import { UserRole } from "@prisma/client"
+import { requestMeta } from "@/core/helpers"
 
 export const hasRole = (...roles: UserRole[]) => {
   return (
@@ -8,13 +9,13 @@ export const hasRole = (...roles: UserRole[]) => {
     _reply: FastifyReply,
     done: DoneFuncWithErrOrRes,
   ) => {
-    const currentRole = req.requestContext.get("userRole")
+    const { userRole } = requestMeta(req)
 
     /**
      * at least one of the provided roles must be present in the
      * current user's roles
      */
-    if (!roles.includes(currentRole)) {
+    if (!roles.includes(userRole)) {
       throw AuthException(
         `only authorized roles can access this resource. authorized roles: ${roles}`,
       )

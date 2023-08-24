@@ -62,4 +62,38 @@ describe("Dates", () => {
     const got = Dates.groupByDate(input)
     expect(got).toStrictEqual(expected)
   })
+
+  it("getDateByDelta", () => {
+    const testCases = [
+      {
+        input: {
+          date: new Date("2023-07-27"),
+          delta: -7,
+        },
+        expected: new Date("2023-07-20"),
+      },
+      {
+        input: {
+          date: new Date("2023-01-03"),
+          delta: -3,
+        },
+        expected: new Date("2022-12-31"),
+      },
+      {
+        input: {
+          date: new Date("2023-03-25"),
+          delta: 10,
+        },
+        expected: new Date("2023-04-04"),
+      },
+    ]
+
+    for (const testCase of testCases) {
+      const got = Dates.getDateByDelta(
+        testCase.input.date,
+        testCase.input.delta,
+      )
+      expect(got.getTime()).toBe(testCase.expected.getTime())
+    }
+  })
 })

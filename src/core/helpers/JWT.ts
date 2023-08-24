@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken"
+import jwt, { JSONMap } from "njwt"
 
 export const JWT = {
   /**
@@ -7,14 +7,21 @@ export const JWT = {
    */
   async generate(
     secret: string,
-    payload: Record<string, unknown>,
-    expiredInSeconds?: number,
-  ): Promise<string> {
-    if (expiredInSeconds) {
-      jwt.sign(payload, secret, { expiresIn: expiredInSeconds })
-    }
+    claims: JSONMap,
+    expiredInMinutes?: number,
+  ): Promise<{ token: string; expiry: number }> {
+    const token = jwt.create(claims, secret)
 
-    return jwt.sign(payload, secret)
+    const expiry = expiredInMinutes
+      ? new Date().getTime() + 60 * 1000 * expiredInMinutes
+      : 0
+
+    token.setExpiration(expiry)
+
+    return {
+      token: token.compact(),
+      expiry,
+    }
   },
 
   /**
@@ -23,7 +30,7 @@ export const JWT = {
    */
   async validate(secret: string, token: string): Promise<unknown | undefined> {
     try {
-      return jwt.verify(token, secret)
+      return jwt.verify(token, secret)?.body
     } catch (err) {
       return
     }

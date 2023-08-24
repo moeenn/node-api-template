@@ -2,8 +2,8 @@ version: '3.3'
 
 services:
   db:
-    container_name: "node-api-postgres"
-    image: postgres:14.1-alpine
+    container_name: "node-api"
+    image: postgres:15.3-alpine
     restart: always
     environment:
       - POSTGRES_USER=devuser

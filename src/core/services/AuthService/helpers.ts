@@ -1,18 +1,21 @@
 import { authConfig } from "@/app/config"
-import { JWT, env } from "@/core/helpers"
+import { JWT } from "@/core/helpers"
 import { BadRequestException, ForbiddenException } from "@/core/exceptions"
 import { UserRole } from "@prisma/client"
 
+type TokenResult = { token: string; expiry: number }
+
 export function generateGeneralToken(
   type: keyof typeof authConfig.tokens,
-): (userId: number) => Promise<string> {
-  return async (userId: number): Promise<string> => {
-    const jwtSecret = env("JWT_SECRET")
+): (userId: number) => Promise<TokenResult> {
+  return async (userId: number): Promise<TokenResult> => {
     const { scope, expiry } = authConfig.tokens[type]
+    const claims = {
+      sub: userId,
+      scope,
+    }
 
-    const token = await JWT.generate(jwtSecret, { userId, scope }, expiry)
-
-    return token
+    return await JWT.generate(authConfig.jwt.secret, claims, expiry)
   }
 }
 
@@ -23,34 +26,34 @@ export function generateGeneralToken(
  */
 export function generateLoginToken(
   type: keyof typeof authConfig.tokens,
-): (userId: number, userRole: UserRole) => Promise<string> {
-  return async (userId: number, userRole: string): Promise<string> => {
-    const jwtSecret = env("JWT_SECRET")
-    const { scope, expiry } = authConfig.tokens[type]
+): (userId: number, userRole: UserRole) => Promise<TokenResult> {
+  return async (userId: number, userRole: UserRole): Promise<TokenResult> => {
+    const tokenConfig = authConfig.tokens[type]
 
-    const token = await JWT.generate(
-      jwtSecret,
-      { userId, scope, userRole },
-      expiry,
-    )
-    return token
+    const claims = {
+      sub: userId,
+      scope: tokenConfig.scope,
+      role: userRole,
+    }
+
+    return await JWT.generate(authConfig.jwt.secret, claims, tokenConfig.expiry)
   }
 }
 
 export function validateGeneralToken(
   type: keyof typeof authConfig.tokens,
 ): (token: string) => Promise<number> {
-  return async (token: string): Promise<number> => {
-    const jwtPayload = await JWT.validate(env("JWT_SECRET"), token)
+  return async (token): Promise<number> => {
+    const jwtPayload = await JWT.validate(authConfig.jwt.secret, token)
 
-    const result = jwtPayload as { userId: number; scope: string }
-    const scope = authConfig.tokens[type].scope
+    const result = jwtPayload as { sub?: number; scope?: string }
+    const { scope } = authConfig.tokens[type]
 
-    if (!result || !result.userId || !result.scope || result.scope !== scope) {
-      throw BadRequestException("invalid password token")
+    if (!result || !result.sub || !result.scope || result.scope !== scope) {
+      throw BadRequestException("invalid auth token")
     }
 
-    return result.userId
+    return result.sub
   }
 }
 
@@ -65,25 +68,31 @@ export function validateLoginToken(
   return async (
     token: string,
   ): Promise<{ userId: number; userRole: string }> => {
-    const jwtPayload = await JWT.validate(env("JWT_SECRET"), token)
+    const jwtPayload = await JWT.validate(authConfig.jwt.secret, token)
     if (!jwtPayload) {
       throw ForbiddenException("invalid or expired token")
     }
 
     const result = jwtPayload as {
-      userId: number
+      sub: number
       scope: string
-      userRole: string
+      role: string
     }
-    const scope = authConfig.tokens[type].scope
+    const { scope } = authConfig.tokens[type]
 
-    if (!result.userId || !result.scope || result.scope !== scope) {
+    if (
+      !result ||
+      !result.sub ||
+      !result.role ||
+      !result.scope ||
+      result.scope !== scope
+    ) {
       throw BadRequestException("invalid password token")
     }
 
     return {
-      userId: result.userId,
-      userRole: result.userRole,
+      userId: result.sub,
+      userRole: result.role,
     }
   }
 }

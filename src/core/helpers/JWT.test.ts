@@ -9,9 +9,11 @@ describe("JWT", () => {
     }
 
     const token = await JWT.generate(secret, payload)
-    expect(typeof token).toBe("string")
+    expect(typeof token.token).toBe("string")
 
-    const result = (await JWT.validate(secret, token)) as { id: number }
+    const result = (await JWT.validate(secret, token.token)) as {
+      id: number
+    }
     expect(result.id).toBe(payload.id)
   })
 
@@ -22,7 +24,9 @@ describe("JWT", () => {
     }
 
     const token = await JWT.generate(secret, payload)
-    const result = (await JWT.validate(secret + "111", token)) as { id: number }
+    const result = (await JWT.validate(secret + "111", token.token)) as {
+      id: number
+    }
     expect(result).toBeFalsy()
   })
 })

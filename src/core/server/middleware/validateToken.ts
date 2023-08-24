@@ -11,9 +11,8 @@ export const validateToken = async (req: FastifyRequest) => {
   const { userId, userRole } = await AuthService.validateLoginAuthToken(token)
 
   /* store id of the validated user on the request object */
-  req.requestContext.set("token", token)
-  req.requestContext.set("userId", userId)
-  req.requestContext.set("userRole", userRole)
+  req.requestContext.set("userId" as never, userId as never)
+  req.requestContext.set("userRole" as never, userRole as never)
 }
 
 function parseBearerToken(req: FastifyRequest): string | undefined {

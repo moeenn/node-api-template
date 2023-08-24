@@ -88,4 +88,9 @@ export class Time {
     const currentMins = current.toMins()
     return currentMins >= start.toMins() && currentMins <= end.toMins()
   }
+
+  public static currentTime(): Time {
+    const date = new Date()
+    return new Time(date.getHours(), date.getMinutes())
+  }
 }
