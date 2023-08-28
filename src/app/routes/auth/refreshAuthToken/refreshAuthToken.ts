@@ -1,8 +1,7 @@
 import { db } from "@/core/database"
 import { AuthException } from "@/core/exceptions"
 import { validateToken } from "@/core/server/middleware/validateToken"
-import { AuthService } from "@/core/services/AuthService"
-import { requestMeta } from "@/core/helpers/requestMeta"
+import { requestMeta, Auth } from "@/core/helpers"
 import { RouteOptions } from "fastify"
 
 export const refreshAuthToken: RouteOptions = {
@@ -28,7 +27,7 @@ export const refreshAuthToken: RouteOptions = {
       })
     }
 
-    const token = await AuthService.generateLoginAuthToken(user.id, user.role)
+    const token = await Auth.generateLoginAuthToken(user.id, user.role)
     return token
   },
 }

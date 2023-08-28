@@ -1,8 +1,7 @@
 import { RouteOptions } from "fastify"
 import { db } from "@/core/database"
 import { AuthException, BadRequestException } from "@/core/exceptions"
-import { Password } from "@/core/helpers"
-import { AuthService } from "@/core/services/AuthService"
+import { Password, Auth } from "@/core/helpers"
 import { bodySchema, Body } from "./login.schema"
 
 export const login: RouteOptions = {
@@ -55,7 +54,7 @@ export const login: RouteOptions = {
         message: "invalid login password",
       })
 
-    const token = await AuthService.generateLoginAuthToken(user.id, user.role)
+    const token = await Auth.generateLoginAuthToken(user.id, user.role)
 
     return {
       user: Object.assign(user, { password: undefined }),

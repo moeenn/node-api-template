@@ -1,5 +1,5 @@
 import { RouteOptions } from "fastify"
-import { AuthService } from "@/core/services/AuthService"
+import { Auth } from "@/core/helpers"
 import { bodySchema, Body } from "./validatePasswordResetToken.schema"
 
 export const validatePasswordResetToken: RouteOptions = {
@@ -10,7 +10,7 @@ export const validatePasswordResetToken: RouteOptions = {
   },
   handler: async (req) => {
     const body = req.body as Body
-    const isValid = await AuthService.validatePasswordResetToken(body.token)
+    const isValid = await Auth.validatePasswordResetToken(body.token)
 
     return {
       isValid: isValid !== 0,

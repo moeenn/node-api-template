@@ -3,7 +3,7 @@ import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { EmailService } from "@/core/email"
 import { ForgotPasswordEmailArgs } from "@/app/emails"
-import { AuthService } from "@/core/services/AuthService"
+import { Auth } from "@/core/helpers"
 import { Body } from "./requestPasswordReset.schema"
 
 describe("requestPasswordReset", () => {
@@ -39,7 +39,7 @@ describe("requestPasswordReset", () => {
     const emailArgs = isEmailSent?.email.args as ForgotPasswordEmailArgs
     expect(emailArgs.resetToken).toBeTruthy()
 
-    const isTokenValid = await AuthService.validatePasswordResetToken(
+    const isTokenValid = await Auth.validatePasswordResetToken(
       emailArgs.resetToken,
     )
     expect(isTokenValid !== 0).toBe(true)

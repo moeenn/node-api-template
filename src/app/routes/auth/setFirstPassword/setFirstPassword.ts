@@ -1,7 +1,6 @@
 import { RouteOptions } from "fastify"
-import { AuthService } from "@/core/services/AuthService"
 import { db } from "@/core/database"
-import { Password } from "@/core/helpers"
+import { Password, Auth } from "@/core/helpers"
 import { BadRequestException } from "@/core/exceptions"
 import { bodySchema, Body } from "./setFirstPassword.schema"
 
@@ -20,7 +19,7 @@ export const setFirstPassword: RouteOptions = {
       })
     }
 
-    const userId = await AuthService.validateFirstPasswordToken(
+    const userId = await Auth.validateFirstPasswordToken(
       body.passwordToken,
     )
 

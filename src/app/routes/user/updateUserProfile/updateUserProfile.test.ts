@@ -2,7 +2,7 @@ import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
-import { AuthService } from "@/core/services/AuthService"
+import { Auth } from "@/core/helpers"
 import { Body } from "./updateUserProfile.schema"
 import { faker } from "@faker-js/faker"
 
@@ -23,7 +23,7 @@ describe("updateUserProfile", () => {
       },
     })
 
-    const authToken = await AuthService.generateLoginAuthToken(
+    const authToken = await Auth.generateLoginAuthToken(
       user.id,
       user.role,
     )

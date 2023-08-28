@@ -1,15 +1,15 @@
 import { UserRole } from "@prisma/client"
 import { describe, it, expect } from "vitest"
-import { AuthService } from "./index"
+import { Auth } from "./index"
 
-describe("AuthService", () => {
+describe("Auth", () => {
   it("generate and validate login auth token", async () => {
-    const loginToken = await AuthService.generateLoginAuthToken(
+    const loginToken = await Auth.generateLoginAuthToken(
       10000,
       UserRole.ADMIN,
     )
 
-    const { userId, userRole } = await AuthService.validateLoginAuthToken(
+    const { userId, userRole } = await Auth.validateLoginAuthToken(
       loginToken.token,
     )
     expect(userId).toBe(10000)
@@ -18,13 +18,13 @@ describe("AuthService", () => {
 
   it("invalid login auth token", async () => {
     expect(() =>
-      AuthService.validateLoginAuthToken("random-token"),
+      Auth.validateLoginAuthToken("random-token"),
     ).rejects.toThrowError("invalid")
   })
 
   it("generate and validate first password token", async () => {
-    const loginToken = await AuthService.generateFirstPasswordToken(10000)
-    const userId = await AuthService.validateFirstPasswordToken(
+    const loginToken = await Auth.generateFirstPasswordToken(10000)
+    const userId = await Auth.validateFirstPasswordToken(
       loginToken.token,
     )
     expect(userId).toBe(10000)
@@ -32,13 +32,13 @@ describe("AuthService", () => {
 
   it("invalid first password token", async () => {
     expect(() =>
-      AuthService.validateFirstPasswordToken("random-token"),
+      Auth.validateFirstPasswordToken("random-token"),
     ).rejects.toThrowError("invalid")
   })
 
   it("generate and validate password reset token", async () => {
-    const loginToken = await AuthService.generatePasswordResetToken(10000)
-    const userId = await AuthService.validatePasswordResetToken(
+    const loginToken = await Auth.generatePasswordResetToken(10000)
+    const userId = await Auth.validatePasswordResetToken(
       loginToken.token,
     )
     expect(userId).toBe(10000)
@@ -46,7 +46,7 @@ describe("AuthService", () => {
 
   it("invalid reset password token", async () => {
     expect(() =>
-      AuthService.validatePasswordResetToken("random-token"),
+      Auth.validatePasswordResetToken("random-token"),
     ).rejects.toThrowError("invalid")
   })
 })

@@ -5,7 +5,7 @@ import {
   validateGeneralToken,
 } from "./helpers"
 
-export const AuthService = {
+export const Auth = {
   generateLoginAuthToken: generateLoginToken("auth"),
   validateLoginAuthToken: validateLoginToken("auth"),
 

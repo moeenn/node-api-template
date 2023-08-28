@@ -1,7 +1,7 @@
 import { db } from "@/core/database"
 import { logger } from "@/core/server/logger"
 import { RouteOptions } from "fastify"
-import { AuthService } from "@/core/services/AuthService"
+import { Auth } from "@/core/helpers"
 import { ForgotPasswordEmail } from "@/app/emails"
 import { EmailService } from "@/core/email"
 import { bodySchema, Body } from "./requestPasswordReset.schema"
@@ -31,7 +31,7 @@ export const requestPasswordReset: RouteOptions = {
       }
     }
 
-    const token = await AuthService.generatePasswordResetToken(user.id)
+    const token = await Auth.generatePasswordResetToken(user.id)
     const email = new ForgotPasswordEmail({ resetToken: token.token })
 
     /** don't await, send in the background */

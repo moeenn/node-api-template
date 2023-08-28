@@ -4,10 +4,9 @@ import { db } from "@/core/database"
 import { logger } from "@/core/server/logger"
 import { EmailService } from "@/core/email"
 import { SetFirstPasswordEmail } from "@/app/emails"
-import { AuthService } from "@/core/services/AuthService"
 import { bodySchema, Body } from "./registerUser.schema"
 import { UserRole } from "@prisma/client"
-import { Password } from "@/core/helpers"
+import { Password, Auth } from "@/core/helpers"
 
 export const registerUser: RouteOptions = {
   url: "/user/register",
@@ -51,7 +50,7 @@ export const registerUser: RouteOptions = {
       },
     })
 
-    const token = await AuthService.generateFirstPasswordToken(user.id)
+    const token = await Auth.generateFirstPasswordToken(user.id)
     const email = new SetFirstPasswordEmail({ passwordToken: token.token })
 
     /** don't await, send in the background */

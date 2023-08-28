@@ -1,6 +1,6 @@
 import { FastifyRequest } from "fastify"
 import { AuthException } from "@/core/exceptions"
-import { AuthService } from "@/core/services/AuthService"
+import { Auth } from "@/core/helpers"
 
 export const validateToken = async (req: FastifyRequest) => {
   const token = parseBearerToken(req)
@@ -8,7 +8,7 @@ export const validateToken = async (req: FastifyRequest) => {
     throw AuthException("invalid bearer token")
   }
 
-  const { userId, userRole } = await AuthService.validateLoginAuthToken(token)
+  const { userId, userRole } = await Auth.validateLoginAuthToken(token)
 
   /* store id of the validated user on the request object */
   req.requestContext.set("userId" as never, userId as never)

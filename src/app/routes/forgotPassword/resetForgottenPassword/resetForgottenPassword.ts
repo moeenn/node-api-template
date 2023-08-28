@@ -1,8 +1,7 @@
 import { RouteOptions } from "fastify"
 import { AuthException, BadRequestException } from "@/core/exceptions"
-import { AuthService } from "@/core/services/AuthService"
 import { db } from "@/core/database"
-import { Password } from "@/core/helpers"
+import { Password, Auth } from "@/core/helpers"
 import { bodySchema, Body } from "./resetForgottenPassword.schema"
 
 export const resetForgottenPassword: RouteOptions = {
@@ -18,7 +17,7 @@ export const resetForgottenPassword: RouteOptions = {
       throw BadRequestException("password confirmation failed")
     }
 
-    const userId = await AuthService.validatePasswordResetToken(body.token)
+    const userId = await Auth.validatePasswordResetToken(body.token)
     const user = await db.user.findUnique({
       where: {
         id: userId,

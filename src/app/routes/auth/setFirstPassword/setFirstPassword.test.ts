@@ -1,8 +1,7 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
-import { AuthService } from "@/core/services/AuthService"
-import { Password } from "@/core/helpers"
+import { Password, Auth } from "@/core/helpers"
 import { Body } from "./setFirstPassword.schema"
 import { faker } from "@faker-js/faker"
 
@@ -21,7 +20,7 @@ describe("setFirstPassword", () => {
         name: "User",
       },
     })
-    const firstPasswordToken = await AuthService.generateFirstPasswordToken(
+    const firstPasswordToken = await Auth.generateFirstPasswordToken(
       user.id,
     )
 
@@ -69,7 +68,7 @@ describe("setFirstPassword", () => {
         },
       },
     })
-    const firstPasswordToken = await AuthService.generateFirstPasswordToken(
+    const firstPasswordToken = await Auth.generateFirstPasswordToken(
       user.id,
     )
 

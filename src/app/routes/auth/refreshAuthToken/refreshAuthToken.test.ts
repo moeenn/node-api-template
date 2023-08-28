@@ -2,7 +2,7 @@ import { describe, it, expect, afterAll } from "vitest"
 import { db } from "@/core/database"
 import { Server } from "@/core/server"
 import { faker } from "@faker-js/faker"
-import { AuthService } from "@/core/services/AuthService"
+import { Auth } from "@/core/helpers"
 
 describe("refreshAuthToken", async () => {
   const server = Server.new()
@@ -16,7 +16,7 @@ describe("refreshAuthToken", async () => {
     },
   })
 
-  const userToken = await AuthService.generateLoginAuthToken(user.id, user.role)
+  const userToken = await Auth.generateLoginAuthToken(user.id, user.role)
 
   afterAll(async () => {
     await db.user.delete({ where: { id: user.id } })
