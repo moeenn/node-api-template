@@ -8,11 +8,11 @@ import { requestPasswordReset } from "./forgotPassword/requestPasswordReset/requ
 import { validatePasswordResetToken } from "./forgotPassword/validatePasswordResetToken/validatePasswordResetToken"
 import { resetForgottenPassword } from "./forgotPassword/resetForgottenPassword/resetForgottenPassword"
 import { getUserProfile } from "./user/getUserProfile/getUserProfile"
-import { createSiteUser } from "./user/createSiteUser/createSiteUser"
+import { registerUser } from "./user/registerUser/registerUser"
 import { setUserStatus } from "./user/setUserStatus/setUserStatus"
 import { updatePassword } from "./user/updatePassword/updatePassword"
 import { updateUserProfile } from "./user/updateUserProfile/updateUserProfile"
-
+import { listUsers } from "./user/listUsers/listUsers"
 
 /**
  * register all routes here
@@ -28,8 +28,9 @@ export const routes: RouteOptions[] = [
   validatePasswordResetToken,
   resetForgottenPassword,
   getUserProfile,
-  createSiteUser,
+  registerUser,
   setUserStatus,
   updatePassword,
   updateUserProfile,
+  listUsers,
 ]

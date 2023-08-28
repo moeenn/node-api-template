@@ -5,9 +5,9 @@ import { db } from "@/core/database"
 import { querySchema, Query } from "./listUsers.schema"
 import { appConfig } from "@/app/config/appConfig"
 
-export const listSiteUsers: RouteOptions = {
-  url: "/user/list-site-users",
-  method: "POST",
+export const listUsers: RouteOptions = {
+  url: "/users",
+  method: "GET",
   preValidation: [validateToken, hasRole(UserRole.ADMIN)],
   schema: {
     querystring: querySchema,

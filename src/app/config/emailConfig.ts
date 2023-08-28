@@ -1,7 +1,7 @@
 import { env } from "@/core/helpers"
-import { AWSEmailProvider } from "@/core/email/providers"
+import { DummyEmailProvider } from "@/core/email/providers"
 
 export const emailConfig = {
   fromEmail: env("FROM_EMAIL"),
-  provider: AWSEmailProvider, // TODO: implement dummy email provider
+  provider: DummyEmailProvider, // TODO: implement dummy email provider
 }

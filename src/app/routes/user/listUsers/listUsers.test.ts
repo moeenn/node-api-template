@@ -5,17 +5,17 @@ import { UserRole, User } from "@prisma/client"
 import { AuthService } from "@/core/services/AuthService"
 import { faker } from "@faker-js/faker"
 
-describe("listSiteUsers", async () => {
+describe("listUsers", async () => {
   const server = Server.new()
-  const url = "/api/user/list-site-users"
-  const method = "POST"
+  const url = "/api/users"
+  const method = "GET"
 
   const admin = await db.user.create({
     data: {
       email: faker.internet.email(),
       name: faker.internet.userName(),
       role: UserRole.ADMIN,
-    }
+    },
   })
 
   const adminToken = await AuthService.generateLoginAuthToken(
@@ -24,8 +24,7 @@ describe("listSiteUsers", async () => {
   )
 
   afterAll(async () => {
-    await db.user.delete({ where: { id: admin.id } }),
-      server.close()
+    await db.user.delete({ where: { id: admin.id } }), server.close()
   })
 
   it("valid request", async () => {
@@ -43,7 +42,7 @@ describe("listSiteUsers", async () => {
       method,
       headers: {
         authorization: "Bearer " + adminToken.token,
-      }
+      },
     })
     expect(res.statusCode).toBe(200)
 

@@ -22,7 +22,7 @@ describe("updateUserProfile", () => {
         role: UserRole.USER,
       },
     })
-    
+
     const authToken = await AuthService.generateLoginAuthToken(
       user.id,
       user.role,

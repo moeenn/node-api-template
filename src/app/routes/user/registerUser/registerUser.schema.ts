@@ -9,12 +9,7 @@ export const bodySchema = {
     password: { type: "string", minLength: authConfig.password.minLength },
     confirmPassword: { type: "string" },
   },
-  required: [
-    "name",
-    "email",
-    "password",
-    "confirmPassword",
-  ],
+  required: ["name", "email", "password", "confirmPassword"],
   additionalProperties: false,
 } as const
 

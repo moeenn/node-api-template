@@ -1,1 +1,1 @@
-export { AWSEmailProvider } from "./AWSEmailProvider"
+export { DummyEmailProvider } from "./DummyEmailProvider"

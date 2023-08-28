@@ -46,8 +46,8 @@ export const registerUser: RouteOptions = {
         password: {
           create: {
             hash: await Password.hash(body.password),
-          }
-        }
+          },
+        },
       },
     })
 

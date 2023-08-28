@@ -4,6 +4,7 @@ import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
 import { AuthService } from "@/core/services/AuthService"
 import { Body } from "./setUserStatus.schema"
+import { faker } from "@faker-js/faker"
 
 describe("setUserStatus", async () => {
   const server = Server.new()
@@ -12,11 +13,12 @@ describe("setUserStatus", async () => {
 
   const admin = await db.user.create({
     data: {
-      email: "admin@site.com",
-      name: "Admin",
+      email: faker.internet.email(),
+      name: faker.internet.userName(),
       role: UserRole.ADMIN,
     },
   })
+
   const adminAuthToken = await AuthService.generateLoginAuthToken(
     admin.id,
     admin.role,
@@ -31,9 +33,9 @@ describe("setUserStatus", async () => {
     /** setup */
     const user = await db.user.create({
       data: {
-        email: "user@site.com",
-        name: "User",
-        role: UserRole.GATE_KEEPER,
+        email: faker.internet.email(),
+        name: faker.internet.userName(),
+        role: UserRole.USER,
       },
     })
 

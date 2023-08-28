@@ -1,7 +1,6 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
-import { UserRole } from "@prisma/client"
 import { Password } from "@/core/helpers"
 import { AuthService } from "@/core/services/AuthService"
 import { Body } from "./updatePassword.schema"
@@ -22,7 +21,9 @@ describe("updatePassword", () => {
         name: faker.internet.userName(),
         password: {
           create: {
-            hash: await Password.hash(faker.string.alphanumeric({ length: 10 })),
+            hash: await Password.hash(
+              faker.string.alphanumeric({ length: 10 }),
+            ),
           },
         },
       },

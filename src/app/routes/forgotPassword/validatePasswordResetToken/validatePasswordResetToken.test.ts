@@ -4,6 +4,7 @@ import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
 import { AuthService } from "@/core/services/AuthService"
 import { Body } from "./validatePasswordResetToken.schema"
+import { faker } from "@faker-js/faker"
 
 describe("validatePasswordResetToken", () => {
   const server = Server.new()
@@ -16,9 +17,9 @@ describe("validatePasswordResetToken", () => {
     /** setup */
     const user = await db.user.create({
       data: {
-        email: "user@site.com",
-        name: "User",
-        role: UserRole.SUB_CONTRACTOR,
+        email: faker.internet.email(),
+        name: faker.internet.userName(),
+        role: UserRole.USER,
       },
     })
     const resetToken = await AuthService.generatePasswordResetToken(user.id)
