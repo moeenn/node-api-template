@@ -1,4 +1,5 @@
 import { authConfig } from "@/app/config"
+import { User } from "@prisma/client"
 import { FromSchema } from "json-schema-to-ts"
 
 export const LoginSchema = {
@@ -13,19 +14,10 @@ export const LoginSchema = {
 
 export type Login = FromSchema<typeof LoginSchema>
 
-
-export const SetFirstPasswordSchema = {
-  type: "object",
-  properties: {
-    passwordToken: { type: "string" },
-    password: { type: "string", minLength: authConfig.password.minLength },
-    confirmPassword: {
-      type: "string",
-      minLength: authConfig.password.minLength,
-    },
-  },
-  required: ["passwordToken", "password", "confirmPassword"],
-  additionalProperties: false,
-} as const
-
-export type SetFirstPassword = FromSchema<typeof SetFirstPasswordSchema>
+export type LoginResult = {
+  user: User
+  auth: {
+    token: string
+    expiry: number
+  }
+}

@@ -47,7 +47,7 @@ export async function ping(client: PrismaClient): Promise<boolean> {
 
 /**
  * remove all data from all database tables, useful when writing database tests
- * 
+ *
  */
 export async function clearDatabase() {
   const tablenames = await db.$queryRaw<

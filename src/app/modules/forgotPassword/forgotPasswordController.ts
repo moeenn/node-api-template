@@ -1,11 +1,14 @@
-import { logger } from "@/core/server/logger"
 import { RouteOptions } from "fastify"
 import { Auth } from "@/core/helpers"
-import { ForgotPasswordEmail } from "@/app/emails"
-import { EmailService } from "@/core/email"
-import { RequestPasswordReset, RequestPasswordResetSchema, ResetForgottenPassword, ResetForgottenPasswordSchema, ValidatePasswordResetToken, ValidatePasswordResetTokenSchema } from "./forgotPassword.schema"
-import { UserRepository } from "../user/userRepository"
-import { AuthException, BadRequestException } from "@/core/exceptions"
+import {
+  RequestPasswordReset,
+  RequestPasswordResetSchema,
+  ResetForgottenPassword,
+  ResetForgottenPasswordSchema,
+  ValidatePasswordResetToken,
+  ValidatePasswordResetTokenSchema,
+} from "./forgotPassword.schema"
+import { ForgotPasswordService } from "./forgotPasswordService"
 
 const requestPasswordReset: RouteOptions = {
   url: "/forgot-password/request-reset",
@@ -15,28 +18,7 @@ const requestPasswordReset: RouteOptions = {
   },
   handler: async (req) => {
     const body = req.body as RequestPasswordReset
-
-    const user = await UserRepository.findByEmail(body.email)
-    if (!user) {
-      logger.info(
-        { email: body.email },
-        "password reset request for non-existent user",
-      )
-      return {
-        message: "password reset request will be processed",
-      }
-    }
-
-    const token = await Auth.generatePasswordResetToken(user.id)
-    const email = new ForgotPasswordEmail({ resetToken: token.token })
-
-    /** don't await, send in the background */
-    EmailService.instance().sendEmail(user.email, email)
-    logger.info(
-      { email: body.email },
-      "sending forgot password (password reset) email",
-    )
-
+    await ForgotPasswordService.requestPasswordReset(body)
     return {
       message: "password reset request will be processed",
     }
@@ -67,21 +49,7 @@ const resetForgottenPassword: RouteOptions = {
   },
   handler: async (req) => {
     const body = req.body as ResetForgottenPassword
-
-    if (body.password !== body.confirmPassword) {
-      throw BadRequestException("password confirmation failed")
-    }
-
-    const userId = await Auth.validatePasswordResetToken(body.token)
-    const user = await UserRepository.findById(userId)
-
-    if (!user)
-      throw AuthException("cannot reset password", {
-        userId,
-        message: "id of non-existent user in json token",
-      })
-
-    await UserRepository.updateUserPassword(user, body.password)
+    await ForgotPasswordService.resetForgottenPassword(body)
     return {
       message: "password updated successfully",
     }

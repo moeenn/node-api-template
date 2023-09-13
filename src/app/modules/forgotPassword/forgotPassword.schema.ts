@@ -12,7 +12,6 @@ export const RequestPasswordResetSchema = {
 
 export type RequestPasswordReset = FromSchema<typeof RequestPasswordResetSchema>
 
-
 export const ValidatePasswordResetTokenSchema = {
   type: "object",
   properties: {
@@ -22,8 +21,9 @@ export const ValidatePasswordResetTokenSchema = {
   additionalProperties: false,
 } as const
 
-export type ValidatePasswordResetToken = FromSchema<typeof ValidatePasswordResetTokenSchema>
-
+export type ValidatePasswordResetToken = FromSchema<
+  typeof ValidatePasswordResetTokenSchema
+>
 
 export const ResetForgottenPasswordSchema = {
   type: "object",
@@ -39,4 +39,6 @@ export const ResetForgottenPasswordSchema = {
   additionalProperties: false,
 } as const
 
-export type ResetForgottenPassword = FromSchema<typeof ResetForgottenPasswordSchema>
+export type ResetForgottenPassword = FromSchema<
+  typeof ResetForgottenPasswordSchema
+>

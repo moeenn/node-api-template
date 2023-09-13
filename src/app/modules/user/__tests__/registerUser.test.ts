@@ -1,7 +1,7 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
-import { CreateUser  } from "@/app/modules/user/user.schema"
+import { CreateUser } from "@/app/modules/user/user.schema"
 import { faker } from "@faker-js/faker"
 
 describe("registerUser", async () => {

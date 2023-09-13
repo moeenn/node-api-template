@@ -3,7 +3,7 @@ import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
 import { Auth } from "@/core/helpers"
-import { UpdateUserProfile  } from "@/app/modules/user/user.schema"
+import { UpdateUserProfile } from "@/app/modules/user/user.schema"
 import { faker } from "@faker-js/faker"
 
 describe("updateUserProfile", () => {

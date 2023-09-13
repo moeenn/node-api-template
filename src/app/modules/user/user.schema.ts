@@ -25,7 +25,6 @@ export const UpdateUserProfileSchema = {
 
 export type UpdateUserProfile = FromSchema<typeof UpdateUserProfileSchema>
 
-
 export const CreateUserSchema = {
   type: "object",
   properties: {
@@ -51,19 +50,3 @@ export const SetUserStatusSchema = {
 } as const
 
 export type SetUserStatus = FromSchema<typeof SetUserStatusSchema>
-
-
-export const UpdateUserPasswordSchema = {
-  type: "object",
-  properties: {
-    password: { type: "string", minLength: authConfig.password.minLength },
-    confirmPassword: {
-      type: "string",
-      minLength: authConfig.password.minLength,
-    },
-  },
-  required: ["password", "confirmPassword"],
-  additionalProperties: false,
-} as const
-
-export type UpdateUserPassword = FromSchema<typeof UpdateUserPasswordSchema>

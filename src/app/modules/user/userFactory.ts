@@ -8,5 +8,5 @@ export const UserFactory = {
       name: faker.internet.userName(),
       role,
     }
-  }
+  },
 }

@@ -5,7 +5,10 @@ import { UpdateUserProfile, CreateUser } from "./user.schema"
 import { Password as Pwd } from "@/core/helpers"
 
 export const UserRepository = {
-  async listUsers(page: number = 1, query: string | undefined = undefined): Promise<Paginated<User>> {
+  async listUsers(
+    page: number = 1,
+    query: string | undefined = undefined,
+  ): Promise<Paginated<User>> {
     const findCondition = {
       where: {
         email: query ? { startsWith: query } : undefined,
@@ -26,7 +29,7 @@ export const UserRepository = {
       data: users,
     }
   },
-  
+
   async findById(userId: number): Promise<User | null> {
     return db.user.findUnique({
       where: {
@@ -35,7 +38,9 @@ export const UserRepository = {
     })
   },
 
-  async findByIdWithPassword(id: number): Promise<User & { password: Password | null } | null> {
+  async findByIdWithPassword(
+    id: number,
+  ): Promise<(User & { password: Password | null }) | null> {
     return db.user.findFirst({
       where: { id },
       include: {
@@ -50,7 +55,9 @@ export const UserRepository = {
     })
   },
 
-  async findByEmailWithPassword(email: string): Promise<User & { password: Password | null } | null> {
+  async findByEmailWithPassword(
+    email: string,
+  ): Promise<(User & { password: Password | null }) | null> {
     return db.user.findFirst({
       where: { email },
       include: {
@@ -95,26 +102,6 @@ export const UserRepository = {
         phone: data.phone,
         mobile: data.mobile,
       },
-    })
-  },
-
-  async updateUserPassword(user: User, newPassword: string): Promise<void> {
-    await db.password.update({
-      where: {
-        userId: user.id,
-      },
-      data: {
-        hash: await Pwd.hash(newPassword),
-      },
-    })
-  },
-
-  async setUserPassword(user: User, password: string): Promise<void> {
-    await db.password.create({
-      data: {
-        userId: user.id,
-        hash: await Pwd.hash(password),
-      }
     })
   },
 }
