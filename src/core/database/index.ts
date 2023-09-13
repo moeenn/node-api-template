@@ -27,6 +27,11 @@ if (process.env.NODE_ENV === "production") {
 }
 export { db }
 
+export type Paginated<T> = {
+  pages: number
+  data: T[]
+}
+
 /**
  * check if database is successfully connected with the application
  *

@@ -7,12 +7,12 @@ import { setFirstPassword } from "./auth/setFirstPassword/setFirstPassword"
 import { requestPasswordReset } from "./forgotPassword/requestPasswordReset/requestPasswordReset"
 import { validatePasswordResetToken } from "./forgotPassword/validatePasswordResetToken/validatePasswordResetToken"
 import { resetForgottenPassword } from "./forgotPassword/resetForgottenPassword/resetForgottenPassword"
-import { getUserProfile } from "./user/getUserProfile/getUserProfile"
+import { getUserProfile } from "@/app/modules/user/routes/getUserProfile/getUserProfile"
 import { registerUser } from "./user/registerUser/registerUser"
-import { setUserStatus } from "./user/setUserStatus/setUserStatus"
+import { setUserStatus } from "@/app/modules/user/routes/setUserStatus/setUserStatus"
 import { updatePassword } from "./user/updatePassword/updatePassword"
-import { updateUserProfile } from "./user/updateUserProfile/updateUserProfile"
-import { listUsers } from "./user/listUsers/listUsers"
+import { updateUserProfile } from "@/app/modules/user/routes/updateUserProfile/updateUserProfile"
+import { listUsers } from "@/app/modules/user/routes/listUsers/listUsers"
 
 /**
  * register all routes here

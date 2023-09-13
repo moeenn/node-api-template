@@ -4,6 +4,7 @@ import { db } from "@/core/database"
 import { User, UserRole } from "@prisma/client"
 import { Auth } from "@/core/helpers"
 import { faker } from "@faker-js/faker"
+import { UserFactory } from "@/app/modules/user/userFactory"
 
 describe("getUserProfile", () => {
   const server = Server.new()
@@ -15,10 +16,7 @@ describe("getUserProfile", () => {
   it("valid request", async () => {
     /** setup */
     const user = await db.user.create({
-      data: {
-        email: faker.internet.email(),
-        name: faker.internet.userName(),
-      },
+      data: UserFactory.make(),
     })
 
     const authToken = await Auth.generateLoginAuthToken(user.id, user.role)

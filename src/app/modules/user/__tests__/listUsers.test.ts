@@ -1,9 +1,9 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
-import { db } from "@/core/database"
+import { clearDatabase, db } from "@/core/database"
 import { UserRole, User } from "@prisma/client"
 import { Auth } from "@/core/helpers"
-import { faker } from "@faker-js/faker"
+import { UserFactory } from "@/app/modules/user/userFactory"
 
 describe("listUsers", async () => {
   const server = Server.new()
@@ -11,26 +11,20 @@ describe("listUsers", async () => {
   const method = "GET"
 
   const admin = await db.user.create({
-    data: {
-      email: faker.internet.email(),
-      name: faker.internet.userName(),
-      role: UserRole.ADMIN,
-    },
+    data: UserFactory.make(UserRole.ADMIN),
   })
 
   const adminToken = await Auth.generateLoginAuthToken(admin.id, admin.role)
 
   afterAll(async () => {
-    await db.user.delete({ where: { id: admin.id } }), server.close()
+    await clearDatabase()
+    server.close()
   })
 
   it("valid request", async () => {
     /** setup */
     const userOne = await db.user.create({
-      data: {
-        name: faker.internet.userName(),
-        email: faker.internet.email(),
-      },
+      data: UserFactory.make(),
     })
 
     /** test */
@@ -46,20 +40,12 @@ describe("listUsers", async () => {
     const body = JSON.parse(res.body) as { pages: number; users: User[] }
     const found = body.users.find((r) => r.id === userOne.id)
     expect(found).toBeTruthy()
-
-    /** cleanup */
-    await db.user.deleteMany({
-      where: { id: { in: [userOne.id] } },
-    })
   })
 
   it("valid request - search", async () => {
     /** setup */
     const userOne = await db.user.create({
-      data: {
-        name: faker.internet.userName(),
-        email: "user-one" + faker.internet.email(),
-      },
+      data: UserFactory.make(),
     })
 
     /** test */
@@ -78,12 +64,5 @@ describe("listUsers", async () => {
 
     const foundOne = body.users.find((u) => u.id === userOne.id)
     expect(foundOne?.name).toBe(userOne.name)
-
-    /** cleanup */
-    await db.user.deleteMany({
-      where: {
-        id: { in: [userOne.id] },
-      },
-    })
   })
 })
