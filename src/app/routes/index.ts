@@ -3,9 +3,7 @@ import { HealthCheckController } from "@/app/modules/healthCheck/healthCheckCont
 import { login } from "./auth/login/login"
 import { refreshAuthToken } from "./auth/refreshAuthToken/refreshAuthToken"
 import { setFirstPassword } from "./auth/setFirstPassword/setFirstPassword"
-import { requestPasswordReset } from "./forgotPassword/requestPasswordReset/requestPasswordReset"
-import { validatePasswordResetToken } from "./forgotPassword/validatePasswordResetToken/validatePasswordResetToken"
-import { resetForgottenPassword } from "./forgotPassword/resetForgottenPassword/resetForgottenPassword"
+import { ForgotPasswordController} from "@/app/modules/forgotPassword/forgotPasswordController"
 import { UserController } from "@/app/modules/user/userController"
 
 /**
@@ -18,9 +16,9 @@ export const routes: RouteOptions[] = [
   login,
   refreshAuthToken,
   setFirstPassword,
-  requestPasswordReset,
-  validatePasswordResetToken,
-  resetForgottenPassword,
+  ForgotPasswordController.requestPasswordReset,
+  ForgotPasswordController.validatePasswordResetToken,
+  ForgotPasswordController.resetForgottenPassword,
   UserController.getUserProfile,
   UserController.registerUser,
   UserController.setUserStatus,
