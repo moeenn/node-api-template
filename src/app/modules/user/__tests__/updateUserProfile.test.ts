@@ -3,7 +3,7 @@ import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
 import { Auth } from "@/core/helpers"
-import { Body } from "./updateUserProfile.schema"
+import { UpdateUserProfile  } from "@/app/modules/user/user.schema"
 import { faker } from "@faker-js/faker"
 
 describe("updateUserProfile", () => {
@@ -37,7 +37,7 @@ describe("updateUserProfile", () => {
         name: updatedName,
         phone: "123123123",
         mobile: "4545454545",
-      } as Body,
+      } as UpdateUserProfile,
     })
     expect(res.statusCode).toBe(200)
 

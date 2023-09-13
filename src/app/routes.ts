@@ -1,8 +1,6 @@
 import { RouteOptions } from "fastify"
 import { HealthCheckController } from "@/app/modules/healthCheck/healthCheckController"
-import { login } from "./auth/login/login"
-import { refreshAuthToken } from "./auth/refreshAuthToken/refreshAuthToken"
-import { setFirstPassword } from "./auth/setFirstPassword/setFirstPassword"
+import { AuthController } from "@/app/modules/auth/authController"
 import { ForgotPasswordController} from "@/app/modules/forgotPassword/forgotPasswordController"
 import { UserController } from "@/app/modules/user/userController"
 
@@ -13,9 +11,9 @@ import { UserController } from "@/app/modules/user/userController"
 export const routes: RouteOptions[] = [
   HealthCheckController.healthCheck,
   HealthCheckController.memoryUsage,
-  login,
-  refreshAuthToken,
-  setFirstPassword,
+  AuthController.login,
+  AuthController.refreshAuthToken,
+  AuthController.setFirstPassword,
   ForgotPasswordController.requestPasswordReset,
   ForgotPasswordController.validatePasswordResetToken,
   ForgotPasswordController.resetForgottenPassword,

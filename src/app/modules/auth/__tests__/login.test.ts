@@ -3,7 +3,7 @@ import { Password } from "@/core/helpers"
 import { Password as Pwd, User } from "@prisma/client"
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
-import { Body } from "./login.schema"
+import { Login } from "@/app/modules/auth/auth.schema"
 import { faker } from "@faker-js/faker"
 
 describe("login", async () => {
@@ -29,7 +29,7 @@ describe("login", async () => {
     })
 
     /** test */
-    const payload: Body = {
+    const payload: Login = {
       email: user.email,
       password: password,
     }
@@ -53,7 +53,7 @@ describe("login", async () => {
   })
 
   it("invalid credentials", async () => {
-    const payload: Body = {
+    const payload: Login = {
       email: "non-existent-user@site.com",
       password: "some-random-wrong-password",
     }

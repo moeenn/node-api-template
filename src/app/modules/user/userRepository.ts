@@ -1,8 +1,8 @@
 import { appConfig } from "@/app/config"
 import { db, Paginated } from "@/core/database"
-import { User, UserRole } from "@prisma/client"
+import { Password, User, UserRole } from "@prisma/client"
 import { UpdateUserProfile, CreateUser } from "./user.schema"
-import { Password } from "@/core/helpers"
+import { Password as Pwd } from "@/core/helpers"
 
 export const UserRepository = {
   async listUsers(page: number = 1, query: string | undefined = undefined): Promise<Paginated<User>> {
@@ -35,9 +35,27 @@ export const UserRepository = {
     })
   },
 
+  async findByIdWithPassword(id: number): Promise<User & { password: Password | null } | null> {
+    return db.user.findFirst({
+      where: { id },
+      include: {
+        password: true,
+      },
+    })
+  },
+
   async findByEmail(email: string): Promise<User | null> {
     return db.user.findFirst({
       where: { email },
+    })
+  },
+
+  async findByEmailWithPassword(email: string): Promise<User & { password: Password | null } | null> {
+    return db.user.findFirst({
+      where: { email },
+      include: {
+        password: true,
+      },
     })
   },
 
@@ -49,7 +67,7 @@ export const UserRepository = {
         role,
         password: {
           create: {
-            hash: await Password.hash(args.password),
+            hash: await Pwd.hash(args.password),
           },
         },
       },
@@ -86,8 +104,17 @@ export const UserRepository = {
         userId: user.id,
       },
       data: {
-        hash: await Password.hash(newPassword),
+        hash: await Pwd.hash(newPassword),
       },
     })
-  }
+  },
+
+  async setUserPassword(user: User, password: string): Promise<void> {
+    await db.password.create({
+      data: {
+        userId: user.id,
+        hash: await Pwd.hash(password),
+      }
+    })
+  },
 }

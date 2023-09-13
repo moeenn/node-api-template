@@ -3,7 +3,7 @@ import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
 import { Auth } from "@/core/helpers"
-import { Body } from "./setUserStatus.schema"
+import { SetUserStatus  } from "@/app/modules/user/user.schema"
 import { faker } from "@faker-js/faker"
 
 describe("setUserStatus", async () => {
@@ -46,7 +46,7 @@ describe("setUserStatus", async () => {
       payload: {
         userId: user.id,
         status: false,
-      } as Body,
+      } as SetUserStatus,
     })
     expect(res.statusCode).toBe(200)
 

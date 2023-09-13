@@ -2,7 +2,7 @@ import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { Password, Auth } from "@/core/helpers"
-import { Body } from "./updatePassword.schema"
+import { UpdateUserPassword  } from "@/app/modules/user/user.schema"
 import { faker } from "@faker-js/faker"
 
 describe("updatePassword", () => {
@@ -41,7 +41,7 @@ describe("updatePassword", () => {
       payload: {
         password: updatedPassword,
         confirmPassword: updatedPassword,
-      } as Body,
+      } as UpdateUserPassword,
     })
     expect(res.statusCode).toBe(200)
 

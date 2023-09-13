@@ -1,7 +1,7 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
-import { Body } from "./registerUser.schema"
+import { CreateUser  } from "@/app/modules/user/user.schema"
 import { faker } from "@faker-js/faker"
 
 describe("registerUser", async () => {
@@ -16,7 +16,7 @@ describe("registerUser", async () => {
     const email = faker.internet.email()
     const password = faker.string.alphanumeric({ length: 10 })
 
-    const payload: Body = {
+    const payload: CreateUser = {
       name: faker.internet.userName(),
       email,
       password,
@@ -52,7 +52,7 @@ describe("registerUser", async () => {
     })
 
     /** test */
-    const payload: Body = {
+    const payload: CreateUser = {
       name: "User two",
       email,
       password,

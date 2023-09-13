@@ -3,7 +3,7 @@ import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { UserRole } from "@prisma/client"
 import { Password, Auth } from "@/core/helpers"
-import { Body } from "./resetForgottenPassword.schema"
+import { ResetForgottenPassword  } from "@/app/modules/forgotPassword/forgotPassword.schema"
 import { faker } from "@faker-js/faker"
 
 describe("resetForgottenPassword", () => {
@@ -40,7 +40,7 @@ describe("resetForgottenPassword", () => {
         token: resetToken.token,
         password: newPassword,
         confirmPassword: newPassword,
-      } as Body,
+      } as ResetForgottenPassword,
     })
     expect(res.statusCode).toBe(200)
 

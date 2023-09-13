@@ -2,7 +2,7 @@ import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { Password, Auth } from "@/core/helpers"
-import { Body } from "./setFirstPassword.schema"
+import { SetFirstPassword } from "@/app/modules/auth/auth.schema"
 import { faker } from "@faker-js/faker"
 
 describe("setFirstPassword", () => {
@@ -31,7 +31,7 @@ describe("setFirstPassword", () => {
         passwordToken: firstPasswordToken.token,
         password,
         confirmPassword: password,
-      } as Body,
+      } as SetFirstPassword,
     })
     expect(res.statusCode).toBe(200)
 
@@ -77,7 +77,7 @@ describe("setFirstPassword", () => {
         passwordToken: firstPasswordToken.token,
         password: updatedPassword,
         confirmPassword: updatedPassword,
-      } as Body,
+      } as SetFirstPassword,
     })
     expect(res.statusCode).toBe(400)
 

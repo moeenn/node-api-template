@@ -4,7 +4,7 @@ import { db } from "@/core/database"
 import { EmailService } from "@/core/email"
 import { ForgotPasswordEmailArgs } from "@/app/emails"
 import { Auth } from "@/core/helpers"
-import { Body } from "./requestPasswordReset.schema"
+import { RequestPasswordReset  } from "@/app/modules/forgotPassword/forgotPassword.schema"
 
 describe("requestPasswordReset", () => {
   const server = Server.new()
@@ -28,7 +28,7 @@ describe("requestPasswordReset", () => {
       method,
       payload: {
         email: user.email,
-      } as Body,
+      } as RequestPasswordReset,
     })
     expect(res.statusCode).toBe(200)
 
@@ -57,7 +57,7 @@ describe("requestPasswordReset", () => {
       method,
       payload: {
         email,
-      } as Body,
+      } as RequestPasswordReset,
     })
     expect(res.statusCode).toBe(200)
 
