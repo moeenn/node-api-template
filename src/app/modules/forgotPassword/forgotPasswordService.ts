@@ -1,12 +1,12 @@
 import { logger } from "@/core/server/logger"
-import { UserRepository } from "../user/userRepository"
+import { UserRepository } from "@/app/modules/user/userRepository"
 import { RequestPasswordReset } from "./forgotPassword.schema"
 import { Auth } from "@/core/helpers"
 import { ForgotPasswordEmail } from "@/app/emails"
 import { EmailService } from "@/core/email"
 import { ResetForgottenPassword } from "./forgotPassword.schema"
 import { AuthException, BadRequestException } from "@/core/exceptions"
-import { PasswordRepository } from "../password/passwordRepository"
+import { PasswordRepository } from "@/app/modules/password/passwordRepository"
 
 export const ForgotPasswordService = {
   async requestPasswordReset(args: RequestPasswordReset): Promise<void> {

@@ -73,7 +73,7 @@ const setUserStatus: RouteOptions = {
 }
 
 const updateUserProfile: RouteOptions = {
-  url: "/api/user/profile",
+  url: "/user/profile",
   method: "PUT",
   preValidation: [validateToken],
   schema: {

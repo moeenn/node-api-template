@@ -5,7 +5,7 @@ import { validateToken } from "@/core/server/middleware"
 import { AuthService } from "./authService"
 
 const login: RouteOptions = {
-  url: "/login",
+  url: "/auth/login",
   method: "POST",
   config: {
     rateLimit: {

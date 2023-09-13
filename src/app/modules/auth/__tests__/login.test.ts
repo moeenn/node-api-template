@@ -8,7 +8,7 @@ import { faker } from "@faker-js/faker"
 
 describe("login", async () => {
   const server = Server.new()
-  const url = "/api/login"
+  const url = "/api/auth/login"
   const method = "POST"
 
   afterAll(() => server.close())
