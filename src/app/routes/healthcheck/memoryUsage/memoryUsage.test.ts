@@ -20,10 +20,7 @@ describe("memoryUsage", () => {
         role: UserRole.USER,
       },
     })
-    const authToken = await Auth.generateLoginAuthToken(
-      user.id,
-      user.role,
-    )
+    const authToken = await Auth.generateLoginAuthToken(user.id, user.role)
 
     /** test */
     const res = await server.inject({

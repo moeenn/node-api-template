@@ -18,10 +18,7 @@ describe("listUsers", async () => {
     },
   })
 
-  const adminToken = await Auth.generateLoginAuthToken(
-    admin.id,
-    admin.role,
-  )
+  const adminToken = await Auth.generateLoginAuthToken(admin.id, admin.role)
 
   afterAll(async () => {
     await db.user.delete({ where: { id: admin.id } }), server.close()

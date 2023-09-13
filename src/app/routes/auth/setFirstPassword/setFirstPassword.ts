@@ -19,9 +19,7 @@ export const setFirstPassword: RouteOptions = {
       })
     }
 
-    const userId = await Auth.validateFirstPasswordToken(
-      body.passwordToken,
-    )
+    const userId = await Auth.validateFirstPasswordToken(body.passwordToken)
 
     const user = await db.user.findFirst({
       where: {

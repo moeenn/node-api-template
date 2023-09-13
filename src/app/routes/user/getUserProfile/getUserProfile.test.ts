@@ -21,10 +21,7 @@ describe("getUserProfile", () => {
       },
     })
 
-    const authToken = await Auth.generateLoginAuthToken(
-      user.id,
-      user.role,
-    )
+    const authToken = await Auth.generateLoginAuthToken(user.id, user.role)
 
     /** test */
     const res = await server.inject({
@@ -47,10 +44,7 @@ describe("getUserProfile", () => {
 
   it("invalid token", async () => {
     /** setup */
-    const authToken = await Auth.generateLoginAuthToken(
-      5000,
-      UserRole.ADMIN,
-    )
+    const authToken = await Auth.generateLoginAuthToken(5000, UserRole.ADMIN)
 
     /** test */
     const res = await server.inject({

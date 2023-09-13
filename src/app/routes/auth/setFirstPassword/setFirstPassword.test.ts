@@ -20,9 +20,7 @@ describe("setFirstPassword", () => {
         name: "User",
       },
     })
-    const firstPasswordToken = await Auth.generateFirstPasswordToken(
-      user.id,
-    )
+    const firstPasswordToken = await Auth.generateFirstPasswordToken(user.id)
 
     /** test */
     const password = faker.string.alphanumeric({ length: 10 })
@@ -68,9 +66,7 @@ describe("setFirstPassword", () => {
         },
       },
     })
-    const firstPasswordToken = await Auth.generateFirstPasswordToken(
-      user.id,
-    )
+    const firstPasswordToken = await Auth.generateFirstPasswordToken(user.id)
 
     /** test */
     const updatedPassword = faker.string.alphanumeric({ length: 10 })

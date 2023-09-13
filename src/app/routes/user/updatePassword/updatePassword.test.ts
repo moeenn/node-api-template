@@ -28,10 +28,7 @@ describe("updatePassword", () => {
       },
     })
 
-    const authToken = await Auth.generateLoginAuthToken(
-      user.id,
-      user.role,
-    )
+    const authToken = await Auth.generateLoginAuthToken(user.id, user.role)
 
     /** test */
     const updatedPassword = faker.string.alphanumeric({ length: 10 })

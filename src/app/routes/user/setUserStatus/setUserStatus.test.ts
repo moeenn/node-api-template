@@ -19,10 +19,7 @@ describe("setUserStatus", async () => {
     },
   })
 
-  const adminAuthToken = await Auth.generateLoginAuthToken(
-    admin.id,
-    admin.role,
-  )
+  const adminAuthToken = await Auth.generateLoginAuthToken(admin.id, admin.role)
 
   afterAll(async () => {
     await db.user.delete({ where: { id: admin.id } })

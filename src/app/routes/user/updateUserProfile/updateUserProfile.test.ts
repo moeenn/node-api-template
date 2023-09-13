@@ -23,10 +23,7 @@ describe("updateUserProfile", () => {
       },
     })
 
-    const authToken = await Auth.generateLoginAuthToken(
-      user.id,
-      user.role,
-    )
+    const authToken = await Auth.generateLoginAuthToken(user.id, user.role)
 
     /** test */
     const updatedName = "Updated Name"
