@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { Dates } from "./Dates"
+import { Dates } from "./dates"
 
 describe("Dates", () => {
   it("isDateValid", () => {

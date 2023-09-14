@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { Time } from "./Time"
+import { Time } from "./time"
 
 describe("Time", () => {
   it("parseString", () => {

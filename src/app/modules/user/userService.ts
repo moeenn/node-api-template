@@ -1,9 +1,9 @@
 import { User, UserRole } from "@prisma/client"
 import { UserRepository } from "./userRepository"
-import { AuthException, BadRequestException } from "@/core/entities/Exceptions"
+import { AuthException, BadRequestException } from "@/core/entities/exceptions"
 import { CreateUser, SetUserStatus, UpdateUserProfile } from "./user.schema"
 import { Auth } from "@/core/helpers"
-import { SetFirstPasswordEmail } from "@/app/emails/SetFirstPasswordEmail"
+import { SetFirstPasswordEmail } from "@/app/emails/setFirstPasswordEmail"
 import { EmailService } from "@/core/email"
 import { logger } from "@/core/server/logger"
 

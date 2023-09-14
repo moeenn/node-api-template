@@ -2,7 +2,7 @@ import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { EmailService } from "@/core/email"
-import { ForgotPasswordEmailArgs } from "@/app/emails/ForgotPasswordEmail"
+import { ForgotPasswordEmailArgs } from "@/app/emails/forgotPasswordEmail"
 import { Auth } from "@/core/helpers"
 import { RequestPasswordReset } from "@/app/modules/forgotPassword/forgotPassword.schema"
 

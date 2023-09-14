@@ -1,5 +1,5 @@
-import { TestableEmailService } from "./TestableEmailService"
-import { Email } from "./Email"
+import { TestableEmailService } from "./testableEmailService"
+import { Email } from "./email"
 import { emailConfig } from "@/app/config"
 import { isTest } from "@/core/helpers"
 import { IEmailProvider } from "./index.types"

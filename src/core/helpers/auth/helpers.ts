@@ -3,7 +3,7 @@ import { JWT } from "@/core/helpers"
 import {
   BadRequestException,
   ForbiddenException,
-} from "@/core/entities/Exceptions"
+} from "@/core/entities/exceptions"
 import { UserRole } from "@prisma/client"
 
 type TokenResult = { token: string; expiry: number }

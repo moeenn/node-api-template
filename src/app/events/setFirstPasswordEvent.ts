@@ -1,7 +1,7 @@
 import { User } from "@prisma/client"
-import { IEvent } from "@/core/entities/IEvent"
+import { IEvent } from "@/core/entities/event"
 import { Auth } from "@/core/helpers/auth"
-import { SetFirstPasswordEmail } from "@/app/emails/SetFirstPasswordEmail"
+import { SetFirstPasswordEmail } from "@/app/emails/setFirstPasswordEmail"
 import { EmailService } from "@/core/email"
 import { logger } from "@/core/server/logger"
 

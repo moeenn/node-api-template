@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { Random } from "./Random"
+import { Random } from "./random"
 
 describe("Random helper", () => {
   it("random strings", async () => {

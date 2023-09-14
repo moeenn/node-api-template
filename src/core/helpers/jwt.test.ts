@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { JWT } from "./JWT"
+import { JWT } from "./jwt"
 
 describe("JWT", () => {
   it("validate JWT", async () => {

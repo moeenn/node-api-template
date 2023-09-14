@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { ForgotPasswordEmail } from "./ForgotPasswordEmail"
+import { ForgotPasswordEmail } from "./forgotPasswordEmail"
 import { appConfig } from "@/app/config"
 
 describe("ForgotPasswordEmail test", () => {

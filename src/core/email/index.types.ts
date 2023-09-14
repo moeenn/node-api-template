@@ -1,4 +1,4 @@
-import { Email } from "./Email"
+import { Email } from "./email"
 
 export type SentEmail = {
   to: string

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { Password } from "./Password"
+import { Password } from "./password"
 
 describe("Password helper", () => {
   it("valid password hashing and checking", async () => {

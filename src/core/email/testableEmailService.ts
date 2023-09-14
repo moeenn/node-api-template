@@ -1,5 +1,5 @@
 import { SentEmail } from "./index.types"
-import { Email } from "./Email"
+import { Email } from "./email"
 
 export abstract class TestableEmailService {
   private emails: SentEmail[] = []
