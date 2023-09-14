@@ -2,7 +2,7 @@ import axios, { Axios } from "axios"
 import Ajv from "ajv"
 import { logger } from "@/core/server/logger"
 
-export interface IAPIService {
+export interface IAPIProvider {
   validate<T>(schema: Record<string, unknown>, data: unknown): Error | T
   get(
     url: string,
@@ -19,7 +19,7 @@ export interface IAPIService {
  * any time we need to integrate an enternal JSON REST API in our backend, we
  * will use this class as a dependency for making API requests
  */
-export class APIService implements IAPIService {
+export class APIProvider implements IAPIProvider {
   private axiosInstance: Axios
   private vInstance: Ajv
   private baseURL: string
@@ -57,8 +57,7 @@ export class APIService implements IAPIService {
     try {
       const res = await this.axiosInstance.get(targetURL, {
         headers: {
-          // Authorization: "Bearer " + bearerToken,
-          Authorization: bearerToken,
+          Authorization: "Bearer " + bearerToken,
         },
       })
       return res.data
@@ -82,8 +81,7 @@ export class APIService implements IAPIService {
     try {
       const res = await this.axiosInstance.post(targetURL, payload, {
         headers: {
-          // Authorization: "Bearer " + bearerToken,
-          Authorization: bearerToken,
+          Authorization: "Bearer " + bearerToken,
         },
       })
       return res.data
@@ -107,8 +105,7 @@ export class APIService implements IAPIService {
     try {
       const res = await this.axiosInstance.put(targetURL, payload, {
         headers: {
-          // Authorization: "Bearer " + bearerToken,
-          Authorization: bearerToken,
+          Authorization: "Bearer " + bearerToken,
         },
       })
       return res.data
@@ -131,8 +128,7 @@ export class APIService implements IAPIService {
     try {
       const res = await this.axiosInstance.delete(targetURL, {
         headers: {
-          // Authorization: "Bearer " + bearerToken,
-          Authorization: bearerToken,
+          Authorization: "Bearer " + bearerToken,
         },
       })
       return res.data
