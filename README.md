@@ -47,7 +47,3 @@ $ npm run db:migrate
 ```bash
 $ npm run db:seed
 ```
-
-
-# TODO
-- [ ] Use module factories in tests
