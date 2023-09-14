@@ -31,3 +31,15 @@ export const SetFirstPasswordSchema = {
 } as const
 
 export type SetFirstPassword = FromSchema<typeof SetFirstPasswordSchema>
+
+
+export const CheckPasswordStrengthSchema = {
+  type: "object",
+  properties: {
+    password: { type: "string" },
+  },
+  required: ["password"],
+  additionalProperties: false,
+} as const
+
+export type CheckPasswordStrength = FromSchema<typeof CheckPasswordStrengthSchema>

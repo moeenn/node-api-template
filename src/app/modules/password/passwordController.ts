@@ -1,4 +1,4 @@
-import { requestMeta } from "@/core/helpers"
+import { Password, requestMeta } from "@/core/helpers"
 import { validateToken } from "@/core/server/middleware"
 import { RouteOptions } from "fastify"
 import {
@@ -6,6 +6,8 @@ import {
   UpdateUserPasswordSchema,
   SetFirstPassword,
   SetFirstPasswordSchema,
+  CheckPasswordStrength,
+  CheckPasswordStrengthSchema,
 } from "./password.schema"
 import { PasswordService } from "./passwordService"
 
@@ -42,7 +44,20 @@ const setFirstPassword: RouteOptions = {
   },
 }
 
+const checkPasswordStrength: RouteOptions = {
+  url: "/password/check-strength",
+  method: "POST",
+  schema: {
+    body: CheckPasswordStrengthSchema,
+  },
+  handler: async (req) => {
+    const body = req.body as CheckPasswordStrength
+    return Password.checkStrength(body.password)
+  },
+}
+
 export const PasswordController = {
   updateUserPassword,
   setFirstPassword,
+  checkPasswordStrength,
 }

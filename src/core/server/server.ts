@@ -10,11 +10,12 @@ import {
 } from "./plugins"
 import { serverConfig } from "@/app/config"
 import process from "node:process"
+import { isTest } from "@/core/helpers/isTest"
 
 export const Server = {
   new(): FastifyInstance {
     /* disable request logging during testing */
-    const app = fastify({ logger: process.env.NODE_ENV !== "test" })
+    const app = fastify({ logger: !isTest() })
 
     /* register all plugins */
     app

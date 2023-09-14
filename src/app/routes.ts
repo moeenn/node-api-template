@@ -19,6 +19,7 @@ export const routes: RouteOptions[] = [
   ForgotPasswordController.resetForgottenPassword,
   PasswordController.setFirstPassword,
   PasswordController.updateUserPassword,
+  PasswordController.checkPasswordStrength,
   UserController.getUserProfile,
   UserController.registerUser,
   UserController.setUserStatus,
