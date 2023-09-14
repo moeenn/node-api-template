@@ -1,6 +1,7 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
-import { Paginated, clearDatabase, db } from "@/core/database"
+import { Paginated, db } from "@/core/database"
+import { clearDatabase } from "@/core/database/helpers"
 import { UserRole, User } from "@prisma/client"
 import { Auth } from "@/core/helpers"
 import { UserFactory } from "@/app/modules/user/userFactory"

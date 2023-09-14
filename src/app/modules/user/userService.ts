@@ -1,9 +1,9 @@
 import { User, UserRole } from "@prisma/client"
 import { UserRepository } from "./userRepository"
-import { AuthException, BadRequestException } from "@/core/exceptions"
+import { AuthException, BadRequestException } from "@/core/entities/Exceptions"
 import { CreateUser, SetUserStatus, UpdateUserProfile } from "./user.schema"
 import { Auth } from "@/core/helpers"
-import { SetFirstPasswordEmail } from "@/app/emails"
+import { SetFirstPasswordEmail } from "@/app/emails/SetFirstPasswordEmail"
 import { EmailService } from "@/core/email"
 import { logger } from "@/core/server/logger"
 
@@ -41,7 +41,7 @@ export const UserService = {
 
     /** don't await, send in the background */
     /** TODO: use pub/sub mechanism */
-    EmailService.instance().sendEmail(user.email, email)
+    EmailService.instance.sendEmail(user.email, email)
     logger.info(
       { email: args.email },
       "sending email for setting first password",

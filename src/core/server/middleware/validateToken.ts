@@ -1,5 +1,5 @@
 import { FastifyRequest } from "fastify"
-import { AuthException } from "@/core/exceptions"
+import { AuthException } from "@/core/entities/Exceptions"
 import { Auth } from "@/core/helpers"
 
 export const validateToken = async (req: FastifyRequest) => {

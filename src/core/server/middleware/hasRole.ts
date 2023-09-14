@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, DoneFuncWithErrOrRes } from "fastify"
-import { AuthException } from "@/core/exceptions"
+import { AuthException } from "@/core/entities/Exceptions"
 import { UserRole } from "@prisma/client"
 import { requestMeta } from "@/core/helpers"
 

@@ -21,7 +21,7 @@ export class EmailService extends TestableEmailService {
    * access the singleton instance using this method
    *
    */
-  public static instance(): EmailService {
+  public static get instance(): EmailService {
     if (!this._instance) {
       this._instance = new EmailService()
     }

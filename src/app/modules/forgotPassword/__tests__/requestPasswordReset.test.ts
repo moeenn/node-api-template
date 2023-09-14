@@ -2,7 +2,7 @@ import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { EmailService } from "@/core/email"
-import { ForgotPasswordEmailArgs } from "@/app/emails"
+import { ForgotPasswordEmailArgs } from "@/app/emails/ForgotPasswordEmail"
 import { Auth } from "@/core/helpers"
 import { RequestPasswordReset } from "@/app/modules/forgotPassword/forgotPassword.schema"
 
@@ -32,7 +32,7 @@ describe("requestPasswordReset", () => {
     })
     expect(res.statusCode).toBe(200)
 
-    const isEmailSent = EmailService.instance().sentEmails.find(
+    const isEmailSent = EmailService.instance.sentEmails.find(
       (e) => e.to == user.email,
     )
 
@@ -46,7 +46,7 @@ describe("requestPasswordReset", () => {
 
     /** cleanup */
     await db.user.delete({ where: { id: user.id } })
-    EmailService.instance().clearSentEmails()
+    EmailService.instance.clearSentEmails()
   })
 
   it("invalid email address", async () => {
@@ -61,7 +61,7 @@ describe("requestPasswordReset", () => {
     })
     expect(res.statusCode).toBe(200)
 
-    const isEmailSent = EmailService.instance().sentEmails.find(
+    const isEmailSent = EmailService.instance.sentEmails.find(
       (e) => e.to == email,
     )
     expect(isEmailSent).toBeFalsy()

@@ -1,6 +1,9 @@
 import { authConfig } from "@/app/config"
 import { JWT } from "@/core/helpers"
-import { BadRequestException, ForbiddenException } from "@/core/exceptions"
+import {
+  BadRequestException,
+  ForbiddenException,
+} from "@/core/entities/Exceptions"
 import { UserRole } from "@prisma/client"
 
 type TokenResult = { token: string; expiry: number }

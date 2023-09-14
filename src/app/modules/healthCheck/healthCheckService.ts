@@ -1,5 +1,6 @@
 import process from "node:process"
-import { db, ping } from "@/core/database"
+import { db } from "@/core/database"
+import { ping } from "@/core/database/helpers"
 
 export const HealthCheckService = {
   /**

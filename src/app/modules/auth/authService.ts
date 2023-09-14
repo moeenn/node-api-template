@@ -1,4 +1,4 @@
-import { AuthException, BadRequestException } from "@/core/exceptions"
+import { AuthException, BadRequestException } from "@/core/entities/Exceptions"
 import { UserRepository } from "@/app/modules/user/userRepository"
 import { Login, LoginResult } from "./auth.schema"
 import { Auth, Password } from "@/core/helpers"

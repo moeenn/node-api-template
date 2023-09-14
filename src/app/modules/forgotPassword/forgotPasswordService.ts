@@ -2,11 +2,10 @@ import { logger } from "@/core/server/logger"
 import { UserRepository } from "@/app/modules/user/userRepository"
 import { RequestPasswordReset } from "./forgotPassword.schema"
 import { Auth } from "@/core/helpers"
-import { ForgotPasswordEmail } from "@/app/emails"
-import { EmailService } from "@/core/email"
 import { ResetForgottenPassword } from "./forgotPassword.schema"
-import { AuthException, BadRequestException } from "@/core/exceptions"
+import { AuthException, BadRequestException } from "@/core/entities/Exceptions"
 import { PasswordRepository } from "@/app/modules/password/passwordRepository"
+import { RequestPasswordResetEvent } from "@/app/events/RequestPasswordResetEvent"
 
 export const ForgotPasswordService = {
   async requestPasswordReset(args: RequestPasswordReset): Promise<void> {
@@ -19,15 +18,7 @@ export const ForgotPasswordService = {
       return
     }
 
-    const token = await Auth.generatePasswordResetToken(user.id)
-    const email = new ForgotPasswordEmail({ resetToken: token.token })
-
-    /** don't await, send in the background */
-    EmailService.instance().sendEmail(user.email, email)
-    logger.info(
-      { email: args.email },
-      "sending forgot password (password reset) email",
-    )
+    new RequestPasswordResetEvent(user).process()
   },
 
   async resetForgottenPassword(args: ResetForgottenPassword): Promise<void> {
@@ -38,11 +29,12 @@ export const ForgotPasswordService = {
     const userId = await Auth.validatePasswordResetToken(args.token)
     const user = await UserRepository.findById(userId)
 
-    if (!user)
+    if (!user) {
       throw AuthException("cannot reset password", {
         userId,
         message: "id of non-existent user in json token",
       })
+    }
 
     await PasswordRepository.updateUserPassword(user, args.password)
   },
