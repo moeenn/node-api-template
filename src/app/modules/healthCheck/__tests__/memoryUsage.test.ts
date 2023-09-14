@@ -1,8 +1,8 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
-import { UserRole } from "@prisma/client"
 import { Auth } from "@/core/helpers"
+import { UserFactory } from "@/app/modules/user/userFactory"
 
 describe("memoryUsage", () => {
   const server = Server.new()
@@ -14,11 +14,7 @@ describe("memoryUsage", () => {
   it("admin auith token is required", async () => {
     /** setup */
     const user = await db.user.create({
-      data: {
-        email: "user@site.com",
-        name: "User",
-        role: UserRole.USER,
-      },
+      data: UserFactory.make(),
     })
     const authToken = await Auth.generateLoginAuthToken(user.id, user.role)
 

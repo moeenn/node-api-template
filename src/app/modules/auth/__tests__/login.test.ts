@@ -1,10 +1,11 @@
 import { db } from "@/core/database"
-import { Password } from "@/core/helpers"
 import { Password as Pwd, User } from "@prisma/client"
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { Login } from "@/app/modules/auth/auth.schema"
 import { faker } from "@faker-js/faker"
+import { UserFactory } from "@/app/modules/user/userFactory"
+import { PasswordFactory } from "@/app/modules/password/passwordFactory"
 
 describe("login", async () => {
   const server = Server.new()
@@ -18,13 +19,10 @@ describe("login", async () => {
     const password = faker.string.alphanumeric({ length: 10 })
     const user = await db.user.create({
       data: {
-        email: faker.internet.email(),
-        name: faker.internet.userName(),
+        ...UserFactory.make(),
         password: {
-          create: {
-            hash: await Password.hash(password),
-          },
-        },
+          create: await PasswordFactory.make(password),
+        }
       },
     })
 
@@ -54,7 +52,7 @@ describe("login", async () => {
 
   it("invalid credentials", async () => {
     const payload: Login = {
-      email: "non-existent-user@site.com",
+      email: UserFactory.make().email,
       password: "some-random-wrong-password",
     }
 

@@ -5,6 +5,7 @@ import { EmailService } from "@/core/email"
 import { ForgotPasswordEmailArgs } from "@/app/emails/forgotPasswordEmail"
 import { Auth } from "@/core/helpers"
 import { RequestPasswordReset } from "@/app/modules/forgotPassword/forgotPassword.schema"
+import { UserFactory } from "../../user/userFactory"
 
 describe("requestPasswordReset", () => {
   const server = Server.new()
@@ -16,10 +17,7 @@ describe("requestPasswordReset", () => {
   it("valid request", async () => {
     /** setup */
     const user = await db.user.create({
-      data: {
-        email: "user@site.com",
-        name: "User",
-      },
+      data: UserFactory.make(),
     })
 
     /** test */
@@ -50,7 +48,7 @@ describe("requestPasswordReset", () => {
   })
 
   it("invalid email address", async () => {
-    const email = "some_random_nonexistent_email@site.com"
+    const email = UserFactory.make().email
 
     const res = await server.inject({
       url,

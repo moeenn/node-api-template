@@ -1,10 +1,9 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
-import { UserRole } from "@prisma/client"
 import { Auth } from "@/core/helpers"
 import { ValidatePasswordResetToken } from "@/app/modules/forgotPassword/forgotPassword.schema"
-import { faker } from "@faker-js/faker"
+import { UserFactory } from "@/app/modules/user/userFactory"
 
 describe("validatePasswordResetToken", () => {
   const server = Server.new()
@@ -16,11 +15,7 @@ describe("validatePasswordResetToken", () => {
   it("valid request", async () => {
     /** setup */
     const user = await db.user.create({
-      data: {
-        email: faker.internet.email(),
-        name: faker.internet.userName(),
-        role: UserRole.USER,
-      },
+      data: UserFactory.make(),
     })
     const resetToken = await Auth.generatePasswordResetToken(user.id)
 

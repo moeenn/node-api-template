@@ -1,10 +1,11 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { Server } from "@/core/server"
 import { db } from "@/core/database"
-import { UserRole } from "@prisma/client"
 import { Password, Auth } from "@/core/helpers"
 import { ResetForgottenPassword } from "@/app/modules/forgotPassword/forgotPassword.schema"
 import { faker } from "@faker-js/faker"
+import { UserFactory } from "@/app/modules/user/userFactory"
+import { PasswordFactory } from "@/app/modules/password/passwordFactory"
 
 describe("resetForgottenPassword", () => {
   const server = Server.new()
@@ -17,15 +18,9 @@ describe("resetForgottenPassword", () => {
     /** setup */
     const user = await db.user.create({
       data: {
-        email: faker.internet.email(),
-        name: faker.internet.userName(),
-        role: UserRole.USER,
+        ...UserFactory.make(),
         password: {
-          create: {
-            hash: await Password.hash(
-              faker.string.alphanumeric({ length: 10 }),
-            ),
-          },
+          create: await PasswordFactory.make(),
         },
       },
     })

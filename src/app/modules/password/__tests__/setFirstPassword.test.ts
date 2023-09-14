@@ -4,6 +4,8 @@ import { db } from "@/core/database"
 import { Password, Auth } from "@/core/helpers"
 import { SetFirstPassword } from "@/app/modules/password/password.schema"
 import { faker } from "@faker-js/faker"
+import { UserFactory } from "@/app/modules/user/userFactory"
+import { PasswordFactory } from "@/app/modules/password/passwordFactory"
 
 describe("setFirstPassword", () => {
   const server = Server.new()
@@ -15,10 +17,7 @@ describe("setFirstPassword", () => {
   it("valid configure request", async () => {
     /** setup */
     const user = await db.user.create({
-      data: {
-        email: "user@site.com",
-        name: "User",
-      },
+      data: UserFactory.make(),
     })
     const firstPasswordToken = await Auth.generateFirstPasswordToken(user.id)
 
@@ -57,13 +56,10 @@ describe("setFirstPassword", () => {
     const password = faker.string.alphanumeric({ length: 10 })
     const user = await db.user.create({
       data: {
-        email: "user@site.com",
-        name: "User",
+        ...UserFactory.make(),
         password: {
-          create: {
-            hash: await Password.hash(password),
-          },
-        },
+          create: await PasswordFactory.make(password),
+        }
       },
     })
     const firstPasswordToken = await Auth.generateFirstPasswordToken(user.id)

@@ -3,6 +3,7 @@ import { db } from "@/core/database"
 import { Server } from "@/core/server"
 import { faker } from "@faker-js/faker"
 import { Auth } from "@/core/helpers"
+import { UserFactory } from "../../user/userFactory"
 
 describe("refreshAuthToken", async () => {
   const server = Server.new()
@@ -10,10 +11,7 @@ describe("refreshAuthToken", async () => {
   const method = "GET"
 
   const user = await db.user.create({
-    data: {
-      email: faker.internet.email(),
-      name: faker.internet.userName(),
-    },
+    data: UserFactory.make(),
   })
 
   const userToken = await Auth.generateLoginAuthToken(user.id, user.role)
