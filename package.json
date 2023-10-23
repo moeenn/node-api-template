@@ -53,7 +53,7 @@
     "trailingComma": "all"
   },
   "prisma": {
-    "seed": "node build/core/database/seeder/seed.js"
+    "seed": "node src/app/seeders.mjs"
   },
   "env": [
     "FRONT_END_URL",
