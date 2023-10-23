@@ -1,11 +1,12 @@
-import { Server } from "@/core/server"
 import { describe, it, expect, afterAll } from "vitest"
-import { CheckPasswordStrength } from "@/app/modules/password/password.schema"
+import { PasswordRouter } from "../passwordRouter"
+import { CheckPasswordStrength } from "@/app/modules/password/passwordSchema"
 import { TestResult } from "owasp-password-strength-test"
+import { Server } from "@/core/server"
 
 describe("checkPasswordStrength", () => {
-  const server = Server.new()
-  const url = "/api/password/check-strength"
+  const server = Server.newTestServer(PasswordRouter)
+  const url = "/check-strength"
   const method = "POST"
 
   afterAll(() => server.close())

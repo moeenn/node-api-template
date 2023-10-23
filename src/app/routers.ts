@@ -10,9 +10,9 @@ import { UserRouter } from "./modules/user/userRouter"
  *
  */
 export const routers = new Map<string, FastifyPlugin>([
-  ["/health-check", HealthCheckRouter],
-  ["/auth", AuthRouter],
-  ["/forgot-password", ForgotPasswordRouter],
-  ["/password", PasswordRouter],
-  ["/user", UserRouter],
+  ["/api/health-check", HealthCheckRouter],
+  ["/api/auth", AuthRouter],
+  ["/api/forgot-password", ForgotPasswordRouter],
+  ["/api/password", PasswordRouter],
+  ["/api/user", UserRouter],
 ])

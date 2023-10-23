@@ -1,15 +1,16 @@
 import { describe, it, expect, afterAll } from "vitest"
-import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { Password, Auth } from "@/core/helpers"
-import { UpdateUserPassword } from "@/app/modules/password/password.schema"
+import { UpdateUserPassword } from "@/app/modules/password/passwordSchema"
 import { faker } from "@faker-js/faker"
 import { UserFactory } from "@/app/modules/user/userFactory"
 import { PasswordFactory } from "@/app/modules/password/passwordFactory"
+import { PasswordRouter } from "../passwordRouter"
+import { Server } from "@/core/server"
 
 describe("updateUserPassword", () => {
-  const server = Server.new()
-  const url = "/api/password/update"
+  const server = Server.newTestServer(PasswordRouter)
+  const url = "/update"
   const method = "POST"
 
   afterAll(() => server.close())
@@ -40,6 +41,7 @@ describe("updateUserPassword", () => {
         confirmPassword: updatedPassword,
       } as UpdateUserPassword,
     })
+
     expect(res.statusCode).toBe(200)
 
     const updatedUser = await db.user.findUnique({

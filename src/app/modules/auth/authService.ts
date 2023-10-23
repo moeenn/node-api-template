@@ -1,6 +1,6 @@
 import { AuthException, BadRequestException } from "@/core/entities/exceptions"
 import { UserRepository } from "@/app/modules/user/userRepository"
-import { Login, LoginResult } from "./auth.schema"
+import { Login, LoginResult } from "./authSchema"
 import { Auth, Password } from "@/core/helpers"
 
 export const AuthService = {

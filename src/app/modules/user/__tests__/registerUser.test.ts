@@ -1,12 +1,13 @@
 import { describe, it, expect, afterAll } from "vitest"
-import { Server } from "@/core/server"
 import { db } from "@/core/database"
-import { CreateUser } from "@/app/modules/user/user.schema"
+import { CreateUser } from "@/app/modules/user/userSchema"
 import { faker } from "@faker-js/faker"
+import { UserRouter } from "../userRouter"
+import { Server } from "@/core/server"
 
 describe("registerUser", async () => {
-  const server = Server.new()
-  const url = "/api/user/register"
+  const server = Server.newTestServer(UserRouter)
+  const url = "/register"
   const method = "POST"
 
   afterAll(() => server.close())

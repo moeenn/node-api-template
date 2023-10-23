@@ -8,7 +8,7 @@ import {
   SetFirstPasswordSchema,
   CheckPasswordStrength,
   CheckPasswordStrengthSchema,
-} from "./password.schema"
+} from "./passwordSchema"
 import { PasswordService } from "./passwordService"
 
 export const PasswordController: Record<

@@ -1,7 +1,7 @@
 import { appConfig } from "@/app/config"
 import { db, Paginated } from "@/core/database"
 import { Password, User, UserRole } from "@prisma/client"
-import { UpdateUserProfile, CreateUser } from "./user.schema"
+import { UpdateUserProfile, CreateUser } from "./userSchema"
 import { Password as Pwd } from "@/core/helpers"
 
 export const UserRepository = {

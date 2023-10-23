@@ -1,13 +1,14 @@
 import { describe, it, expect, afterAll } from "vitest"
-import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { Auth } from "@/core/helpers"
-import { ValidatePasswordResetToken } from "@/app/modules/forgotPassword/forgotPassword.schema"
+import { ValidatePasswordResetToken } from "@/app/modules/forgotPassword/forgotPasswordSchema"
 import { UserFactory } from "@/app/modules/user/userFactory"
+import { ForgotPasswordRouter } from "../forgotPasswordRouter"
+import { Server } from "@/core/server"
 
 describe("validatePasswordResetToken", () => {
-  const server = Server.new()
-  const url = "/api/forgot-password/validate-reset-token"
+  const server = Server.newTestServer(ForgotPasswordRouter)
+  const url = "/validate-reset-token"
   const method = "POST"
 
   afterAll(() => server.close())

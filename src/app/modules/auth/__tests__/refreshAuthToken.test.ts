@@ -1,12 +1,13 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { db } from "@/core/database"
-import { Server } from "@/core/server"
 import { Auth } from "@/core/helpers"
 import { UserFactory } from "@/app/modules/user/userFactory"
+import { AuthRouter } from "../authRouter"
+import { Server } from "@/core/server"
 
 describe("refreshAuthToken", async () => {
-  const server = Server.new()
-  const url = "/api/auth/refresh-token"
+  const server = Server.newTestServer(AuthRouter)
+  const url = "/refresh-token"
   const method = "GET"
 
   const user = await db.user.create({

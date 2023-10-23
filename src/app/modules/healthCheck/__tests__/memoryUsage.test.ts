@@ -1,12 +1,13 @@
 import { describe, it, expect, afterAll } from "vitest"
-import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { Auth } from "@/core/helpers"
 import { UserFactory } from "@/app/modules/user/userFactory"
+import { HealthCheckRouter } from "../healthCheckRouter"
+import { Server } from "@/core/server"
 
 describe("memoryUsage", () => {
-  const server = Server.new()
-  const url = "/api/health-check/memory"
+  const server = Server.newTestServer(HealthCheckRouter)
+  const url = "/memory"
   const method = "GET"
 
   afterAll(() => server.close())

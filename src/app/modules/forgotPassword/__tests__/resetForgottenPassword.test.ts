@@ -1,15 +1,16 @@
 import { describe, it, expect, afterAll } from "vitest"
-import { Server } from "@/core/server"
 import { db } from "@/core/database"
 import { Password, Auth } from "@/core/helpers"
-import { ResetForgottenPassword } from "@/app/modules/forgotPassword/forgotPassword.schema"
+import { ResetForgottenPassword } from "@/app/modules/forgotPassword/forgotPasswordSchema"
 import { faker } from "@faker-js/faker"
 import { UserFactory } from "@/app/modules/user/userFactory"
 import { PasswordFactory } from "@/app/modules/password/passwordFactory"
+import { ForgotPasswordRouter } from "../forgotPasswordRouter"
+import { Server } from "@/core/server"
 
 describe("resetForgottenPassword", () => {
-  const server = Server.new()
-  const url = "/api/forgot-password/reset-password"
+  const server = Server.newTestServer(ForgotPasswordRouter)
+  const url = "/reset-password"
   const method = "POST"
 
   afterAll(() => server.close())

@@ -13,7 +13,7 @@ import {
   SetUserStatusSchema,
   UpdateUserProfileSchema,
   UpdateUserProfile,
-} from "./user.schema"
+} from "./userSchema"
 import { UserService } from "./userService"
 
 export const UserController: Record<string, RouteShorthandOptionsWithHandler> =

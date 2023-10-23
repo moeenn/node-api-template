@@ -1,15 +1,16 @@
 import { db } from "@/core/database"
 import { Password as Pwd, User } from "@prisma/client"
 import { describe, it, expect, afterAll } from "vitest"
-import { Server } from "@/core/server"
-import { Login } from "@/app/modules/auth/auth.schema"
+import { Login } from "@/app/modules/auth/authSchema"
 import { faker } from "@faker-js/faker"
 import { UserFactory } from "@/app/modules/user/userFactory"
 import { PasswordFactory } from "@/app/modules/password/passwordFactory"
+import { AuthRouter } from "../authRouter"
+import { Server } from "@/core/server"
 
 describe("login", async () => {
-  const server = Server.new()
-  const url = "/api/auth/login"
+  const server = Server.newTestServer(AuthRouter)
+  const url = "/login"
   const method = "POST"
 
   afterAll(() => server.close())

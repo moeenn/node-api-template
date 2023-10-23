@@ -7,7 +7,7 @@ import {
   ResetForgottenPasswordSchema,
   ValidatePasswordResetToken,
   ValidatePasswordResetTokenSchema,
-} from "./forgotPassword.schema"
+} from "./forgotPasswordSchema"
 import { ForgotPasswordService } from "./forgotPasswordService"
 
 export const ForgotPasswordController: Record<

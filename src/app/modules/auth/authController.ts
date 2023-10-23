@@ -1,8 +1,8 @@
 import { RouteShorthandOptionsWithHandler } from "fastify"
 import { requestMeta } from "@/core/helpers"
-import { Login } from "./auth.schema"
+import { Login } from "./authSchema"
 import { AuthService } from "./authService"
-import { LoginSchema } from "./auth.schema"
+import { LoginSchema } from "./authSchema"
 import { validateToken } from "@/core/server/middleware"
 
 export const AuthController: Record<string, RouteShorthandOptionsWithHandler> =

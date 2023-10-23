@@ -7,15 +7,15 @@ import {
   routesPlugin,
   rateLimitPluginOptions,
   requestContextPluginOptions,
+  FastifyPlugin,
 } from "./plugins"
 import { serverConfig } from "@/app/config"
 import process from "node:process"
-import { isTest } from "@/core/helpers/isTest"
 
 export const Server = {
   new(): FastifyInstance {
     /* disable request logging during testing */
-    const app = fastify({ logger: !isTest() })
+    const app = fastify({ logger: true })
 
     /* register all plugins */
     app
@@ -40,5 +40,13 @@ export const Server = {
         process.exit(1)
       }
     })
+  },
+
+  newTestServer(router: FastifyPlugin): FastifyInstance {
+    const instance = fastify({ logger: false })
+    instance.register(fastifyRequestContextPlugin, requestContextPluginOptions)
+    instance.register(router)
+
+    return instance
   },
 }
