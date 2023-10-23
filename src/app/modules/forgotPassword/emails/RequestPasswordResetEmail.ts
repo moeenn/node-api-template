@@ -1,11 +1,11 @@
 import { Email } from "@/core/email"
 
-export type ForgotPasswordEmailArgs = {
+export type RequestPasswordResetEmailArgs = {
   resetToken: string
 }
 
-export class ForgotPasswordEmail extends Email {
-  constructor(public readonly args: ForgotPasswordEmailArgs) {
+export class RequestPasswordResetEmail extends Email {
+  constructor(public readonly args: RequestPasswordResetEmailArgs) {
     super("Forgot Password")
   }
 

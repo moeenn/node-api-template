@@ -1,11 +1,11 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { db } from "@/core/database"
 import { EmailService } from "@/core/email"
-import { ForgotPasswordEmailArgs } from "@/app/emails/forgotPasswordEmail"
+import { RequestPasswordResetEmailArgs } from "@/app/modules/forgotPassword/emails/RequestPasswordResetEmail"
 import { Auth } from "@/core/helpers"
 import { RequestPasswordReset } from "@/app/modules/forgotPassword/forgotPasswordSchema"
 import { UserFactory } from "@/app/modules/user/userFactory"
-import { ForgotPasswordRouter } from "../forgotPasswordRouter"
+import { ForgotPasswordRouter } from "@/app/modules/forgotPassword/forgotPasswordRouter"
 import { Server } from "@/core/server"
 
 describe("requestPasswordReset", () => {
@@ -35,7 +35,7 @@ describe("requestPasswordReset", () => {
       (e) => e.to == user.email,
     )
 
-    const emailArgs = isEmailSent?.email.args as ForgotPasswordEmailArgs
+    const emailArgs = isEmailSent?.email.args as RequestPasswordResetEmailArgs
     expect(emailArgs.resetToken).toBeTruthy()
 
     const isTokenValid = await Auth.validatePasswordResetToken(

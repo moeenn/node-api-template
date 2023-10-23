@@ -5,7 +5,7 @@ import { Auth } from "@/core/helpers"
 import { ResetForgottenPassword } from "./forgotPasswordSchema"
 import { AuthException, BadRequestException } from "@/core/entities/exceptions"
 import { PasswordRepository } from "@/app/modules/password/passwordRepository"
-import { RequestPasswordResetEvent } from "@/app/events/requestPasswordResetEvent"
+import { RequestPasswordResetEvent } from "./events/requestPasswordResetEvent"
 
 export const ForgotPasswordService = {
   async requestPasswordReset(args: RequestPasswordReset): Promise<void> {

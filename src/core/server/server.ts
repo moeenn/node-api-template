@@ -10,7 +10,6 @@ import {
   FastifyPlugin,
 } from "./plugins"
 import { serverConfig } from "@/app/config"
-import process from "node:process"
 
 export const Server = {
   new(): FastifyInstance {
@@ -33,15 +32,17 @@ export const Server = {
    * promise is used so the caller can know when the server has finished
    * initialization
    */
-  start(app: FastifyInstance) {
-    app.listen(serverConfig, (err) => {
-      if (err) {
-        app.log.error(err)
-        process.exit(1)
-      }
+  start(app: FastifyInstance): Promise<void> {
+    return new Promise((_resolve, reject) => {
+      app.listen(serverConfig, (err) => {
+        if (err) {
+          reject(err)
+        }
+      })
     })
   },
 
+  /** construct a miminal server to testing purposes */
   newTestServer(router: FastifyPlugin): FastifyInstance {
     const instance = fastify({ logger: false })
     instance.register(fastifyRequestContextPlugin, requestContextPluginOptions)
