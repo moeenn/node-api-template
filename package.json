@@ -6,14 +6,13 @@
     "start:dev": "tsc-watch --onSuccess \"dotenv -e .env -- node build/index.js\"",
     "build": "npx tsc",
     "start:local": "dotenv -e .env -- node build/index.js",
-    "start:prod": "npm run env:check && npx pm2 start --no-daemon",
+    "start:prod": "npx pm2 start --no-daemon",
     "gen:secret": "node ./src/core/scripts/generateSecret.mjs",
     "gen:types": "npx prisma generate",
     "test": "dotenv -e .env -- npx vitest --threads false",
     "lint": "npx eslint ./src/ --ext .ts",
     "fmt": "npx prettier --write ./src/",
     "check": "npm run lint && npm run fmt",
-    "env:check": "node ./src/core/scripts/validateEnv.mjs",
     "db:migrate": "npx prisma migrate dev",
     "db:seed": "npx prisma db seed"
   },
@@ -55,12 +54,6 @@
   "prisma": {
     "seed": "node src/app/seeders.mjs"
   },
-  "env": [
-    "FRONT_END_URL",
-    "DATABASE_URI",
-    "JWT_SECRET",
-    "FROM_EMAIL"
-  ],
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
     "@types/marked": "^5.0.1",

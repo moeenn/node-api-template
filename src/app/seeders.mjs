@@ -4,7 +4,7 @@ import argon2 from "argon2"
 
 /**
  * create the default admin user account with account password
- * @param {PrismaClient} db 
+ * @param {PrismaClient} db
  */
 async function adminSeeder(db) {
   await db.user.create({
@@ -25,16 +25,14 @@ async function adminSeeder(db) {
  * the application may require some default data to be present in the database
  * to be opeational. You may define functions here for setting up the default
  * state of the application database.
- * 
+ *
  * @returns {Promise<void>}
  */
 async function runSeeders() {
   const db = new PrismaClient()
 
   /** @type {((client: PrismaClient) => Promise<void>)[]} */
-  const enabledSeeders = [
-    adminSeeder,
-  ]
+  const enabledSeeders = [adminSeeder]
 
   try {
     for (const seeder of enabledSeeders) {
