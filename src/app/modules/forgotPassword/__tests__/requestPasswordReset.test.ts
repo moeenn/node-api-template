@@ -5,7 +5,7 @@ import { EmailService } from "@/core/email"
 import { ForgotPasswordEmailArgs } from "@/app/emails/forgotPasswordEmail"
 import { Auth } from "@/core/helpers"
 import { RequestPasswordReset } from "@/app/modules/forgotPassword/forgotPassword.schema"
-import { UserFactory } from "../../user/userFactory"
+import { UserFactory } from "@/app/modules/user/userFactory"
 
 describe("requestPasswordReset", () => {
   const server = Server.new()
