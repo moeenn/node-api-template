@@ -6,7 +6,7 @@ export const PasswordFactory = {
     return {
       hash: await Pwd.hash(
         password ?? faker.string.alphanumeric({ length: 10 }),
-      ) 
-    } 
-  } 
+      ),
+    }
+  },
 }

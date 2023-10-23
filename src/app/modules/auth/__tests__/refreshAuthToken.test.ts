@@ -1,9 +1,8 @@
 import { describe, it, expect, afterAll } from "vitest"
 import { db } from "@/core/database"
 import { Server } from "@/core/server"
-import { faker } from "@faker-js/faker"
 import { Auth } from "@/core/helpers"
-import { UserFactory } from "../../user/userFactory"
+import { UserFactory } from "@/app/modules/user/userFactory"
 
 describe("refreshAuthToken", async () => {
   const server = Server.new()

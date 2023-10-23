@@ -23,7 +23,7 @@ export const Server = {
       .register(helmet, { global: true })
       .register(rateLimit, rateLimitPluginOptions)
       .register(fastifyRequestContextPlugin, requestContextPluginOptions)
-      .register(routesPlugin.plug(), { prefix: serverConfig.apiPrefix })
+      .register(routesPlugin.plug())
 
     return app
   },

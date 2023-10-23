@@ -32,7 +32,6 @@ export const SetFirstPasswordSchema = {
 
 export type SetFirstPassword = FromSchema<typeof SetFirstPasswordSchema>
 
-
 export const CheckPasswordStrengthSchema = {
   type: "object",
   properties: {
@@ -42,4 +41,6 @@ export const CheckPasswordStrengthSchema = {
   additionalProperties: false,
 } as const
 
-export type CheckPasswordStrength = FromSchema<typeof CheckPasswordStrengthSchema>
+export type CheckPasswordStrength = FromSchema<
+  typeof CheckPasswordStrengthSchema
+>

@@ -16,7 +16,7 @@ describe("checkPasswordStrength", () => {
       method,
       payload: {
         password: "Wvx.#$1Hfv&s^33",
-      } as CheckPasswordStrength
+      } as CheckPasswordStrength,
     })
 
     expect(res.statusCode).toBe(200)
@@ -32,7 +32,7 @@ describe("checkPasswordStrength", () => {
       method,
       payload: {
         password: "abc123",
-      } as CheckPasswordStrength
+      } as CheckPasswordStrength,
     })
 
     expect(res.statusCode).toBe(200)

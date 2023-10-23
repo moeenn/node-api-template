@@ -22,7 +22,7 @@ describe("login", async () => {
         ...UserFactory.make(),
         password: {
           create: await PasswordFactory.make(password),
-        }
+        },
       },
     })
 

@@ -59,7 +59,7 @@ describe("setFirstPassword", () => {
         ...UserFactory.make(),
         password: {
           create: await PasswordFactory.make(password),
-        }
+        },
       },
     })
     const firstPasswordToken = await Auth.generateFirstPasswordToken(user.id)

@@ -21,7 +21,7 @@ describe("updateUserPassword", () => {
         ...UserFactory.make(),
         password: {
           create: await PasswordFactory.make(),
-        }
+        },
       },
     })
 
