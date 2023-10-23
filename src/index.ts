@@ -5,7 +5,7 @@ import "@/app/config"
 import { Server } from "@/core/server"
 import { logger } from "./core/server/logger"
 
-async function main() {
+async function main(): Promise<void> {
   const server = Server.new()
   await Server.start(server)
 }

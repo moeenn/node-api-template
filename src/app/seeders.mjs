@@ -36,9 +36,6 @@ async function runSeeders() {
 
   try {
     for (const seeder of enabledSeeders) {
-      /**
-       * stop seeding at the first error
-       */
       await seeder(db)
     }
   } finally {
