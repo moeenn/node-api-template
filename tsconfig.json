@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "allowJs": true,
-    "checkJs": true,
     "strictFunctionTypes": true,
     "incremental": true,
     "module": "commonjs",
